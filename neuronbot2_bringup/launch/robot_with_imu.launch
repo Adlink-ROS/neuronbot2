@@ -1,0 +1,9 @@
+<launch>
+  <arg name="lidar" default="rplidar" doc="lidar type [rplidar, ydlidar, eai-g4]"/>
+
+  <include file="$(find neuronbot2_bringup)/launch/bringup_with_imu.launch"/>
+  <include file="$(find neuronbot2_bringup)/launch/model.launch"/>
+
+  <include file="$(find neuronbot2_bringup)/launch/$(arg lidar).launch"/>
+
+</launch>

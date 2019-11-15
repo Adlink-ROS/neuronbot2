@@ -1,0 +1,2 @@
+{base_frame: base_link, buadrate: 115200, cmd_vel_topic: cmd_vel, odom_frame: odom,
+  odom_topic: odom, out_pid_debug_enable: true, port: /dev/neuronbot2, publish_tf: true}

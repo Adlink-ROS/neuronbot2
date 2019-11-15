@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<robot
+  name="neuronbot2_description">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="4.7982" />
+      <inertia
+        ixx="0.09617045"
+        ixy="3.5340082E-05"
+        ixz="2.5462637E-04"
+        iyy="0.1155512"
+        iyz="-4.2933341E-05"
+        izz="1.0718441E-01" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 205 5" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="laser_frame">
+    <inertial>
+      <origin
+        xyz="0 0 -0.31"
+        rpy="0 0 3.14" />
+      <mass
+        value="0.17934" />
+      <inertia
+        ixx="8.4514E-05"
+        ixy="7.288E-12"
+        ixz="3.6379E-06"
+        iyy="7.9969E-05"
+        iyz="-3.7962E-10"
+        izz="0.00011888" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.31"
+        rpy="0 0 3.14" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/laser_link.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="123 100 230 5" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.31"
+        rpy="0 0 3.14" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/laser_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="laser_frame_joint"
+    type="fixed">
+    <origin
+      xyz="0.001 0 0.31"
+      rpy="0 0 3.14" />
+    <parent
+      link="base_link" />
+    <child
+      link="laser_frame" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 1.57" xyz="0 0 0.11"/>
+  </joint>
+  <link name="imu_link"/>
+  
+</robot>
