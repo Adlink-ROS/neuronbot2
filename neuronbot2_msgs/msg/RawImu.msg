@@ -1,7 +1,8 @@
-Header header
+std_msgs/Header header
 bool accelerometer
 bool gyroscope
 bool magnetometer
 geometry_msgs/Vector3 raw_linear_acceleration
 geometry_msgs/Vector3 raw_angular_velocity
 geometry_msgs/Vector3 raw_magnetic_field
+

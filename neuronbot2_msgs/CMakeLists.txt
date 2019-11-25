@@ -1,12 +1,28 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(neuronbot2_msgs)
 
-find_package(catkin REQUIRED COMPONENTS message_generation std_msgs geometry_msgs)
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 14)
+endif()
 
-add_message_files(FILES
-                  RawImu.msg
-                 )
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-generate_messages(DEPENDENCIES std_msgs geometry_msgs)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-catkin_package(CATKIN_DEPENDS message_runtime std_msgs geometry_msgs)
+# dependencies for self-defined msg
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+    msg/RawImu.msg
+    DEPENDENCIES std_msgs geometry_msgs
+    ADD_LINTER_TESTS
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+ament_package()
