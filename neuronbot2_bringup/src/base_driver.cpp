@@ -1,15 +1,59 @@
-#include "base_driver.h"
-#include "data_holder.h"
+#include "neuronbot2_bringup/base_driver.hpp"
+// #include "neuronbot2_bringup/data_holder.h"
 
-#include <std_msgs/Float32MultiArray.h>
-#include "serial_transport.h"
-#include "simple_dataframe_master.h"
-#include <boost/assign/list_of.hpp>
+#include "std_msgs/msg/float32_multi_array.hpp"
+// #include "neuronbot2_bringup/serial_transport.h"
+// #include "neuronbot2_bringup/simple_dataframe_master.h"
+// #include <boost/assign/list_of.hpp>
 
+
+
+#if 0
 BaseDriver* BaseDriver::instance = NULL;
+#endif
 
-BaseDriver::BaseDriver() : pn("~"), bdg(pn)
+const unsigned long BAUDRATE = 115200;
+
+BaseDriver::BaseDriver() 
+: Node("neuronbot3_driver",rclcpp::NodeOptions().use_intra_process_comms(true))
 {
+    RCLCPP_INFO(get_logger(), "BaseDriver startup");
+
+    node_handle_ = std::shared_ptr<::rclcpp::Node>(this, [](::rclcpp::Node *){});
+
+    std::string serial_port = declare_parameter("serial_port", "/dev/neuronbot2");
+
+    RCLCPP_INFO(get_logger(), "Connecting to serial: '%s'", serial_port.c_str());
+    try {
+        // create a serial device with immediate timeout
+        serial_ = std::make_unique<serial::Serial>(serial_port, BAUDRATE);
+    } catch (const std::exception & e) {
+        RCLCPP_FATAL(get_logger(), e.what());
+        throw;
+    }
+
+    run();
+    // cmd_vel_sub = create_subscription<geometry_msgs::msg::Twist>(
+        // "cmd_vel", rclcpp::QoS(10), [=](const geometry_msgs::msg::Twist::ConstSharedPtr msg) {cmd_vel_cb(msg); });
+    // work_loop();
+#if 0
+    // trans = std::make_shared<Serial_transport>("/dev/neuronbot2", 115200);
+    // frame = std::make_shared<Simple_dataframe>(trans.get());
+    // trans = boost::make_shared<Serial_transport>("/dev/neuronbot2", 115200);
+    // frame = boost::make_shared<Simple_dataframe>(trans.get());
+
+#endif
+
+    // if (trans->init())
+    // {
+        // RCLCPP_INFO(get_logger(), "connected to main board");
+    // } else
+    // {
+        // RCLCPP_ERROR(get_logger(), "Can't connect to main board");
+    // }
+    // RCLCPP_INFO(get_logger(), "yoyoyo done here");
+
+    #if 0
     //init config
     bdg.init(&Data_holder::get()->parameter);
 
@@ -42,16 +86,76 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
     init_pid_debug();
 
     read_param();
-
+    #endif
+#if 0
     init_imu();
+#endif
 }
-
 BaseDriver::~BaseDriver()
 {
+    #if 0
 if (instance != NULL)
     delete instance;
+    #endif
 }
 
+void BaseDriver::run()
+{
+    cmd_vel_callback();
+}
+void BaseDriver::work_loop()
+{
+    RCLCPP_INFO(get_logger(), "Me and my friends in the work loop");
+    #if 0
+    ros::Rate loop(1000);
+    while (rclcpp::ok())
+    {
+        //boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
+        update_param();
+
+        update_odom();
+
+        update_pid_debug();
+
+        update_speed();
+
+		#if 0
+        if (Data_holder::get()->parameter.imu_type == 'E')
+            update_imu();
+        #endif
+		
+        loop.sleep();
+
+	    ros::spinOnce();
+    }
+    #endif
+}
+
+void BaseDriver::cmd_vel_callback()
+{
+    auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
+    cmd_vel_sub = this->create_subscription<geometry_msgs::msg::Twist>(
+        "cmd_vel",
+        qos,
+        [this](const geometry_msgs::msg::Twist::SharedPtr msg) -> void
+        {
+                RCLCPP_INFO(this->get_logger(), "hey hey come on cmd_vel %f, %f, %f", msg->linear.x, msg->linear.y, msg->angular.z);
+
+            #ifdef TEST
+                Data_holder* dh = Data_holder::get();
+                dh->get()->velocity.v_liner_x = msg->linear.x * 100;
+                dh->get()->velocity.v_liner_y = msg->linear.x * 100;
+                dh->get()->velocity.v_angular_z = msg->angular.z * 100;
+
+                Message msg_sent(4, (unsigned char*)&dh->velocity, sizeof(dh->velocity));
+                std::vector<uint8_t> data((unsigned char*)&msg_sent, (unsigned char*)&msg_sent+sizeof(msg_sent.head)+ msg_sent.head.length+1);
+                this->serial_->write(data);
+            #endif
+                RCLCPP_INFO(this->get_logger(), "Message sent");
+        }
+    );
+}
+#if 0
 void BaseDriver::init_cmd_odom()
 {
     frame->interact(ID_INIT_ODOM);
@@ -104,12 +208,14 @@ void BaseDriver::init_pid_debug()
         const char* output_topic_name[MAX_MOTOR_COUNT]={"motor1_output", "motor2_output", "motor3_output", "motor4_output"};
         for (size_t i = 0; i < MAX_MOTOR_COUNT; i++)
         {
-            pid_debug_pub_input[i] = nh.advertise<std_msgs::Int32>(input_topic_name[i], 1000);
+            
+            [i] = nh.advertise<std_msgs::Int32>(input_topic_name[i], 1000);
             pid_debug_pub_output[i] = nh.advertise<std_msgs::Int32>(output_topic_name[i], 1000);
         }
     }
 }
 
+#if 0
 void BaseDriver::init_imu()
 {
     raw_imu_pub = nh.advertise<neuronbot2_msgs::RawImu>("raw_imu", 50);
@@ -118,6 +224,7 @@ void BaseDriver::init_imu()
     raw_imu_msgs.gyroscope = true;
     raw_imu_msgs.magnetometer = true;
 }
+#endif
 
 void BaseDriver::read_param()
 {
@@ -135,39 +242,8 @@ void BaseDriver::read_param()
     bdg.SetRobotParameters();
 }
 
-void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)
-{
-    ROS_INFO_STREAM("cmd_vel:[" << vel_cmd.linear.x << " " << vel_cmd.linear.y << " " << vel_cmd.angular.z << "]");
 
-    Data_holder::get()->velocity.v_liner_x = vel_cmd.linear.x*100;
-    Data_holder::get()->velocity.v_liner_y = vel_cmd.linear.y*100;
-    Data_holder::get()->velocity.v_angular_z = vel_cmd.angular.z*100;
 
-    need_update_speed = true;
-}
-
-void BaseDriver::work_loop()
-{
-    ros::Rate loop(1000);
-    while (ros::ok())
-    {
-        //boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
-        update_param();
-
-        update_odom();
-
-        update_pid_debug();
-
-        update_speed();
-		
-        if (Data_holder::get()->parameter.imu_type == 'E')
-            update_imu();
-		
-        loop.sleep();
-
-	    ros::spinOnce();
-    }
-}
 
 void BaseDriver::update_param()
 {
@@ -226,7 +302,7 @@ void BaseDriver::update_speed()
         need_update_speed = !(frame->interact(ID_SET_VELOCITY));
     }
 }
-
+#if 0
 void BaseDriver::update_pid_debug()
 {
     if (bdg.out_pid_debug_enable)
@@ -243,7 +319,8 @@ void BaseDriver::update_pid_debug()
         }
     }
 }
-
+#endif
+#if 0
 void BaseDriver::update_imu()
 {
     frame->interact(ID_GET_IMU_DATA);
@@ -264,3 +341,5 @@ void BaseDriver::update_imu()
 
     raw_imu_pub.publish(raw_imu_msgs);
 }
+#endif
+#endif

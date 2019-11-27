@@ -1,9 +1,13 @@
 #ifndef BASE_DRIVER_CONFIG_
 #define BASE_DRIVER_CONFIG_
 
+#if 1
+#include <rclcpp/rclcpp.hpp>
+#else
 #include <ros/ros.h>
+#endif
 
-#define USE_DYNAMIC_RECONFIG
+// #define USE_DYNAMIC_RECONFIG
 #ifdef USE_DYNAMIC_RECONFIG
 #include <dynamic_reconfigure/server.h>
 #include "neuronbot2_bringup/neuronbot2_driverConfig.h"
