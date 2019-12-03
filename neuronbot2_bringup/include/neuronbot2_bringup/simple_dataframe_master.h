@@ -3,13 +3,33 @@
 
 #include "simple_dataframe.h"
 #include <string.h>
-//#include <boost/thread.hpp>
-//#include <boost/thread/lock_factories.hpp>
+#include "data_holder.h"
+#include <stdio.h>
 
-class Transport;
+#define ROS2
+#ifdef ROS2
+
+#include <chrono>
+#include "serial/serial.h"
+#include "rclcpp/rclcpp.hpp"
+
+#else
+
+#include "transport.h"
+#include <boost/thread.hpp>
+#include <boost/thread/lock_factories.hpp>
+
+#endif
+
+// class Transport;
 class Simple_dataframe : public Dataframe{
     public:
+#ifdef ROS2
+        // Simple_dataframe(std::shared_ptr<serial::Serial> _trans);
+        Simple_dataframe(serial::Serial* _trans);
+#else
         Simple_dataframe(Transport* trans=0);
+#endif
         ~Simple_dataframe();
         void register_notify(const MESSAGE_ID id, Notify* _nf){
         }
@@ -28,7 +48,13 @@ class Simple_dataframe : public Dataframe{
         Message active_rx_msg;
 
         RECEIVE_STATE recv_state;
+#ifdef ROS2
+        // std::shared_ptr<serial::Serial> trans;
+        serial::Serial* trans;
+        typedef std::vector<uint8_t> Buffer;
+#else
 		Transport* trans; 
+#endif
 
        /* boost::thread* recv_thread;
         boost::condition cond_start_recv;

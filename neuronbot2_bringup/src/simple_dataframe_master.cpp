@@ -26,7 +26,7 @@ bool Simple_dataframe::init(){
 }
 
 bool Simple_dataframe::data_recv(unsigned char c){
-    printf("%02x ", c);
+    // printf("%02x ", c);
     switch (recv_state){
     case STATE_RECV_FIX:
         if (c == FIX_HEAD){
@@ -193,20 +193,7 @@ bool Simple_dataframe::recv_proc(){
                 printf("timeout \n");
                 return false;
             }
-            // if (inbuf[0] != FIX_HEAD) {
-                // printf("Defqua happen here \n");
-                // inbuf.clear();
-            // }
         }
-        // if (inbuf.empty()) {
-            // auto n = trans->read(inbuf,1);
-            // printf("Hello!! %d \n", n);    
-        // }
-        // else
-        // {
-            // printf("world!! %d\n",inbuf.size());
-            // break;
-        // }
         // Buffer data = inbuf;
 #else
         Buffer data = trans->read();
@@ -215,20 +202,11 @@ bool Simple_dataframe::recv_proc(){
         for (int i=0;i<inbuf.size();i++){
             if (data_recv(inbuf[i])){
                 got = true;
-                printf("okokok");
                 break;
             }
         }
-
         if (got)
             break;
-#ifdef ROS2
-#else
-        if (trans->is_timeout()){
-            std::cout << "timeout:" << std::endl;
-            return false;
-        }
-#endif
     }
 
     if (!data_parse())

@@ -8,24 +8,22 @@
 #endif
 
 // #include <boost/shared_ptr.hpp>
-// #include "base_driver_config.hpp"
 
 // #include "neuronbot2_bringup/transport.h"
-// #include "neuronbot2_bringup/dataframe.h"
-#define TEST
-#ifdef TEST
+#define ROS2
+#ifdef ROS2
+
+#include "neuronbot2_bringup/dataframe.h"
 #include "neuronbot2_bringup/simple_dataframe.h"
 #include "neuronbot2_bringup/data_holder.h"
-#endif
-
-#if 1
-
+#include "neuronbot2_bringup/simple_dataframe_master.h"
 #include "geometry_msgs/msg/twist.hpp"
 #include "tf2_ros/transform_broadcaster.h"
 #include "nav_msgs/msg/odometry.hpp"
 #include "std_msgs/msg/int16.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "serial/serial.h"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 
 #else
 
@@ -54,17 +52,22 @@ private:
 
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub;
   void cmd_vel_callback();
-  
+
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub; 
+  void publish(const rclcpp::Time & now);
+
   std::shared_ptr<serial::Serial> serial_;
 
   rclcpp::Node::SharedPtr node_handle_;
-// #if 1
+#if 1
+  std::shared_ptr<Simple_dataframe> frame;
+  // BaseDriverConfig bdc;
+  // Simple_dataframe frame;
+#else
   // std::shared_ptr<Transport> trans;
-  // std::shared_ptr<Dataframe> frame;
-// #else
   // boost::shared_ptr<Transport> trans;
   // boost::shared_ptr<Dataframe> frame;
-// #endif
+#endif
 
 #if 0
   static BaseDriver* Instance()
@@ -77,6 +80,21 @@ private:
 #endif
 
 private:
+  
+  std::string port;
+  int32_t baudrate;
+
+  std::string base_frame;
+  std::string odom_frame;
+
+  bool publish_tf;
+
+  std::string cmd_vel_topic;
+  std::string odom_topic;
+  double odometry_frequency;
+
+  rclcpp::TimerBase::SharedPtr tmr_odometry;
+  void update_odom();
 #if 1
   // auto cmd_vel_callback(const geometry_msgs::msg::Twist vel_cmd);
 #else
@@ -93,12 +111,11 @@ private:
   void init_imu();
 #endif
 
-#if 0
   void read_param();
+#if 0
 
   void update_param();
   //void update_encoder();
-  void update_odom();
   void update_speed();
   void update_pid_debug();
   void update_imu();

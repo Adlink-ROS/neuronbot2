@@ -60,15 +60,6 @@ BaseDriver::BaseDriver()
 
 #endif
 
-    // if (trans->init())
-    // {
-        // RCLCPP_INFO(get_logger(), "connected to main board");
-    // } else
-    // {
-        // RCLCPP_ERROR(get_logger(), "Can't connect to main board");
-    // }
-    // RCLCPP_INFO(get_logger(), "yoyoyo done here");
-
     #if 0
     //init config
 
@@ -223,18 +214,16 @@ void BaseDriver::update_odom()
     odom->header.stamp = now;
     odom->pose.pose.position.x = x;  
     odom->pose.pose.position.y = y; 
-    odom->pose.pose.orientation.x = q.x(); 
-    odom->pose.pose.orientation.y = q.y(); 
-    odom->pose.pose.orientation.z = q.z(); 
-    odom->pose.pose.orientation.w = q.w(); 
+    odom->pose.pose.orientation.x = 0;// q.x(); 
+    odom->pose.pose.orientation.y = 0;// q.y(); 
+    odom->pose.pose.orientation.z = 0;// q.z(); 
+    odom->pose.pose.orientation.w = 0;// q.w(); 
     odom->twist.twist.linear.x = vxy;  
     odom->twist.twist.angular.z = vth;  
     odom->twist.covariance.fill(0.0);
     // 
-    RCLCPP_INFO(get_logger(), "2");
     RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
     odom_pub->publish(std::move(odom));
-    RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
 }
 #if 0
 void BaseDriver::init_cmd_odom()

@@ -19,14 +19,15 @@ find_package(ament_cmake        REQUIRED)
 find_package(geometry_msgs      REQUIRED)
 find_package(rclcpp             REQUIRED)
 find_package(std_msgs           REQUIRED)
-# find_package(neuronbot2_msgs    REQUIRED)
 find_package(serial             REQUIRED)
 find_package(tf2_geometry_msgs  REQUIRED)
 find_package(tf2                REQUIRED)
 find_package(tf2_ros            REQUIRED)
 find_package(nav_msgs           REQUIRED)
+find_package(sensor_msgs        REQUIRED)
 # find_package(Boost)
 # find_package(Boost              REQUIRED COMPONENTS thread)
+# find_package(neuronbot2_msgs    REQUIRED)
 
 ################################################################################
 # Build
@@ -39,23 +40,23 @@ set(EXECUTABLE_NAME "neuronbot2_driver")
 
 add_executable(${EXECUTABLE_NAME}
   src/main.cpp
-  # src/base_driver_config.cpp
   src/base_driver.cpp
   src/data_holder.cpp
-  # src/simple_dataframe_master.cpp
+  src/simple_dataframe_master.cpp
+  src/neuron_serial.cpp
   # src/serial_transport.cpp
 )
 set(DEPENDENCIES
   "rclcpp"           
   "std_msgs"         
-  # "neuronbot2_msgs"
   "geometry_msgs" 
   "tf2_geometry_msgs"
   "tf2"
   "tf2_ros"
   "nav_msgs"
-  # "Boost"         
   "serial"
+  "sensor_msgs"
+  # "Boost"         
 )
 ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES}
 )
