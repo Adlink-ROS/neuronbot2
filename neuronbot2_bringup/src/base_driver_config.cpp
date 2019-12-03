@@ -1,10 +1,10 @@
-#include "base_driver_config.h"
+#include "neuronbot2_bringup/base_driver_config.hpp"
 
-#include "data_holder.h"
+#include "neuronbot2_bringup/data_holder.h"
 #define PI 3.1415926f
 
 
-BaseDriverConfig::BaseDriverConfig(ros::NodeHandle &p) : pn(p)
+BaseDriverConfig::BaseDriverConfig(rclcpp::Node::SharedPtr p) : pn(p)
 {
 #ifdef USE_DYNAMIC_RECONFIG
   param_update_flag = false;
@@ -24,6 +24,19 @@ void BaseDriverConfig::init(Robot_parameter* r)
   rp = r;
 
   //comm param
+#ifdef ROS2
+  std::string port = pn->declare_parameter("port", "/dev/neuronbot2");
+  int32_t baudrate = pn->declare_parameter("baudrate", 115200);
+  RCLCPP_INFO(pn->get_logger(), "port:%s buadrate:%d", port.c_str(), baudrate);
+
+  std::string base_frame = pn->declare_parameter("base_frame", "base_link");
+  std::string odom_frame = pn->declare_parameter("odom_frame", "odom");
+  bool publish_tf = pn->declare_parameter("publish_tf", true);
+
+  std::string cmd_vel_topic = pn->declare_parameter("cmd_vel_topic", "cmd_vel");
+  std::string odom_topic = pn->declare_parameter("odom_topic", "odom");
+  printf("inside config init => port: '%s' \n", port.c_str());
+#else
   pn.param<std::string>("port", port, "/dev/ttyACM0");
   pn.param<int32_t>("buadrate", buadrate, 115200);
   
@@ -39,6 +52,7 @@ void BaseDriverConfig::init(Robot_parameter* r)
   //topic name param
   pn.param<std::string>("cmd_vel_topic", cmd_vel_topic, "cmd_vel");
   pn.param<std::string>("odom_topic", odom_topic, "odom");
+#endif
 }
 
 void BaseDriverConfig::SetRobotParameters() 

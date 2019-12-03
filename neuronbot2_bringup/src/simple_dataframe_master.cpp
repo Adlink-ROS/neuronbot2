@@ -1,23 +1,32 @@
-#include "simple_dataframe_master.h"
-#include "data_holder.h"
-#include <stdio.h>
-
-#include "transport.h"
-
+#include "neuronbot2_bringup/simple_dataframe_master.h"
+#ifdef ROS2
+// Simple_dataframe::Simple_dataframe(std::shared_ptr<serial::Serial> _trans) : trans(_trans)
+Simple_dataframe::Simple_dataframe(serial::Serial* _trans) : trans(_trans)
+{
+    recv_state = STATE_RECV_FIX;
+}
+#else
 Simple_dataframe::Simple_dataframe(Transport* _trans): trans(_trans){
     recv_state = STATE_RECV_FIX;
 }
+#endif
 
 Simple_dataframe::~Simple_dataframe(){
 }
 
 bool Simple_dataframe::init(){
+#ifdef ROS2
+    // uint32_t a = 5000;
+    // trans->setTimeout(a,a,a,a,a);
+    // printf("in dataframe init \n");
+#else
     trans->set_timeout(5000);
+#endif
     return true;
 }
 
 bool Simple_dataframe::data_recv(unsigned char c){
-    //printf("%02x ", c);
+    printf("%02x ", c);
     switch (recv_state){
     case STATE_RECV_FIX:
         if (c == FIX_HEAD){
@@ -70,7 +79,7 @@ bool Simple_dataframe::data_recv(unsigned char c){
 bool Simple_dataframe::data_parse(){
     MESSAGE_ID id = (MESSAGE_ID)active_rx_msg.head.msg_id;
 
-    //printf("data_parse:id=%d\r\n", id);
+    printf("data_parse:id=%d\r\n", id);
 
     Data_holder* dh = Data_holder::get();
     switch (id){
@@ -121,7 +130,6 @@ bool Simple_dataframe::send_message(const MESSAGE_ID id, unsigned char* data, un
 bool Simple_dataframe::send_message(Message* msg){
     if (trans == 0)
         return true;
-    
     Buffer data((unsigned char*)msg, (unsigned char*)msg+sizeof(msg->head)+msg->head.length+1);
     trans->write(data);
 
@@ -168,26 +176,59 @@ bool Simple_dataframe::interact(const MESSAGE_ID id){
 
 bool Simple_dataframe::recv_proc(){
     int i=0;
+#ifdef ROS2
+#else
     trans->set_timeout(150);
+#endif
+
     bool got=false;
+
     while(true){
+#ifdef ROS2
+        std::vector<uint8_t> inbuf;
+        while (inbuf.empty()) {
+            auto n = trans->read(inbuf, 1);
+            if (n == 0) {
+                // time out
+                printf("timeout \n");
+                return false;
+            }
+            // if (inbuf[0] != FIX_HEAD) {
+                // printf("Defqua happen here \n");
+                // inbuf.clear();
+            // }
+        }
+        // if (inbuf.empty()) {
+            // auto n = trans->read(inbuf,1);
+            // printf("Hello!! %d \n", n);    
+        // }
+        // else
+        // {
+            // printf("world!! %d\n",inbuf.size());
+            // break;
+        // }
+        // Buffer data = inbuf;
+#else
         Buffer data = trans->read();
+#endif
         
-        for (int i=0;i<data.size();i++){
-            if (data_recv(data[i])){
+        for (int i=0;i<inbuf.size();i++){
+            if (data_recv(inbuf[i])){
                 got = true;
-                //std::count << "ok" << std::endl;
+                printf("okokok");
                 break;
             }
         }
 
         if (got)
             break;
-        
+#ifdef ROS2
+#else
         if (trans->is_timeout()){
             std::cout << "timeout:" << std::endl;
             return false;
         }
+#endif
     }
 
     if (!data_parse())

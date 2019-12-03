@@ -3,39 +3,55 @@
 
 #include "std_msgs/msg/float32_multi_array.hpp"
 // #include "neuronbot2_bringup/serial_transport.h"
-// #include "neuronbot2_bringup/simple_dataframe_master.h"
 // #include <boost/assign/list_of.hpp>
+#include <chrono>
 
-
-
-#if 0
-BaseDriver* BaseDriver::instance = NULL;
-#endif
 
 const unsigned long BAUDRATE = 115200;
+using namespace std::literals::chrono_literals;
 
 BaseDriver::BaseDriver() 
 : Node("neuronbot3_driver",rclcpp::NodeOptions().use_intra_process_comms(true))
 {
+   
     RCLCPP_INFO(get_logger(), "BaseDriver startup");
 
     node_handle_ = std::shared_ptr<::rclcpp::Node>(this, [](::rclcpp::Node *){});
+    
+    std::string port = declare_parameter("port", "/dev/neuronbot2");
+    int32_t baudrate = declare_parameter("baudrate", 115200);
+    RCLCPP_INFO(get_logger(), "port:%s buadrate:%d", port.c_str(), baudrate);
 
-    std::string serial_port = declare_parameter("serial_port", "/dev/neuronbot2");
+    std::string base_frame = declare_parameter("base_frame", "base_link");
+    std::string odom_frame = declare_parameter("odom_frame", "odom");
+    bool publish_tf = declare_parameter("publish_tf", true);
 
-    RCLCPP_INFO(get_logger(), "Connecting to serial: '%s'", serial_port.c_str());
+    std::string cmd_vel_topic = declare_parameter("cmd_vel_topic", "cmd_vel");
+    std::string odom_topic = declare_parameter("odom_topic", "odom");
+    double odometry_frequency = declare_parameter("odometry_frequency", 10.0);
+    tmr_odometry = create_wall_timer(1s / odometry_frequency, [=]() {update_odom(); });
+    odom_pub = create_publisher<nav_msgs::msg::Odometry>("odom", rclcpp::QoS(4));
+
+    // bdc = std::make_shared<BaseDriverConfig>(node_handle_);
+    // bdc->init(&Data_holder::get()->parameter);
+    // std::string serial_port = declare_parameter("serial_port", "/dev/neuronbot2");
+
+    RCLCPP_INFO(get_logger(), "Connecting to serial: '%s'", port.c_str());
     try {
         // create a serial device with immediate timeout
-        serial_ = std::make_unique<serial::Serial>(serial_port, BAUDRATE);
+        serial_ = std::make_unique<serial::Serial>(port, baudrate, serial::Timeout::simpleTimeout(10));
     } catch (const std::exception & e) {
         RCLCPP_FATAL(get_logger(), e.what());
         throw;
     }
 
+    frame = std::make_shared<Simple_dataframe>(serial_.get());
+    frame->init();
+    frame->interact(ID_GET_VERSION);
+
+    RCLCPP_INFO(get_logger(), "robot version:%s build time:%s", Data_holder::get()->firmware_info.version,
+                                       Data_holder::get()->firmware_info.time);
     run();
-    // cmd_vel_sub = create_subscription<geometry_msgs::msg::Twist>(
-        // "cmd_vel", rclcpp::QoS(10), [=](const geometry_msgs::msg::Twist::ConstSharedPtr msg) {cmd_vel_cb(msg); });
-    // work_loop();
 #if 0
     // trans = std::make_shared<Serial_transport>("/dev/neuronbot2", 115200);
     // frame = std::make_shared<Simple_dataframe>(trans.get());
@@ -55,7 +71,6 @@ BaseDriver::BaseDriver()
 
     #if 0
     //init config
-    bdg.init(&Data_holder::get()->parameter);
 
     trans = boost::make_shared<Serial_transport>(bdg.port, bdg.buadrate);
     frame = boost::make_shared<Simple_dataframe>(trans.get());
@@ -74,12 +89,6 @@ BaseDriver::BaseDriver()
     ros::Duration(2).sleep(); //wait for device
     ROS_INFO("end sleep");
     
-    frame->init();
-
-    frame->interact(ID_GET_VERSION);
-
-    ROS_INFO("robot version:%s build time:%s", Data_holder::get()->firmware_info.version,
-                                        Data_holder::get()->firmware_info.time);
     
     init_cmd_odom();
 
@@ -102,6 +111,7 @@ if (instance != NULL)
 void BaseDriver::run()
 {
     cmd_vel_callback();
+    read_param();
 }
 void BaseDriver::work_loop()
 {
@@ -140,8 +150,12 @@ void BaseDriver::cmd_vel_callback()
         [this](const geometry_msgs::msg::Twist::SharedPtr msg) -> void
         {
                 RCLCPP_INFO(this->get_logger(), "hey hey come on cmd_vel %f, %f, %f", msg->linear.x, msg->linear.y, msg->angular.z);
-
-            #ifdef TEST
+                Data_holder::get()->velocity.v_liner_x = msg->linear.x * 100;
+                Data_holder::get()->velocity.v_liner_y = msg->linear.x * 100;
+                Data_holder::get()->velocity.v_angular_z = msg->angular.z * 100;
+                bool a = frame->interact(ID_SET_VELOCITY);
+                RCLCPP_INFO(this->get_logger(), "%s", a? "True": "False");
+            #if 0
                 Data_holder* dh = Data_holder::get();
                 dh->get()->velocity.v_liner_x = msg->linear.x * 100;
                 dh->get()->velocity.v_liner_y = msg->linear.x * 100;
@@ -152,8 +166,75 @@ void BaseDriver::cmd_vel_callback()
                 this->serial_->write(data);
             #endif
                 RCLCPP_INFO(this->get_logger(), "Message sent");
+                update_odom();
         }
     );
+}
+void BaseDriver::read_param()
+{
+    Robot_parameter* param = &Data_holder::get()->parameter;
+    memset(param,0, sizeof(Robot_parameter));
+
+    frame->interact(ID_GET_ROBOT_PARAMTER);
+
+    RCLCPP_INFO(get_logger(),"RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+        param->wheel_diameter, param->wheel_track,  param->encoder_resolution, 
+        param->do_pid_interval, param->kp, param->ki, param->kd, param->ko, 
+        param->cmd_last_time, param->max_v_liner_x, param->max_v_liner_y, param->max_v_angular_z,
+        param->imu_type);
+
+    // bdg.SetRobotParameters();
+}
+void BaseDriver::update_odom()
+{
+    frame->interact(ID_GET_ODOM);
+    RCLCPP_INFO(get_logger(), "1");
+    //ros::Time current_time = ros::Time::now(); 
+    auto now = get_clock()->now();
+    float x = Data_holder::get()->odom.x*0.01;
+    float y = Data_holder::get()->odom.y*0.01;
+    float th = Data_holder::get()->odom.yaw*0.01;
+
+    float vxy = Data_holder::get()->odom.v_liner_x*0.01;
+    float vth = Data_holder::get()->odom.v_angular_z*0.01;
+
+    RCLCPP_INFO(get_logger(), "odom: x=%.2f y=%.2f th=%.2f vxy=%.2f vth=%.2f", x, y ,th, vxy,vth);
+    
+    // auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
+    // odom_pub = this->create_publisher<nav_msgs::msg::Odometry>("odom", qos);
+
+    tf2::Quaternion q;
+    q.setRPY(0.0, 0.0, th);
+    // geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
+
+    //publish_tf
+    // if (bdg.publish_tf){
+        // odom_trans.header.stamp = current_time;  
+        // odom_trans.transform.translation.x = x;  
+        // odom_trans.transform.translation.y = y;  
+        // odom_trans.transform.rotation = odom_quat; 
+        // odom_broadcaster.sendTransform(odom_trans);  
+    // }
+
+    //publish the message  
+    auto odom = std::make_unique<nav_msgs::msg::Odometry>();
+    odom->header.frame_id = "odom";
+    odom->child_frame_id = "base_link";
+    odom->header.stamp = now;
+    odom->pose.pose.position.x = x;  
+    odom->pose.pose.position.y = y; 
+    odom->pose.pose.orientation.x = q.x(); 
+    odom->pose.pose.orientation.y = q.y(); 
+    odom->pose.pose.orientation.z = q.z(); 
+    odom->pose.pose.orientation.w = q.w(); 
+    odom->twist.twist.linear.x = vxy;  
+    odom->twist.twist.angular.z = vth;  
+    odom->twist.covariance.fill(0.0);
+    // 
+    RCLCPP_INFO(get_logger(), "2");
+    RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
+    odom_pub->publish(std::move(odom));
+    RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
 }
 #if 0
 void BaseDriver::init_cmd_odom()
@@ -270,28 +351,28 @@ void BaseDriver::update_odom()
     float vxy = Data_holder::get()->odom.v_liner_x*0.01;
     float vth = Data_holder::get()->odom.v_angular_z*0.01;
 
-    // ROS_INFO("odom: x=%.2f y=%.2f th=%.2f vxy=%.2f vth=%.2f", x, y ,th, vxy,vth);
+    RCLCPP_INFO(get_logger(), "odom: x=%.2f y=%.2f th=%.2f vxy=%.2f vth=%.2f", x, y ,th, vxy,vth);
     
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
+    // geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
 
     //publish_tf
-    if (bdg.publish_tf){
-        odom_trans.header.stamp = current_time;  
-        odom_trans.transform.translation.x = x;  
-        odom_trans.transform.translation.y = y;  
-        odom_trans.transform.rotation = odom_quat; 
-        odom_broadcaster.sendTransform(odom_trans);  
-    }
+    // if (bdg.publish_tf){
+        // odom_trans.header.stamp = current_time;  
+        // odom_trans.transform.translation.x = x;  
+        // odom_trans.transform.translation.y = y;  
+        // odom_trans.transform.rotation = odom_quat; 
+        // odom_broadcaster.sendTransform(odom_trans);  
+    // }
 
     //publish the message  
-    odom.header.stamp = current_time;  
-    odom.pose.pose.position.x = x;  
-    odom.pose.pose.position.y = y;  
-    odom.pose.pose.orientation = odom_quat;    
-    odom.twist.twist.linear.x = vxy;  
-    odom.twist.twist.angular.z = vth;  
-    
-    odom_pub.publish(odom);
+    // odom.header.stamp = current_time;  
+    // odom.pose.pose.position.x = x;  
+    // odom.pose.pose.position.y = y;  
+    // odom.pose.pose.orientation = odom_quat;    
+    // odom.twist.twist.linear.x = vxy;  
+    // odom.twist.twist.angular.z = vth;  
+    // 
+    // odom_pub.publish(odom);
 }
 
 void BaseDriver::update_speed()
