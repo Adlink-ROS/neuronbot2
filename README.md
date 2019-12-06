@@ -38,7 +38,6 @@ TODO: Port Pibot(ROS) to Neuronbot2(ROS2)
 2. Launch empty world (TODO: create a wonderland for NeuronBot2).
     ```
     $ ros2 launch  neuronbot2_gazebo empty_world.launch.py 
-
     ```
     Boom! See the NeuronBot2? Good.
 3. Launch cartographer slam.
