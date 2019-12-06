@@ -1,0 +1,18 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RecoveryNode number_of_retries="12">
+      <Sequence name="NavigateWithReplanning">
+        <RateController hz="1.5">
+          <Fallback>
+            <GoalReached/>
+            <ComputePathToPose goal="${goal}" path="${path}"/>
+          </Fallback>
+        </RateController>
+        <FollowPath path="${path}"/>
+      </Sequence>
+      <SequenceStar name="RecoveryActions">
+        <Spin spin_dist="3.14"/>
+      </SequenceStar>
+    </RecoveryNode>
+  </BehaviorTree>
+</root>
