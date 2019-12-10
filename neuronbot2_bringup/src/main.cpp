@@ -1,5 +1,4 @@
 #include <rclcpp/rclcpp.hpp>
-#include <neuronbot2_bringup/base_driver.hpp>
 #include <neuronbot2_bringup/neuron_serial.hpp>
 #include <neuronbot2_bringup/neuron_base.hpp>
 
