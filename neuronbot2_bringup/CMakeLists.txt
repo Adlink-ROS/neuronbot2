@@ -40,7 +40,6 @@ set(EXECUTABLE_NAME "neuronbot2_driver")
 
 add_executable(${EXECUTABLE_NAME}
   src/main.cpp
-  src/base_driver.cpp
   src/data_holder.cpp
   src/simple_dataframe_master.cpp
   src/neuron_serial.cpp
