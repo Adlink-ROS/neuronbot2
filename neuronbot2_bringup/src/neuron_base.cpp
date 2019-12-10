@@ -7,18 +7,22 @@ NeuronBase::NeuronBase()
 
     // Declare parameters
     double update_odom_freq = declare_parameter("update_odom_freq", 10.0);
+    std::string cmd_vel_sub_topic = declare_parameter("cmd_vel_sub_topic", "cmd_vel");
+    std::string cmd_vel_repub_topic = declare_parameter("cmd_vel_repub_topic", "motor_cmd_vel");
+    std::string odom_sub_topic = declare_parameter("odom_sub_topic", "odom");
+
+    publish_tf_ = declare_parameter("publish_tf_", true);
 
     // Define timer
     update_odom_timer = create_wall_timer(1s/ update_odom_freq, [=]() {update_odom(); });
 
     // Define subscriber
     cmd_vel_sub = create_subscription<geometry_msgs::msg::Twist>(
-        "cmd_vel", rclcpp::QoS(1), [=](geometry_msgs::msg::Twist::ConstSharedPtr msg) {on_cmd_vel(msg); });
+       cmd_vel_sub_topic , rclcpp::QoS(1), [=](geometry_msgs::msg::Twist::ConstSharedPtr msg) {on_cmd_vel(msg); });
     odom_sub = create_subscription<nav_msgs::msg::Odometry>(
-        "odom", rclcpp::QoS(4), [=](nav_msgs::msg::Odometry::ConstSharedPtr msg) {on_odom(msg); });
+        odom_sub_topic, rclcpp::QoS(4), [=](nav_msgs::msg::Odometry::ConstSharedPtr msg) {on_odom(msg); });
     // Define publisher
-    cmd_vel_pub = create_publisher<geometry_msgs::msg::Twist>("motor_cmd_vel", rclcpp::QoS(1));
-    // tf_broadcaster_ = create_publisher<tf2_ros::TransformBroadcaster>("tf", rclcpp::QoS(10));
+    cmd_vel_pub = create_publisher<geometry_msgs::msg::Twist>( cmd_vel_repub_topic, rclcpp::QoS(1));
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this);
 }
 
@@ -33,7 +37,7 @@ void NeuronBase::on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg)
 
 void NeuronBase::on_odom(nav_msgs::msg::Odometry::ConstSharedPtr msg)
 {
-    odom_tf.header.stamp = get_clock()->now();
+    odom_tf.header.stamp = msg->header.stamp; 
     odom_tf.header.frame_id = msg->header.frame_id;
     odom_tf.child_frame_id = msg->child_frame_id;
     odom_tf.transform.translation.x = msg->pose.pose.position.x;

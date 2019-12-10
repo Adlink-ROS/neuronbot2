@@ -33,9 +33,12 @@ private:
     // Send messages at this frequency to keep the node alive.
     duration keepalive_period = 100ms;
     // The frequency to poll for a uart message.
-    duration uart_poll_period = 500ms;
+    duration uart_poll_period = 50ms;
     duration pub_period = 100ms;
 
+    std::string odom_frame_parent;
+    std::string odom_frame_child;
+    std::string imu_frame;
 
     // rclcpp::Publisher<> odom raw data;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub;
@@ -46,9 +49,9 @@ private:
 
     // Init
     void parameter_init();
-    void init_cmd_odom();
  
-    void read_cb();
+    void read_robot_parameter();
+    void read_firmware_info();
     void keepalive_cb();
     void on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg);
     void update_odom();
@@ -56,7 +59,6 @@ private:
 
     rclcpp::TimerBase::SharedPtr keepalive_timer;
     rclcpp::TimerBase::SharedPtr read_timer;
-    rclcpp::TimerBase::SharedPtr pub_timer;
 
     std::shared_ptr<serial::Serial> serial_;
     std::shared_ptr<Simple_dataframe> frame;
