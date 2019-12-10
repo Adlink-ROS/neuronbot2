@@ -27,8 +27,9 @@ NeuronSerial::NeuronSerial()
         serial_ = std::make_unique<serial::Serial>(port, baudrate);
         // TODOS: Test timeout
         // serial_ = std::make_unique<serial::Serial>(port, baudrate, serial::Timeout::simpleTimeout(101));
-        RCLCPP_INFO(get_logger(), "Connecting to serial: '%s', with baudrate '%d', timeout: %d", serial_->getPort().c_str(), serial_->getBaudrate(), serial_->getTimeout());
+        RCLCPP_INFO(get_logger(), "Connected to serial: '%s', with baudrate '%d', timeout: %d", serial_->getPort().c_str(), serial_->getBaudrate(), serial_->getTimeout());
     } catch (const std::exception & e) {
+        RCLCPP_ERROR(get_logger(), "Beep-bee-bee-boop-bee-doo-weep Can't connect to serail.");
         RCLCPP_FATAL(get_logger(), e.what());
         throw;
     }
@@ -132,7 +133,7 @@ void NeuronSerial::on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg)
     dh->velocity.v_liner_x = msg->linear.x * 100;
     dh->velocity.v_liner_y = msg->linear.x * 100;
     dh->velocity.v_angular_z = msg->angular.z * 100;
-    bool a = frame->interact(ID_SET_VELOCITY);
+    frame->interact(ID_SET_VELOCITY);
     RCLCPP_INFO(this->get_logger(), "Message sent");
 }
 
