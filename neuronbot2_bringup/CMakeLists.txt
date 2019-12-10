@@ -44,6 +44,7 @@ add_executable(${EXECUTABLE_NAME}
   src/data_holder.cpp
   src/simple_dataframe_master.cpp
   src/neuron_serial.cpp
+  src/neuron_base.cpp
   # src/serial_transport.cpp
 )
 set(DEPENDENCIES

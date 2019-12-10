@@ -140,16 +140,7 @@ void NeuronSerial::update_odom()
     tf2::Quaternion q;
     q.setRPY(0.0, 0.0, th);
 
-    // geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
 
-    //publish_tf
-    // if (bdg.publish_tf){
-        // odom_trans.header.stamp = current_time;  
-        // odom_trans.transform.translation.x = x;  
-        // odom_trans.transform.translation.y = y;  
-        // odom_trans.transform.rotation = odom_quat; 
-        // odom_broadcaster.sendTransform(odom_trans);  
-    // }
 
     //publish the message  
     auto odom = std::make_unique<nav_msgs::msg::Odometry>();
@@ -165,23 +156,10 @@ void NeuronSerial::update_odom()
     odom->twist.twist.linear.x = vxy;  
     odom->twist.twist.angular.z = vth;  
     odom->twist.covariance.fill(0.0);
-    // 
-    // Create TF
-    geometry_msgs::msg::TransformStamped odom_tf;
-
-    odom_tf.transform.translation.x = odom->pose.pose.position.x;
-    odom_tf.transform.translation.y = odom->pose.pose.position.y;
-    odom_tf.transform.translation.z = odom->pose.pose.position.z;
-    odom_tf.transform.rotation = odom->pose.pose.orientation;
-    odom_tf.header.frame_id = "odom";
-    odom_tf.child_frame_id = "base_footprint";
-    odom_tf.header.stamp = now;
     
     RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
     odom_pub->publish(std::move(odom));
     // RCLCPP_INFO(get_logger(), "pub from %s to %s", odom->header.frame_id.c_str(), odom->child_frame_id.c_str());
-    // TODO: create tf
-    // tf_broadcaster_->sendTransform(odom_tf);
 }
 
 void NeuronSerial::update_imu()
