@@ -31,7 +31,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('neuronbot2_nav'),
             'map',
-            'map.yaml'))
+            'office_table.yaml'))
 
     param_dir = LaunchConfiguration(
         'params',
