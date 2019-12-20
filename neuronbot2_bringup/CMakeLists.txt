@@ -66,5 +66,9 @@ ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES}
 install(TARGETS ${EXECUTABLE_NAME}
  DESTINATION lib/${PROJECT_NAME})
 
+ install(
+  DIRECTORY launch 
+  DESTINATION share/${PROJECT_NAME}
+)
 
 ament_package()
