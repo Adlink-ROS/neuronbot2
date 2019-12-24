@@ -13,7 +13,7 @@ NeuronSerial::NeuronSerial()
     std::string port = declare_parameter("port", "/dev/neuronbot2");
     int32_t baudrate = declare_parameter("baudrate", 115200);
     std::string cmd_vel_topic = declare_parameter("cmd_vel_topic", "motor_cmd_vel");
-    std::string odom_topic = declare_parameter("odom_topic", "odom");
+    std::string odom_topic = declare_parameter("odom_topic", "odom_data");
     std::string raw_imu_topic = declare_parameter("raw_imu_topic", "raw_imu");
     std::string raw_mag_topic = declare_parameter("raw_mag_topic", "raw_mag");
     odom_frame_parent = declare_parameter("odom_frame_parent", "odom");
