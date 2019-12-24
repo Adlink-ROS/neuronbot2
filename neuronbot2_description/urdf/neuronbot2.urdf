@@ -144,6 +144,7 @@
     <parent link="base_link"/>
     <child link="imu_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.11"/>
+    <axis xyz="0 0 0" />
   </joint>
   
   <joint name="r_wheel_joint" type="continuous">
