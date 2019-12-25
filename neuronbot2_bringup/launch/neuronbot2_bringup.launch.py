@@ -25,7 +25,6 @@ def generate_launch_description():
             node_executable='robot_state_publisher',
             node_name='robot_state_publisher',
             output='screen',
-            parameters=[hardware_config],
             arguments=[str(urdf_path)],
         ),
 
@@ -36,13 +35,13 @@ def generate_launch_description():
             parameters=[hardware_config],
         ),
 
-        Node(
-            package='joint_state_publisher', 
-            node_executable='joint_state_publisher', 
-            output='screen',
-            arguments=[str(urdf_path)],
-            parameters=[hardware_config]
-        ),
+        # Node(
+        #     package='joint_state_publisher', 
+        #     node_executable='joint_state_publisher', 
+        #     output='screen',
+        #     arguments=[str(urdf_path)],
+        #     parameters=[hardware_config]
+        # ),
 
 
         Node(
