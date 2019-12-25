@@ -19,7 +19,7 @@ NeuronBase::NeuronBase()
     acc_z_bias = declare_parameter("acc_z_bias", -1.95);
     vel_theta_bias = declare_parameter("vel_theta_bias", -0.023);
 
-    publish_tf_ = declare_parameter("publish_tf", true);
+    publish_tf_ = declare_parameter("publish_tf", false);
     calibrate_imu_ = declare_parameter("calibrate_imu", true);
 
     // Define timer
