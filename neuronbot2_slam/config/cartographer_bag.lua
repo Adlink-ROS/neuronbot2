@@ -55,7 +55,7 @@ TRAJECTORY_BUILDER_2D.use_imu_data = false
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
 TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(0.1)
 --  TEST 
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 10 --2e2
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 0.01 --2e2
 TRAJECTORY_BUILDER_2D.ceres_scan_matcher.ceres_solver_options.max_num_iterations = 20
 TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 1 
 TRAJECTORY_BUILDER_2D.voxel_filter_size = 0.05
