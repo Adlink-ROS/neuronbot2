@@ -1,0 +1,19 @@
+rplidar_node:
+  ros__parameters:
+    serial_port: /dev/rplidar
+    serial_baudrate: 115200
+    frame_id: laser_frame
+    inverted: False
+    angle_compensate: True
+    scan_mode: Boost
+
+robot_state_publisher:
+  ros__parameters:
+    publish_frequency: 30.0
+    use_sim_time: False
+
+joint_state_publisher:
+  ros__parameters:
+    publish_default_positions: True
+    rate: 30
+

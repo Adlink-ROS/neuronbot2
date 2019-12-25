@@ -10,7 +10,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir', 
         default=os.path.join(get_package_share_directory('neuronbot2_slam') , 'config'))
-    configuration_basename = LaunchConfiguration('configuration_basename', default='cartographer.lua')
+    configuration_basename = LaunchConfiguration('configuration_basename', default='cartographer_bag.lua')
     resolution = LaunchConfiguration('resolution', default='0.05')
     publish_period_sec = LaunchConfiguration('publish_period_sec', default='0.5')
     rviz_config_dir = os.path.join(get_package_share_directory('neuronbot2_slam'), 'rviz', 'slam.rviz')
@@ -47,7 +47,8 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=[
                 '-configuration_directory', cartographer_config_dir,
-                '-configuration_basename', configuration_basename]),
+                '-configuration_basename', configuration_basename],
+            remappings=[("map2","map")]),
 
         Node(
             package='cartographer_ros',
