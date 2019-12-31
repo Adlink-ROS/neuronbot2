@@ -25,9 +25,6 @@ find_package(tf2                REQUIRED)
 find_package(tf2_ros            REQUIRED)
 find_package(nav_msgs           REQUIRED)
 find_package(sensor_msgs        REQUIRED)
-# find_package(Boost)
-# find_package(Boost              REQUIRED COMPONENTS thread)
-# find_package(neuronbot2_msgs    REQUIRED)
 
 ################################################################################
 # Build
@@ -40,11 +37,9 @@ set(EXECUTABLE_NAME "neuronbot2_driver")
 
 add_executable(${EXECUTABLE_NAME}
   src/main.cpp
-  src/data_holder.cpp
   src/simple_dataframe_master.cpp
   src/neuron_serial.cpp
   src/neuron_base.cpp
-  # src/serial_transport.cpp
 )
 set(DEPENDENCIES
   "rclcpp"           
@@ -56,8 +51,8 @@ set(DEPENDENCIES
   "nav_msgs"
   "serial"
   "sensor_msgs"
-  # "Boost"         
 )
+
 ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES}
 )
 ################################################################################
