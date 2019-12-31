@@ -74,19 +74,19 @@ void NeuronSerial::parameter_init()
     Robot_parameter* rp = &dh->parameter;
     memset(rp ,0, sizeof(Robot_parameter));
 
-    rp->wheel_diameter = 168;
-    rp->wheel_track = 288;
-    rp->encoder_resolution = 3892;
-    rp->do_pid_interval = 10; 
-    rp->kp = 75;
-    rp->ki = 2500;
-    rp->kd = 0;
-    rp->ko = 10;
-    rp->cmd_last_time = 250;
-    rp->max_v_liner_x = 50;
-    rp->max_v_liner_y = 0;
-    rp->max_v_angular_z = 120;
-    rp->imu_type = 69; // 'E'(69) for enablehttps://bitbucket.org/ROScube/azure_cs_luis/src/master/
+    rp->params.wheel_diameter = 168;
+    rp->params.wheel_track = 288;
+    rp->params.encoder_resolution = 3892;
+    rp->params.do_pid_interval = 10; 
+    rp->params.kp = 75;
+    rp->params.ki = 2500;
+    rp->params.kd = 0;
+    rp->params.ko = 10;
+    rp->params.cmd_last_time = 250;
+    rp->params.max_v_liner_x = 50;
+    rp->params.max_v_liner_y = 0;
+    rp->params.max_v_angular_z = 120;
+    rp->params.imu_type = 69; // 'E'(69) for enablehttps://bitbucket.org/ROScube/azure_cs_luis/src/master/
 
     // debug print out
     // RCLCPP_INFO(this->get_logger(),"Request write RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
@@ -96,25 +96,43 @@ void NeuronSerial::parameter_init()
     //     rp->imu_type);
     
     RCLCPP_INFO(this->get_logger(),"Request write RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
-        dh->parameter.wheel_diameter, dh->parameter.wheel_track,  dh->parameter.encoder_resolution, 
-        dh->parameter.do_pid_interval, dh->parameter.kp, dh->parameter.ki, dh->parameter.kd, dh->parameter.ko, 
-        dh->parameter.cmd_last_time, dh->parameter.max_v_liner_x, dh->parameter.max_v_liner_y,dh->parameter.max_v_angular_z,
-        dh->parameter.imu_type);
+        dh->parameter.params.wheel_diameter, 
+        dh->parameter.params.wheel_track,  
+        dh->parameter.params.encoder_resolution, 
+        dh->parameter.params.do_pid_interval, 
+        dh->parameter.params.kp, 
+        dh->parameter.params.ki, 
+        dh->parameter.params.kd, 
+        dh->parameter.params.ko, 
+        dh->parameter.params.cmd_last_time, 
+        dh->parameter.params.max_v_liner_x, 
+        dh->parameter.params.max_v_liner_y,
+        dh->parameter.params.max_v_angular_z,
+        dh->parameter.params.imu_type);
     frame->interact(ID_SET_ROBOT_PARAMTER);
 }
 
 void NeuronSerial::read_robot_parameter()
 {
-    Robot_parameter* param = &dh->parameter;
-    memset(param,0, sizeof(Robot_parameter));
+    Robot_parameter* rp = &dh->parameter;
+    memset(rp, 0, sizeof(Robot_parameter));
 
     frame->interact(ID_GET_ROBOT_PARAMTER);
  
     RCLCPP_INFO(get_logger(),"RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
-        param->wheel_diameter, param->wheel_track,  param->encoder_resolution, 
-        param->do_pid_interval, param->kp, param->ki, param->kd, param->ko, 
-        param->cmd_last_time, param->max_v_liner_x, param->max_v_liner_y, param->max_v_angular_z,
-        param->imu_type);
+        rp->params.wheel_diameter,
+        rp->params.wheel_track,  
+        rp->params.encoder_resolution, 
+        rp->params.do_pid_interval, 
+        rp->params.kp, 
+        rp->params.ki, 
+        rp->params.kd, 
+        rp->params.ko, 
+        rp->params.cmd_last_time, 
+        rp->params.max_v_liner_x, 
+        rp->params.max_v_liner_y, 
+        rp->params.max_v_angular_z,
+        rp->params.imu_type);
 }
 
 void NeuronSerial::read_firmware_info()
