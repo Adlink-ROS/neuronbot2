@@ -1,5 +1,5 @@
-#ifndef PIBOT_DATA_FRAME_H_
-#define PIBOT_DATA_FRAME_H_
+#ifndef PIBOT_DATA_FRAME_HPP_
+#define PIBOT_DATA_FRAME_HPP_
 
 enum MESSAGE_ID{
     ID_GET_VERSION = 0,
@@ -22,7 +22,7 @@ class Notify{
 class Dataframe{
     public:
         virtual bool init()=0;
-        virtual void register_notify(const MESSAGE_ID id, Notify* _nf)=0;
+        // virtual void register_notify(const MESSAGE_ID id, Notify* _nf)=0;
         virtual bool data_recv(unsigned char c)=0;
         virtual bool data_parse()=0;
         virtual bool interact(const MESSAGE_ID id)=0;

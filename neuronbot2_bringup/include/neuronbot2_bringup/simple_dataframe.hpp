@@ -1,7 +1,7 @@
-#ifndef PIBOT_SIMPLE_DATAFRAME_H_
-#define PIBOT_SIMPLE_DATAFRAME_H_
+#ifndef PIBOT_SIMPLE_DATAFRAME_HPP_
+#define PIBOT_SIMPLE_DATAFRAME_HPP_
 
-#include "dataframe.h"
+#include "dataframe.hpp"
 #include <string.h>
 
 static const unsigned short MESSAGE_BUFFER_SIZE = 255;

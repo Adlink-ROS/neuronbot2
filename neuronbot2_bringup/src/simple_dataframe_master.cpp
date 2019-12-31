@@ -1,4 +1,4 @@
-#include "neuronbot2_bringup/simple_dataframe_master.h"
+#include "neuronbot2_bringup/simple_dataframe_master.hpp"
 #ifdef ROS2
 // Simple_dataframe::Simple_dataframe(std::shared_ptr<serial::Serial> _trans) : trans(_trans)
 Simple_dataframe::Simple_dataframe(serial::Serial* _trans) : trans(_trans)
@@ -175,7 +175,6 @@ bool Simple_dataframe::interact(const MESSAGE_ID id){
 }
 
 bool Simple_dataframe::recv_proc(){
-    int i=0;
 #ifdef ROS2
 #else
     trans->set_timeout(150);
@@ -199,7 +198,7 @@ bool Simple_dataframe::recv_proc(){
         Buffer data = trans->read();
 #endif
         
-        for (int i=0;i<inbuf.size();i++){
+        for (unsigned i=0;i<inbuf.size();i++){
             if (data_recv(inbuf[i])){
                 got = true;
                 break;

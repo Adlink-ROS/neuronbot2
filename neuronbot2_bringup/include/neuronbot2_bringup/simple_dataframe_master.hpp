@@ -1,17 +1,17 @@
-#ifndef PIBOT_SIMPLE_DATAFRAME_MASTER_H_
-#define PIBOT_SIMPLE_DATAFRAME_MASTER_H_
+#ifndef PIBOT_SIMPLE_DATAFRAME_MASTER_HPP_
+#define PIBOT_SIMPLE_DATAFRAME_MASTER_HPP_
 
-#include "simple_dataframe.h"
 #include <string.h>
-#include "data_holder.h"
 #include <stdio.h>
+#include <chrono>
+#include "data_holder.hpp"
+#include "simple_dataframe.hpp"
+#include "serial/serial.h"
+#include "rclcpp/rclcpp.hpp"
 
 #define ROS2
 #ifdef ROS2
 
-#include <chrono>
-#include "serial/serial.h"
-#include "rclcpp/rclcpp.hpp"
 
 #else
 
@@ -31,8 +31,7 @@ class Simple_dataframe : public Dataframe{
         Simple_dataframe(Transport* trans=0);
 #endif
         ~Simple_dataframe();
-        void register_notify(const MESSAGE_ID id, Notify* _nf){
-        }
+        // void register_notify(const MESSAGE_ID id, Notify* _nf){}
 
         bool data_recv(unsigned char c);
         bool data_parse();
