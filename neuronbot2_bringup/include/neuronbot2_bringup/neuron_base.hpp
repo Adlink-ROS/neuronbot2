@@ -8,6 +8,9 @@
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 #include "sensor_msgs/msg/imu.hpp"
 
+namespace neuronbot2
+{
+
 using namespace std::chrono_literals;
 using duration = std::chrono::nanoseconds;
 
@@ -51,3 +54,4 @@ private:
     sensor_msgs::msg::Imu imu_data_; 
     geometry_msgs::msg::TransformStamped odom_tf;
 };
+} //neuronbot2

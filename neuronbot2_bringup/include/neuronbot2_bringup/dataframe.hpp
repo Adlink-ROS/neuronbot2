@@ -1,6 +1,8 @@
 #ifndef PIBOT_DATA_FRAME_HPP_
 #define PIBOT_DATA_FRAME_HPP_
 
+namespace neuronbot2
+{
 enum MESSAGE_ID{
     ID_GET_VERSION = 0,
     ID_SET_ROBOT_PARAMTER = 1,
@@ -27,5 +29,5 @@ class Dataframe{
         virtual bool data_parse()=0;
         virtual bool interact(const MESSAGE_ID id)=0;
 };
-
-#endif
+} // neuronbot2
+#endif // PIBOT_DATA_FRAME_HPP

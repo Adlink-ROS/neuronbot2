@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
     rclcpp::executors::SingleThreadedExecutor executor;
 
     // Create a node and add into the executor
-    auto neuron_base = std::make_shared<NeuronBase>();
+    auto neuron_base = std::make_shared<neuronbot2::NeuronBase>();
     executor.add_node(neuron_base);
 
     // Create a node and add into the executor
-    auto neuron_serial = std::make_shared<NeuronSerial>();
+    auto neuron_serial = std::make_shared<neuronbot2::NeuronSerial>();
     executor.add_node(neuron_serial);
 
     // Spin the executor in a single thread

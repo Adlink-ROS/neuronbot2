@@ -4,6 +4,8 @@
 
 #include "neuronbot2_bringup/neuron_serial.hpp"
 
+using namespace neuronbot2;
+
 NeuronSerial::NeuronSerial()
 : Node("neuron_serial", rclcpp::NodeOptions().use_intra_process_comms(true))
 {

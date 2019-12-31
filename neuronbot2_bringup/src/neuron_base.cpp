@@ -1,5 +1,7 @@
 #include "neuronbot2_bringup/neuron_base.hpp"
 
+using namespace neuronbot2;
+
 NeuronBase::NeuronBase()
 : Node("neuron_base", rclcpp::NodeOptions().use_intra_process_comms(true))
 {

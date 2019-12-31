@@ -25,6 +25,8 @@
 using namespace std::chrono_literals;
 using duration = std::chrono::nanoseconds;
 
+namespace neuronbot2
+{
 class NeuronSerial : public rclcpp::Node
 {
 public:
@@ -64,3 +66,4 @@ private:
     std::shared_ptr<Robot_parameter> rp;
     Data_holder *dh;
 };
+} // neuronbot2

@@ -1,5 +1,7 @@
 #include "neuronbot2_bringup/simple_dataframe_master.hpp"
 
+using namespace neuronbot2;
+
 Simple_dataframe::Simple_dataframe(serial::Serial* _trans) : trans(_trans)
 {
     recv_state = STATE_RECV_FIX;

@@ -9,6 +9,8 @@
 #include "serial/serial.h"
 #include "rclcpp/rclcpp.hpp"
 
+namespace neuronbot2
+{
 class Simple_dataframe : public Dataframe{
     public:
         Simple_dataframe(serial::Serial* _trans);
@@ -30,4 +32,5 @@ class Simple_dataframe : public Dataframe{
         serial::Serial* trans;
         typedef std::vector<uint8_t> Buffer;
 };
+} // neuronbot2
 #endif // PIBOT_SIMPLE_DATAFRAME_MASTER_HPP_

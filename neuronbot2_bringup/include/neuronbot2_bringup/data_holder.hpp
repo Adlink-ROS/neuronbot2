@@ -3,8 +3,9 @@
 
 #include <string.h>
 
+namespace neuronbot2
+{
 #pragma pack(1)
-
 
 typedef int int32;
 typedef short int16;
@@ -89,4 +90,5 @@ class Data_holder{
 
         float imu_data[9];
 };
-#endif
+} // neuronbot2
+#endif // DATA_HOLDER_HPP_

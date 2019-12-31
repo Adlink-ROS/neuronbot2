@@ -4,6 +4,8 @@
 #include <string.h>
 #include "dataframe.hpp"
 
+namespace neuronbot2
+{
 static const unsigned short MESSAGE_BUFFER_SIZE = 255;
 
 #define FIX_HEAD 0x5A
@@ -48,5 +50,5 @@ enum RECEIVE_STATE{
     STATE_RECV_DATA,
     STATE_RECV_CHECK
 };
-
+} // neuronbot2
 #endif // PIBOT_SIMPLE_DATAFRAME_HPP_
