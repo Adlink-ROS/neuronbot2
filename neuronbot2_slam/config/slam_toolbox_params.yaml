@@ -2,19 +2,19 @@ slam_toolbox:
   ros__parameters:
 
     # Plugin params
-    solver_plugin: solver_plugins::CeresSolver
-    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
-    ceres_preconditioner: SCHUR_JACOBI
-    ceres_trust_strategy: LEVENBERG_MARQUARDT
-    ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None
+    solver_plugin: solver_plugins::CeresSolver # solver_plugins::G2oSolver, solver_plugins::SpaSolver, solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY # ITERATIVE_SCHUR, SPARSE_SCHUR, SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: JACOBI # IDENTITY, JACOBI, SCHUR_JACOBI
+    ceres_trust_strategy: DOGLEG # LEVENBERG_MARQUARDT, DOGLEG
+    ceres_dogleg_type: SUBSPACE_DOGLEG # TRADITIONAL_DOGLEG, SUBSPACE_DOGLEG
+    ceres_loss_function: CauchyLoss # None, HuberLoss, CauchyLoss
 
     # ROS Parameters
     odom_frame: odom
     map_frame: map
     base_frame: base_footprint
     scan_topic: /scan
-    mode: mapping #localization # mapping localization
+    mode: mapping # mapping, localization
 
     # if you'd like to immediately start continuing a map at a given pose
     # or at the dock, but they are mutually exclusive, if pose is given
@@ -52,7 +52,7 @@ slam_toolbox:
     loop_match_minimum_response_fine: 0.45
 
     # Correlation Parameters - Correlation Parameters
-    correlation_search_space_dimension: 0.5
+    correlation_search_space_dimension: 2.7
     correlation_search_space_resolution: 0.01
     correlation_search_space_smear_deviation: 0.1 
 
