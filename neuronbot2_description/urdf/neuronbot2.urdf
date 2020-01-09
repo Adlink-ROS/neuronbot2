@@ -3,6 +3,10 @@
   name="neuronbot2_description">
 
   <!-- Color definition -->
+  <material name="white">
+    <color rgba="1 1 1 0.6"/>
+  </material>
+
   <material name="black">
     <color rgba="0 0 0 0.9"/>
   </material>
@@ -37,7 +41,7 @@
         <mesh
           filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
     </visual>
     <collision>
       <origin
@@ -46,7 +50,7 @@
       <geometry>
           <box size="0.25 0.25 0.25" />
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
     </collision>
   </link>
 
@@ -138,7 +142,7 @@
   <joint name="laser_frame_joint" type="fixed">
     <origin
       xyz="0 0 0.205"
-      rpy="0 0 3.14" />
+      rpy="0 0 0" />
     <parent link="base_link" />
     <child link="laser_frame" />
     <axis xyz="0 0 0" />
