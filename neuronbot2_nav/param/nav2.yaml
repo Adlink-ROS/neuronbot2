@@ -15,8 +15,8 @@ amcl:
     global_frame_id: "map"
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
-    laser_max_range: 12.0
-    laser_min_range: -1.0
+    laser_max_range: 5.0
+    laser_min_range: 0.2
     laser_model_type: "likelihood_field"
     max_beams: 100
     max_particles: 2000
@@ -60,9 +60,9 @@ dwb_controller:
     min_vel_y: 0.0
     max_vel_x: 0.5
     max_vel_y: 0.0
-    max_vel_theta: 1.5
+    max_vel_theta: 0.5
     min_speed_xy: 0.0
-    max_speed_xy: 1.5
+    max_speed_xy: 0.5
     min_speed_theta: 0.0
     min_x_velocity_threshold: 0.001
     # Add high threshold velocity for turtlebot 3 issue.
@@ -86,8 +86,8 @@ dwb_controller:
     BaseObstacle.scale: 0.02
     PathAlign.scale: 0.0
     GoalAlign.scale: 0.0
-    PathDist.scale: 32.0
-    GoalDist.scale: 24.0
+    PathDist.scale: 50.0
+    GoalDist.scale: 50.0
     RotateToGoal.scale: 32.0
 
 local_costmap:
