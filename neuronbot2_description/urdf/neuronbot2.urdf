@@ -142,7 +142,7 @@
   <joint name="laser_frame_joint" type="fixed">
     <origin
       xyz="0 0 0.205"
-      rpy="0 0 0" />
+      rpy="0 0 3.14" />
     <parent link="base_link" />
     <child link="laser_frame" />
     <axis xyz="0 0 0" />
