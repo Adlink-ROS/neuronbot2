@@ -84,7 +84,7 @@ void NeuronSerial::parameter_init()
     rp->params.kd = 0;
     rp->params.ko = 10;
     rp->params.cmd_last_time = 250;
-    rp->params.max_v_liner_x = 40;
+    rp->params.max_v_liner_x = 30;
     rp->params.max_v_liner_y = 0;
     rp->params.max_v_angular_z = 150;
     rp->params.imu_type = 69; // 'E'(69) for enablehttps://bitbucket.org/ROScube/azure_cs_luis/src/master/
