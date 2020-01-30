@@ -10,6 +10,7 @@
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "std_msgs/msg/header.hpp"
 #include "geometry_msgs/msg/pose.hpp"
+#include "geometry_msgs/msg/quaternion.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
 #include "tf2/transform_datatypes.h"
 #include "tf2/LinearMath/Quaternion.h"
@@ -86,14 +87,15 @@ public:
 	    goal_msg.pose.pose.position.x = goal.x;
 	    goal_msg.pose.pose.position.y = goal.y;
 	    goal_msg.pose.pose.position.z = 0.0;
-	    goal_msg.pose.pose.orientation.x = 0.0;
-	    goal_msg.pose.pose.orientation.y = 0.0;
-	    goal_msg.pose.pose.orientation.z = 0.0;
-	    goal_msg.pose.pose.orientation.w = 1.0;
-        // TODO: find a way to translate theta
-        // tf2::Quaternion rot;
-        // rot.setRPY(0, 0, goal.theta);
-        // tf2::fromMsg(goal_msg.pose.pose.orientation, rot);
+            tf2::Quaternion rot;
+            rot.setRPY(0, 0, goal.theta);
+	    rot.normalize();
+	    geometry_msgs::msg::Quaternion quat_msg;
+	    quat_msg = tf2::toMsg(rot);
+	    goal_msg.pose.pose.orientation.x = quat_msg.x;
+	    goal_msg.pose.pose.orientation.y = quat_msg.y;
+	    goal_msg.pose.pose.orientation.z = quat_msg.z;
+	    goal_msg.pose.pose.orientation.w = quat_msg.w;
         
 
 	    auto goal_handle_future = action_client->async_send_goal(goal_msg);

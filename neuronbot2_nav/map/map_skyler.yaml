@@ -1,5 +1,5 @@
 image: map_skyler.pgm
-resolution: 0.025000
+resolution: 0.05000
 origin: [-15.000000, -15.000000, 0.000000]
 negate: 0
 occupied_thresh: 0.65

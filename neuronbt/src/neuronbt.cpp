@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
 
   auto nh = rclcpp::Node::make_shared("neuronbt");
-  nh->declare_parameter("bt_xml", rclcpp::ParameterValue(std::string("/home/iven/iven_ws/neuronbot2_ws/src/neuronbt/config/neuronbt.xml")));
+  nh->declare_parameter("bt_xml", rclcpp::ParameterValue(std::string("/home/iven/iven_ws/neuronbot2_ws/src/neuronbot2/neuronbt/config/neuronbt.xml")));
   std::string bt_xml;
   nh->get_parameter("bt_xml", bt_xml);
   RCLCPP_INFO(nh->get_logger(), "Loading XML : %s", bt_xml.c_str());
