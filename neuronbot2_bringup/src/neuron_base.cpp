@@ -15,10 +15,10 @@ NeuronBase::NeuronBase()
     std::string odom_sub_topic = declare_parameter("odom_sub_topic", "raw_odom");
 
     // imu calibration
-    acc_x_bias = declare_parameter("acc_x_bias", -0.70);
-    acc_y_bias = declare_parameter("acc_y_bias", -2.18);
-    acc_z_bias = declare_parameter("acc_z_bias", -1.95);
-    vel_theta_bias = declare_parameter("vel_theta_bias", -0.023);
+    acc_x_bias = declare_parameter("acc_x_bias", -2.42);
+    acc_y_bias = declare_parameter("acc_y_bias", 0.19);
+    acc_z_bias = declare_parameter("acc_z_bias", -2.0);
+    vel_theta_bias = declare_parameter("vel_theta_bias", 0.012);
 
     // Function switch
     publish_tf_ = declare_parameter("publish_tf", false);
