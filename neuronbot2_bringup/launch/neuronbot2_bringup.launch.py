@@ -47,6 +47,7 @@ def generate_launch_description():
             package='neuronbot2_bringup',
             node_executable='neuronbot2_driver',
             output='screen',
+            # parameters=[{'publish_tf': 'true'}],
         ),
 
         Node(
