@@ -11,28 +11,28 @@
     <!--(ｏ´・ε・｀ｏ)base_link(ｏ´・ε・｀ｏ)-->
     <link name='base_link'>
       <inertial>
-        <mass>5</mass>
+        <mass>8.3</mass>
         <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
+          <ixx>5.249466E+13</ixx>
+          <ixy>-1.398065E+12</ixy>
+          <ixz>-3.158592E+12</ixz>
+          <iyy>5.786727E+13</iyy>
+          <iyz>-5.159120E+11</iyz>
+          <izz>3.114993E+13</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose frame=''>0.0 0.0 -0.0 0 -0 0</pose>
+      <pose frame=''>0.0 0.0 0.0 0 0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
       <kinematic>0</kinematic>
       <enable_wind>0</enable_wind>
       <visual name='visual'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 3.1415 3.1415</pose>
         <geometry>
           <mesh>
             <uri>/home/iven/iven_ws/neuronbot2_ws/src/neuronbot2/neuronbot2_description/meshes/neuronbot2/base_link.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
         <material>
@@ -55,10 +55,10 @@
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>10</max_contacts>
-        <pose frame=''>0 0 0.1 0 -0 0</pose>
+        <pose frame=''>0 0 0.125 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.33 0.33 0.2</size>
+            <size>0.25 0.25 0.25</size>
           </box>
         </geometry>
         <surface>
@@ -113,18 +113,18 @@
     <!--(ｏ´・ε・｀ｏ)laser_frame(ｏ´・ε・｀ｏ)-->
     <link name='laser_frame'>
       <inertial>
-        <mass>0.2</mass>
+        <mass>0.362</mass>
         <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
+          <ixx>2.634758E+07</ixx>
+          <ixy>1.854066E+05</ixy>
+          <ixz>-2.027321E+07</ixz>
+          <iyy>6.138498E+07</iyy>
+          <iyz>-8.570560E+04</iyz>
+          <izz>5.234910E+07</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose frame=''>0.0 0.0 0.0 0 -0 0</pose>
+      <pose frame=''>0.0 0.0 0.205 0 -0 0</pose>
       <self_collide>0</self_collide>
       <enable_wind>0</enable_wind>
       <kinematic>0</kinematic>
@@ -133,7 +133,7 @@
         <geometry>
           <mesh>
             <uri>/home/iven/iven_ws/neuronbot2_ws/src/neuronbot2/neuronbot2_description/meshes/neuronbot2/laser_link.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
         <material>
@@ -155,7 +155,7 @@
         <geometry>
           <mesh>
             <uri>/home/iven/iven_ws/neuronbot2_ws/src/neuronbot2/neuronbot2_description/meshes/neuronbot2/laser_link.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
         <surface>
@@ -207,7 +207,7 @@
       <sensor name="rp_lidar" type="ray">
         <always_on>true</always_on>
         <visualize>true</visualize>
-        <pose>0.125 0 0.22 0 0 3.14</pose>
+        <pose>0.0 0 0.02 0 0 3.14</pose>
         <update_rate>5</update_rate>
         <ray>
           <scan>
@@ -295,22 +295,21 @@
       </sensor>
     </link>
     
-
     <!--(ｏ´・ε・｀ｏ) Right wheel (ｏ´・ε・｀ｏ)-->
     <link name='wheel_right_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.0045</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.0045</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.0045</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose frame=''>0.0 -0.14 0.0745 1.5707 -0 0</pose>
+      <pose frame=''>0.0 -0.109 0.041 1.5707 0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
       <kinematic>0</kinematic>
@@ -319,7 +318,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.075</radius>
+            <radius>0.0415</radius>
             <length>0.025</length>
           </cylinder>
         </geometry>
@@ -346,15 +345,15 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.075</radius>
+            <radius>0.0415</radius>
             <length>0.025</length>
           </cylinder>
         </geometry>
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
+              <mu>100000</mu>
+              <mu2>100000</mu2>
               <fdir1>0 0 0</fdir1>
               <slip1>0</slip1>
               <slip2>0</slip2>
@@ -380,8 +379,10 @@
             <ode>
               <soft_cfm>0</soft_cfm>
               <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
+              <kp>1000000</kp>
+              <kd>100</kd>
+              <!--<kp>1e+13</kp> -->
+              <!--<kd>1</kd> -->
               <max_vel>0.01</max_vel>
               <min_depth>0</min_depth>
             </ode>
@@ -397,23 +398,22 @@
         </surface>
       </collision>
     </link>
-    
-    
+
     <!--(ｏ´・ε・｀ｏ) Left Wheel (ｏ´・ε・｀ｏ)-->
     <link name='wheel_left_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.0045</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.0045</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.0045</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose frame=''>0.0 0.14 0.0745 1.5707 -0 0</pose>
+      <pose frame=''>0.0 0.109 0.041 1.5707 -0 0</pose>
       <gravity>1</gravity>
       <self_collide>0</self_collide>
       <kinematic>0</kinematic>
@@ -422,7 +422,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.075</radius>
+            <radius>0.0415</radius>
             <length>0.025</length>
           </cylinder>
         </geometry>
@@ -449,15 +449,15 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.075</radius>
+            <radius>0.0415</radius>
             <length>0.025</length>
           </cylinder>
         </geometry>
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
+              <mu>100000</mu>
+              <mu2>100000</mu2>
               <fdir1>0 0 0</fdir1>
               <slip1>0</slip1>
               <slip2>0</slip2>
@@ -483,8 +483,8 @@
             <ode>
               <soft_cfm>0</soft_cfm>
               <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
+              <kp>1000000</kp>
+              <kd>100</kd>
               <max_vel>0.01</max_vel>
               <min_depth>0</min_depth>
             </ode>
@@ -500,13 +500,13 @@
         </surface>
       </collision>
     </link>
-    
+
 
     <!--( ͡ʘ╭͜ʖ╮͡ʘ)( ͡ʘ╭͜ʖ╮͡ʘ)Joint( ͡ʘ╭͜ʖ╮͡ʘ)( ͡ʘ╭͜ʖ╮͡ʘ)-->
     <!--ᕕ( ಠ‿ಠ)ᕗbase_footprint to base_link┗(^o^　)┓三-->
     <joint name="base_link_joint" type='fixed'>
       <parent>base_footprint</parent>
-      <child>imu_link</child>
+      <child>base_link</child>
       <pose>0 0 0 0 0 0</pose>
     </joint>
 
@@ -514,7 +514,7 @@
     <joint name='baselink_2_laser' type='fixed'>
       <parent>base_link</parent>
       <child>laser_frame</child>
-      <pose frame=''>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0.4205 0 0 3.14</pose>
       <physics>
         <ode>
           <limit>
@@ -534,7 +534,7 @@
     <joint name="imu_joint" type="fixed">
       <parent>base_link</parent>
       <child>imu_link</child>
-      <pose> 0 0 0.1 0 0 1.57</pose>
+      <pose> 0.075 0 0.138 0 0 0</pose>
     </joint>
 
 
@@ -542,7 +542,7 @@
     <joint name='l_wheel_joint' type='revolute'>
       <parent>base_link</parent>
       <child>wheel_left_link</child>
-      <pose frame=''>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
         <use_parent_model_frame>0</use_parent_model_frame>
@@ -578,7 +578,7 @@
     <joint name='r_wheel_joint' type='revolute'>
       <parent>base_link</parent>
       <child>wheel_right_link</child>
-      <pose frame=''>0 0 0 0 -0 0</pose>
+      <pose frame=''>0 -0 0.0 0 0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
         <use_parent_model_frame>0</use_parent_model_frame>
@@ -619,14 +619,14 @@
       <update_rate>30</update_rate>
       <left_joint>l_wheel_joint</left_joint>
       <right_joint>r_wheel_joint</right_joint>
-      <wheel_separation>0.28</wheel_separation>
-      <wheel_diameter>0.15</wheel_diameter>
+      <wheel_separation>0.218</wheel_separation>
+      <wheel_diameter>0.083</wheel_diameter>
       <max_wheel_torque>20</max_wheel_torque>
       <max_wheel_acceleration>1.0</max_wheel_acceleration>
       <command_topic>cmd_vel</command_topic>
       <publish_odom>1</publish_odom>
       <publish_odom_tf>1</publish_odom_tf>
-      <publish_wheel_tf>0</publish_wheel_tf>
+      <publish_wheel_tf>1</publish_wheel_tf>
       <odometry_topic>odom</odometry_topic>
       <odometry_frame>odom</odometry_frame>
       <robot_base_frame>base_footprint</robot_base_frame>
