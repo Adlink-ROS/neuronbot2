@@ -31,7 +31,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('neuronbot2_nav'),
             'map',
-            'office_slamtoolbox.yaml'))
+            'office_without_chair.yaml'))
 
     param_dir = LaunchConfiguration(
         'params',
