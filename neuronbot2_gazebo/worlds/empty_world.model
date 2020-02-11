@@ -43,8 +43,15 @@
       </ode>
     </physics>
 
+    <model name="phenix_world">
+      <static>1</static>
+      <include>
+        <uri>model://phenix</uri>
+      </include>
+    </model>
+
     <include>
-      <uri>model://Neuronbot2</uri>
+      <uri>model://neuronbot2</uri>
     </include>
 
   </world>
