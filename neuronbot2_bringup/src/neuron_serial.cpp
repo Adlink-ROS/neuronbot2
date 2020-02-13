@@ -87,7 +87,7 @@ void NeuronSerial::parameter_init()
     rp->params.max_v_liner_x = 30;
     rp->params.max_v_liner_y = 0;
     rp->params.max_v_angular_z = 150;
-    rp->params.imu_type = 69; // 'E'(69) for enablehttps://bitbucket.org/ROScube/azure_cs_luis/src/master/
+    rp->params.imu_type = 69; // 'E'(69) for enable
 
     RCLCPP_DEBUG(this->get_logger(),"Request write RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
         rp->params.wheel_diameter, 
@@ -135,7 +135,7 @@ void NeuronSerial::on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg)
     // Set command velocity to motors
     RCLCPP_DEBUG(this->get_logger(), "Serial receives cmd_vel ( %f, %f, %f )", msg->linear.x, msg->linear.y, msg->angular.z);
     dh->velocity.v_liner_x = msg->linear.x * 100;
-    dh->velocity.v_liner_y = msg->linear.x * 100;
+    dh->velocity.v_liner_y = msg->linear.y * 100;
     dh->velocity.v_angular_z = msg->angular.z * 100;
     frame->interact(ID_SET_VELOCITY);
     RCLCPP_DEBUG(this->get_logger(), "Message sent");

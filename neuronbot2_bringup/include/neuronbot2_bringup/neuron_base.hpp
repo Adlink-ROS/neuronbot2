@@ -23,14 +23,14 @@ private:
     void on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg);
     void on_raw_imu(sensor_msgs::msg::Imu::ConstSharedPtr msg);
     void on_odom(nav_msgs::msg::Odometry::ConstSharedPtr msg);
-    void update_odom();
+    void update_status();
 
     // Switch
     bool publish_tf_;
     bool calibrate_imu_;
 
     // Timer
-    rclcpp::TimerBase::SharedPtr update_odom_timer;
+    rclcpp::TimerBase::SharedPtr update_status_timer;
 
     // Subscriber
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub;

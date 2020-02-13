@@ -25,8 +25,8 @@ NeuronBase::NeuronBase()
     calibrate_imu_ = declare_parameter("calibrate_imu", true);
 
     // Define timer
-    double update_odom_freq = declare_parameter("update_odom_freq", 10.0);
-    update_odom_timer = create_wall_timer(1s/ update_odom_freq, [=]() {update_odom(); });
+    double update_status_freq = declare_parameter("update_status_freq", 10.0);
+    update_status_timer = create_wall_timer(1s/ update_status_freq, [=]() {update_status(); });
 
     // Define subscriber
     cmd_vel_sub = create_subscription<geometry_msgs::msg::Twist>(
@@ -79,7 +79,7 @@ void NeuronBase::on_odom(nav_msgs::msg::Odometry::ConstSharedPtr msg)
     RCLCPP_DEBUG(get_logger(), "Update TF from %s to %s", odom_tf.header.frame_id.c_str(), odom_tf.child_frame_id.c_str());
 }
 
-void NeuronBase::update_odom()
+void NeuronBase::update_status()
 {
     RCLCPP_DEBUG(get_logger(), "pub cmd_vel x = %f, y = %f, theta = %f", motor_cmd.linear.x, motor_cmd.linear.y, motor_cmd.angular.z);
     cmd_vel_pub->publish(motor_cmd);
