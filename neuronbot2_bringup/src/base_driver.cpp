@@ -223,7 +223,8 @@ void BaseDriver::update_speed()
     if (need_update_speed)
     {
         ROS_INFO_STREAM("update_speed");
-        need_update_speed = !(frame->interact(ID_SET_VELOCITY));
+        // need_update_speed = !(frame->interact(ID_SET_VELOCITY));
+        frame->interact(ID_SET_VELOCITY);
     }
 }
 
