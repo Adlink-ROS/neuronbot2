@@ -28,7 +28,7 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
-    world_file_name = 'empty_world.model'
+    world_file_name = 'phenix_world.model'
     world = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'worlds', world_file_name)
     launch_file_dir = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'launch')
 
