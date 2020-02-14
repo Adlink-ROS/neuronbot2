@@ -1,16 +1,17 @@
 <launch>
   <arg name="scan_topic"  default="scan_filtered" />
-  <arg name="base_frame"  default="base_link"/>
+  <arg name="base_frame"  default="base_footprint"/>
   <arg name="odom_frame"  default="odom"/>
+  <arg name="open_rviz" default="false"/>
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <param name="base_frame" value="$(arg base_frame)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
-    <param name="map_update_interval" value="0.01"/>
+    <param name="map_update_interval" value="3.0"/>
     <param name="maxUrange" value="7.0"/>
     <param name="maxRange" value="8.0"/>
     <param name="sigma" value="0.05"/>
-    <param name="kernelSize" value="3"/>
+    <param name="kernelSize" value="1"/>
     <param name="lstep" value="0.05"/>
     <param name="astep" value="0.05"/>
     <param name="iterations" value="5"/>
@@ -22,7 +23,7 @@
     <param name="srt" value="0.02"/>
     <param name="str" value="0.01"/>
     <param name="stt" value="0.02"/>
-    <param name="linearUpdate" value="0.05"/>
+    <param name="linearUpdate" value="0.3"/>
     <param name="angularUpdate" value="0.0436"/>
     <param name="temporalUpdate" value="-1.0"/>
     <param name="resampleThreshold" value="0.5"/>
@@ -40,4 +41,8 @@
     <param name="lasamplestep" value="0.005"/>
     <remap from="scan_filtered" to="$(arg scan_topic)"/>
   </node>
+
+  <group if="$(arg open_rviz)">
+		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_slam)/rviz/slam.rviz" />
+  </group>
 </launch>
