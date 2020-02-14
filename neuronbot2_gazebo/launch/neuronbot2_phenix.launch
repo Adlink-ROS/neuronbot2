@@ -1,48 +1,58 @@
-#!/usr/bin/env python3
-#
-# Copyright 2019 ROBOTIS CO., LTD.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# Authors: Darby Lim
+<launch>
+  <!-- Modify from $(find gazebo_ros)/launch/empty_world.launch -->
+  <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/phenix_world.model"/>
 
-import os
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="extra_gazebo_args" default=""/>
+  <arg name="gui" default="true"/>
+  <arg name="recording" default="false"/>
+  <!-- Note that 'headless' is currently non-functional.  See gazebo_ros_pkgs issue #491 (-r arg does not disable
+       rendering, but instead enables recording). The arg definition has been left here to prevent breaking downstream
+       launch files, but it does nothing. -->
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="physics" default="ode"/>
+  <arg name="verbose" default="false"/>
+  <!-- <arg name="world_name" default="worlds/empty.world"/> Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+  <arg name="respawn_gazebo" default="false"/>
+  <arg name="use_clock_frequency" default="false"/>
+  <arg name="pub_clock_frequency" default="100"/>
+  <arg name="enable_ros_network" default="true" />
 
-from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import ThisLaunchFileDir
-from launch.actions import ExecuteProcess
-from launch.substitutions import LaunchConfiguration
+  <!-- set use_sim_time flag -->
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
 
-def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='True')
-    world_file_name = 'phenix_world.model'
-    world = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'worlds', world_file_name)
-    launch_file_dir = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'launch')
+  <!-- set command arguments -->
+  <arg unless="$(arg paused)" name="command_arg1" value=""/>
+  <arg     if="$(arg paused)" name="command_arg1" value="-u"/>
+  <arg unless="$(arg recording)" name="command_arg2" value=""/>
+  <arg     if="$(arg recording)" name="command_arg2" value="-r"/>
+  <arg unless="$(arg verbose)" name="command_arg3" value=""/>
+  <arg     if="$(arg verbose)" name="command_arg3" value="--verbose"/>
+  <arg unless="$(arg debug)" name="script_type" value="gzserver"/>
+  <arg     if="$(arg debug)" name="script_type" value="debug"/>
 
-    return LaunchDescription([
-        ExecuteProcess(
-            cmd=['gazebo', '--verbose', world, '-s', 'libgazebo_ros_init.so'],
-            output='screen'),
+  <!-- start gazebo server-->
+  <group if="$(arg use_clock_frequency)">
+    <param name="gazebo/pub_clock_frequency" value="$(arg pub_clock_frequency)" />
+  </group>
+  <group>
+    <param name="gazebo/enable_ros_network" value="$(arg enable_ros_network)" />
+  </group>
+  <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="screen"
+	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
+    <!-- Remap topic to remove robot namespace -->
+    <remap from="neuronbot2/joint_states" to="joint_states" />
+    <remap from="neuronbot2/cmd_vel" to="cmd_vel"/>
+    <remap from="neuronbot2/odom" to="odom"/>
+  </node>
 
-        ExecuteProcess(
-            cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
-            output='screen'),
+  <!-- start gazebo client -->
+  <group if="$(arg gui)">
+    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" args="$(arg command_arg3)"/>
+  </group>
 
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([launch_file_dir, '/robot_state_publisher.launch.py']),
-            launch_arguments={'use_sim_time': use_sim_time}.items(),
-        ),
-    ])
+  <include file="$(find neuronbot2_gazebo)/launch/robot_state_publisher.launch"/>
+</launch>
