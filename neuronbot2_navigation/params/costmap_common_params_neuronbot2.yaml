@@ -22,7 +22,7 @@ obstacle_layer:
   origin_z: 0.0
   z_resolution: 0.2
   z_voxels: 2
-  publish_voxel_map: false
+  publish_voxel_map: true
   observation_sources:  scan_filtered
   scan_filtered:
     data_type: LaserScan

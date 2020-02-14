@@ -1,3 +1,0 @@
-<launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_navigation)/rviz/view_navigation.rviz" />
-</launch>
