@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <launch>
-	<param name="use_sim_time" value="false" />
 	<arg name="open_rviz" default="false" />
 
-	<arg name="map_name" default="map_skyler.yaml" />
+	<arg name="map_name" default="phenix.yaml" />
 
 	<node name="map_server" pkg="map_server" type="map_server" args="$(find neuronbot2_navigation)/maps/$(arg map_name)"/>
 
