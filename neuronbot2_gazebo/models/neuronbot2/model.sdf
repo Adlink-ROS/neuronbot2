@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
   <model name='neuronbot2'>
-
+    <link name='base_footprint'/>
     <link name='base_link'>
       <inertial>
         <mass>0.5</mass>
@@ -648,6 +648,11 @@
     </link>
 
 
+    <joint name='base_footprint_2_base_link' type='fixed'>
+      <parent>base_footprint</parent>
+      <child>base_link</child>
+      <pose frame=''>0 0 0 0 0 0</pose>
+    </joint>
 
     <joint name='base_2_laser' type='fixed'>
       <parent>base_link</parent>
