@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot
-  name="neuronbot2_description">
+	name="neuronbot2_description">
+	<link name="base_footprint"/>
   <link
     name="base_link">
     <inertial>
@@ -82,6 +83,11 @@
       </geometry>
     </collision>
   </link>
+  <joint name="base" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
   <joint
     name="laser_frame_joint"
     type="fixed">
