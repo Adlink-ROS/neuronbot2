@@ -137,7 +137,7 @@ void BaseDriver::read_param()
 
 void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)
 {
-    ROS_INFO_STREAM("cmd_vel:[" << vel_cmd.linear.x << " " << vel_cmd.linear.y << " " << vel_cmd.angular.z << "]");
+    // ROS_INFO_STREAM("cmd_vel:[" << vel_cmd.linear.x << " " << vel_cmd.linear.y << " " << vel_cmd.angular.z << "]");
 
     Data_holder::get()->velocity.v_liner_x = vel_cmd.linear.x*100;
     Data_holder::get()->velocity.v_liner_y = vel_cmd.linear.y*100;
@@ -222,7 +222,7 @@ void BaseDriver::update_speed()
 {
     if (need_update_speed)
     {
-        ROS_INFO_STREAM("update_speed");
+	// ROS_INFO_STREAM("update_speed");
         // need_update_speed = !(frame->interact(ID_SET_VELOCITY));
         frame->interact(ID_SET_VELOCITY);
     }
