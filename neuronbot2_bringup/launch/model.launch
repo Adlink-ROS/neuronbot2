@@ -7,7 +7,7 @@
     	<param name="rate" value="20.0"/>
   </node>
 
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" >
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
     	<param name="rate" value="20.0"/>
   </node>
   
