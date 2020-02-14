@@ -382,12 +382,13 @@
             <stddev>0.01</stddev>
           </noise>
         </ray>
-        <plugin name="neuronbot2_laserscan" filename="libgazebo_ros_ray_sensor.so">
+        <plugin name="neuronbot2_laserscan" filename="libgazebo_ros_laser.so">
           <ros>
             <argument>~/out:=scan</argument>
           </ros>
-          <output_type>sensor_msgs/LaserScan</output_type>
-          <frame_name>laser_frame</frame_name>
+          <robotNamespace>/</robotNamespace>
+          <topicName>scan</topicName>
+          <frameName>laser_frame</frameName>
         </plugin>
       </sensor>
     </link>
@@ -784,6 +785,7 @@
 
 
     <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
+      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <leftJoint>l_wheel_joint</leftJoint>
       <rightJoint>r_wheel_joint</rightJoint>
@@ -798,7 +800,7 @@
       <publishWheelTF>1</publishWheelTF>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
-      <robotBaseFrame>base_link</robotBaseFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishTf>1</publishTf>
     </plugin>
 
@@ -807,6 +809,7 @@
       <ros>
         <argument>~/out:=joint_states</argument>
       </ros>
+      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <jointName>r_wheel_joint</jointName>
       <jointName>l_wheel_joint</jointName>

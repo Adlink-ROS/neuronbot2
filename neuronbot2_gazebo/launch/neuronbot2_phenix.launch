@@ -42,12 +42,7 @@
     <param name="gazebo/enable_ros_network" value="$(arg enable_ros_network)" />
   </group>
   <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="screen"
-	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
-    <!-- Remap topic to remove robot namespace -->
-    <remap from="neuronbot2/joint_states" to="joint_states" />
-    <remap from="neuronbot2/cmd_vel" to="cmd_vel"/>
-    <remap from="neuronbot2/odom" to="odom"/>
-  </node>
+	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" />
 
   <!-- start gazebo client -->
   <group if="$(arg gui)">
