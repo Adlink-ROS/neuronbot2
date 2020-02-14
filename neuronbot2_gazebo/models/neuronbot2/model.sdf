@@ -441,7 +441,7 @@
         </imu>
         <plugin name="neuronbot2_imu" filename="libgazebo_ros_imu_sensor.so">
           <robotNamespace/>
-          <topicName>imu</topicName>
+          <topicName>imu/data</topicName>
           <frameName>imu_link</frameName>
           <ros>
             <argument>~/out:=imu</argument>
