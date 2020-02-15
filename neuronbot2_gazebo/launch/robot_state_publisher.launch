@@ -1,0 +1,6 @@
+<launch>
+  <param name="my_robot_description" textfile="$(find neuronbot2_description)/urdf/neuronbot2.urdf"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" >
+      <remap from="robot_description" to="my_robot_description" />
+  </node>
+</launch>
