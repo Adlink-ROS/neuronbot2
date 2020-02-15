@@ -447,7 +447,7 @@
       </sensor>
     </link>
 
-    <link name='lwheel'>
+    <link name='wheel_left_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
@@ -547,7 +547,7 @@
       </collision>
     </link>
 
-    <link name='rwheel'>
+    <link name='wheel_right_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
@@ -648,13 +648,13 @@
     </link>
 
 
-    <joint name='base_footprint_2_base_link' type='fixed'>
+    <joint name='base_link_joint' type='fixed'>
       <parent>base_footprint</parent>
       <child>base_link</child>
       <pose frame=''>0 0 0 0 0 0</pose>
     </joint>
 
-    <joint name='base_2_laser' type='fixed'>
+    <joint name='laser_frame_joint' type='fixed'>
       <parent>base_link</parent>
       <child>laser_frame</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
@@ -678,9 +678,9 @@
       <pose> 0.075 0 0.138 0 0 0</pose>
     </joint>
 
-    <joint name='base_2_lwheel' type='revolute'>
+    <joint name='l_wheel_joint' type='revolute'>
       <parent>base_link</parent>
-      <child>lwheel</child>
+      <child>wheel_left_link</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
@@ -712,9 +712,9 @@
       </physics>
     </joint>
 
-    <joint name='base_2_rwheel' type='revolute'>
+    <joint name='r_wheel_joint' type='revolute'>
       <parent>base_link</parent>
-      <child>rwheel</child>
+      <child>wheel_right_link</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
@@ -787,10 +787,10 @@
 
     <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
       <update_rate>30</update_rate>
-      <left_joint>base_2_lwheel</left_joint>
-      <right_joint>base_2_rwheel</right_joint>
+      <left_joint>l_wheel_joint</left_joint>
+      <right_joint>r_wheel_joint</right_joint>
       <wheel_separation>0.218</wheel_separation>
-      <wheel_diameter>0.1</wheel_diameter>
+      <wheel_diameter>0.084</wheel_diameter>
       <max_wheel_torque>10</max_wheel_torque>
       <max_wheel_acceleration>1.0</max_wheel_acceleration>
       <command_topic>cmd_vel</command_topic>
@@ -808,8 +808,8 @@
         <argument>~/out:=joint_states</argument>
       </ros>
       <update_rate>30</update_rate>
-      <joint_name>base_2_rwheel</joint_name>
-      <joint_name>base_2_lwheel</joint_name>
+      <joint_name>r_wheel_joint</joint_name>
+      <joint_name>l_wheel_joint</joint_name>
     </plugin>
   </model>
 </sdf>
