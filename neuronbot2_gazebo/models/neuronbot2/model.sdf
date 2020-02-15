@@ -803,7 +803,7 @@
       <publishOdom>1</publishOdom>
       <publishOdomTF>1</publishOdomTF>
       <publishWheelJointState>1</publishWheelJointState>
-      <publishWheelTF>1</publishWheelTF>
+      <publishWheelTF>0</publishWheelTF>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
