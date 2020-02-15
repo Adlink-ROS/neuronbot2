@@ -23,7 +23,6 @@ find_package(nav_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
-find_package(neuronbot2_bringup REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 
 if(BUILD_TESTING)
