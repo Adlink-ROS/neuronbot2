@@ -11,23 +11,23 @@
     <rosparam file="$(find neuronbot2_nav)/params/move_base_params.yaml" command="load" />
     <rosparam file="$(find neuronbot2_nav)/params/global_planner_params.yaml" command="load" />
 
-    <param name="DWAPlannerROS/global_frame_id" value="$(arg namespace)odom" />
     <!-- <param name="global_costmap/global_frame" value="$(arg namespace)map" /> -->
-    <param name="global_costmap/robot_base_frame" value="$(arg namespace)base_footprint" />
-    <param name="global_costmap/obstacle_layer/laser/sensor_frame" value="$(arg namespace)laser_frame" />
     <param name="global_costmap/obstacle_layer/laser/topic" value="scan" />
     <param name="global_costmap/obstacle_layer/scan_filtered/topic" value="scan_filtered" />  
     <param name="global_costmap/sensor/laser/map_topic" value="map" />
-    <param name="global_costmap/sensor/laser/sensor_frame" value="$(arg namespace)laser_frame" />
     <param name="global_costmap/sensor/laser/topic" value="scan" />
     <param name="global_costmap/static/map_topic" value="map" />
-    <param name="local_costmap/global_frame" value="$(arg namespace)odom" />
-    <param name="local_costmap/robot_base_frame" value="$(arg namespace)base_footprint" />
-    <param name="local_costmap/obstacle_layer/laser/sensor_frame" value="$(arg namespace)laser_frame" />
     <param name="local_costmap/obstacle_layer/laser/topic" value="scan" />
     <param name="local_costmap/obstacle_layer/scan_filtered/topic" value="scan_filtered" />
-    <param name="local_costmap/sensor/laser/sensor_frame" value="$(arg namespace)laser_frame" />
     <param name="local_costmap/sensor/laser/topic" value="scan" />
-
+    <!-- Frame prefixing -->
+    <param if="$(eval namespace != '')" name="global_costmap/robot_base_frame" value="$(arg namespace)/base_footprint" />
+    <param if="$(eval namespace != '')" name="DWAPlannerROS/global_frame_id" value="$(arg namespace)/odom" />
+    <param if="$(eval namespace != '')" name="global_costmap/obstacle_layer/laser/sensor_frame" value="$(arg namespace)/laser_frame" />
+    <param if="$(eval namespace != '')" name="global_costmap/sensor/laser/sensor_frame" value="$(arg namespace)/laser_frame" />
+    <param if="$(eval namespace != '')" name="local_costmap/global_frame" value="$(arg namespace)/odom" />
+    <param if="$(eval namespace != '')" name="local_costmap/robot_base_frame" value="$(arg namespace)/base_footprint" />
+    <param if="$(eval namespace != '')" name="local_costmap/obstacle_layer/laser/sensor_frame" value="$(arg namespace)/laser_frame" />
+    <param if="$(eval namespace != '')" name="local_costmap/sensor/laser/sensor_frame" value="$(arg namespace)/laser_frame" />
   </node>
 </launch>
