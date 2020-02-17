@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <launch>
-	<arg name="open_rviz" default="false" />
+	<arg name="open_rviz" default="true" />
 
 	<arg name="map_name" default="phenix.yaml" />
 
