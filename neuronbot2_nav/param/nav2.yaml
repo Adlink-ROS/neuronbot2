@@ -39,6 +39,13 @@ amcl:
     z_rand: 0.059
     z_short: 0.24
 
+    # Initial Pose
+    set_initial_pose: true
+    initial_pose_x: 0.0
+    initial_pose_y: 0.0
+    initial_pose_z: 0.0
+    initial_pose_yaw: 0.0
+
 amcl_map_client:
   ros__parameters:
     use_sim_time: False
