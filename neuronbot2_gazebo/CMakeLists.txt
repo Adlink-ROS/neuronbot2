@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
   geometry_msgs
   nav_msgs
-  neuronbot2_bringup
   robot_state_publisher
   roscpp
   rospy

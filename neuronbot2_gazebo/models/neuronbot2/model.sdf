@@ -2,6 +2,8 @@
 <sdf version='1.6'>
   <model name='neuronbot2'>
 
+    <link name='base_footprint'/>
+
     <link name='base_link'>
       <inertial>
         <mass>0.5</mass>
@@ -383,10 +385,6 @@
           </noise>
         </ray>
         <plugin name="neuronbot2_laserscan" filename="libgazebo_ros_laser.so">
-          <ros>
-            <argument>~/out:=scan</argument>
-          </ros>
-          <robotNamespace>/</robotNamespace>
           <topicName>scan</topicName>
           <frameName>laser_frame</frameName>
         </plugin>
@@ -441,7 +439,6 @@
           </linear_acceleration>
         </imu>
         <plugin name="neuronbot2_imu" filename="libgazebo_ros_imu_sensor.so">
-          <robotNamespace/>
           <topicName>imu/data</topicName>
           <frameName>imu_link</frameName>
           <ros>
@@ -451,7 +448,7 @@
       </sensor>
     </link>
 
-    <link name='lwheel'>
+    <link name='wheel_left_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
@@ -551,7 +548,7 @@
       </collision>
     </link>
 
-    <link name='rwheel'>
+    <link name='wheel_right_link'>
       <inertial>
         <mass>0.1</mass>
         <inertia>
@@ -651,9 +648,13 @@
       </collision>
     </link>
 
-
-
-    <joint name='base_2_laser' type='fixed'>
+    <joint name='base_link_joint' type='fixed'>
+      <parent>base_footprint</parent>
+      <child>base_link</child>
+      <pose frame=''>0 0 0 0 0 0</pose>
+    </joint>
+    
+    <joint name='laser_frame_joint' type='fixed'>
       <parent>base_link</parent>
       <child>laser_frame</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
@@ -679,7 +680,7 @@
 
     <joint name='l_wheel_joint' type='revolute'>
       <parent>base_link</parent>
-      <child>lwheel</child>
+      <child>wheel_left_link</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
@@ -713,7 +714,7 @@
 
     <joint name='r_wheel_joint' type='revolute'>
       <parent>base_link</parent>
-      <child>rwheel</child>
+      <child>wheel_right_link</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <axis>
         <xyz>0 0 -1</xyz>
@@ -785,19 +786,18 @@
 
 
     <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
-      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <leftJoint>l_wheel_joint</leftJoint>
       <rightJoint>r_wheel_joint</rightJoint>
       <wheelSeparation>0.218</wheelSeparation>
-      <wheelDiameter>0.1</wheelDiameter>
+      <wheelDiameter>0.084</wheelDiameter>
       <wheelTorque>10</wheelTorque>
       <wheelAcceleration>1.0</wheelAcceleration>
       <commandTopic>cmd_vel</commandTopic>
       <publishOdom>1</publishOdom>
       <publishOdomTF>1</publishOdomTF>
       <publishWheelJointState>1</publishWheelJointState>
-      <publishWheelTF>1</publishWheelTF>
+      <publishWheelTF>0</publishWheelTF>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
@@ -806,10 +806,6 @@
 
     <!--┐(´～｀)┌ Joint state publisher ┐(´～｀)┌-->
     <plugin name='neuronbot2_joint_state' filename='libgazebo_ros_joint_state_publisher.so'>
-      <ros>
-        <argument>~/out:=joint_states</argument>
-      </ros>
-      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <jointName>r_wheel_joint</jointName>
       <jointName>l_wheel_joint</jointName>

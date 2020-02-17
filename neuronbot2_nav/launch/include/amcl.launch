@@ -1,5 +1,6 @@
 <launch>
 
+  <arg name="namespace" default=""/>
   <arg name="use_map_topic" default="true"/>
   <arg name="scan_topic" default="scan"/>
 
@@ -31,12 +32,15 @@
     <param name="laser_likelihood_max_dist" value="2.0"/>
     <param name="update_min_d" value="0.025"/>
     <param name="update_min_a" value="0.06"/>
-    <param name="odom_frame_id" value="odom"/>
     <param name="resample_interval" value="1"/>
     <!-- Increase tolerance because the computer can get quite busy -->
     <param name="transform_tolerance" value="1.0"/>
     <param name="recovery_alpha_slow" value="0.001"/>
     <param name="recovery_alpha_fast" value="0.05"/>
     <remap from="scan" to="$(arg scan_topic)"/>
+    <!-- Transform frame -->
+    <param name="odom_frame_id" value="$(arg namespace)odom"/>
+    <param name="base_frame_id" value="$(arg namespace)base_link"/>
+
   </node>
 </launch>
