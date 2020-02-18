@@ -68,12 +68,12 @@ git checkout dashing-devel
    ***There are two worlds for users to explore.***
    * Mememan world
    ```
-   roslaunch neuronbot2_gazebo neuronbot2_mememan.launch
+   roslaunch neuronbot2_gazebo neuronbot2_world.launch world_model:=mememan_world.model
    ```
    ![](./readme_resource/mememan_world.png)
    * Phenix world
    ```
-   roslaunch neuronbot2_gazebo neuronbot2_phenix.launch    
+   roslaunch neuronbot2_gazebo neuronbot2_world.launch world_model:=phenix_world.model
    ```
    ![](readme_resource/phenix_world.png)
 3. Teleop it in the world
