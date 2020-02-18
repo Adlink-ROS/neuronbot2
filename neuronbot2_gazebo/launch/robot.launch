@@ -3,6 +3,10 @@
   <arg name="model_file" default="$(find neuronbot2_gazebo)/models/neuronbot2/model.sdf"/>
   <arg name="file_type" default="sdf"/>
   <arg name="model_name" default="$(arg namespace)"/>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.0"/>
+
   <group ns="$(arg namespace)">
     <node name="gazebo_robot" pkg="gazebo_ros" type="spawn_model" output="screen"
     args="-file $(arg model_file) -$(arg file_type) -z -1 -model $(arg model_name)" />

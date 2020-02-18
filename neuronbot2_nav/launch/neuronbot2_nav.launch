@@ -7,7 +7,11 @@
 	<arg name="map_name" default="phenix.yaml" />
 
 	<group ns="/$(arg namespace)">
-		<node name="map_server" pkg="map_server" type="map_server" args="$(find neuronbot2_nav)/maps/$(arg map_name)"/>
+		<node name="map_server" pkg="map_server" type="map_server" args="$(find neuronbot2_nav)/maps/$(arg map_name)">
+			<param name="frame_id" value="$(arg namespace)/map"/>
+		</node>
+
+		<node pkg="tf2_ros" type="static_transform_publisher" name="map_tf_publisher" args="0 0 0 0 0 0 world $(arg namespace)/map" />
 
 		<include file="$(find neuronbot2_nav)/launch/include/move_base.launch">
 			<arg name="namespace" value="$(arg namespace)"/>

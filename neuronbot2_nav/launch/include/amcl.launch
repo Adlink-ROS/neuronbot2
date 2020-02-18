@@ -41,6 +41,6 @@
     <!-- Transform frame -->
     <param if="$(eval namespace != '')" name="odom_frame_id" value="$(arg namespace)/odom"/>
     <param if="$(eval namespace != '')" name="base_frame_id" value="$(arg namespace)/base_link"/>
-
+    <param if="$(eval namespace != '')" name="global_frame_id" value="$(arg namespace)/map"/>
   </node>
 </launch>
