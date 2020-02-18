@@ -54,3 +54,9 @@ TODO: Port Pibot(ROS) to Neuronbot2(ROS2)
 
    ```
 
+## Trouble Shooting
+---
+1. If you see below warning messages after NeuronBot performing navigation, don't worry, it has been fixed at ROS 2 Eloquent.
+
+<img src="./doc/bt_navigator_setUsingDedicatedThread.png" title="" width="100%" align="middle">
+<br/>
