@@ -43,6 +43,6 @@
   </node>
 
   <group if="$(arg open_rviz)">
-		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_slam)/rviz/slam.rviz" />
+		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_slam)/rviz_config/slam.rviz" />
   </group>
 </launch>
