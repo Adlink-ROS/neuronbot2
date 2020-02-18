@@ -3,6 +3,7 @@ A purely ROS2 AMR.
 
 ## Introduction
 ------
+
 Touched introduction.
 ## Installation
 ------
@@ -11,13 +12,13 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 ### Setup the workspace 
 ```
 $ source /opt/ros/dashing/setup.bash
-$ mkdir -p ~/neuronbot2_ws/src
-$ cd ~/neuronbot2_ws
+$ mkdir -p ~/neuronbot2_ros2_ws/src
+$ cd ~/neuronbot2_ros2_ws
 $ wget https://gist.githubusercontent.com/airuchen/dd5e7962706b32ffaa8d46ba905fea91/raw/d21c4fe2ca0d494202cf84c734c9e8cbca769ff1/NeuronBot2_ros2.repos
 $ vcs import src < NeuronBot2_ros2.repos
 $ rosdep install --from-paths src --ignore-src -r -y
 $ colcon build --symlink-install
-$ source ~/neuronbot2_ws/install/local_setup.bash
+$ source ~/neuronbot2_ros2_ws/install/local_setup.bash
 ```
 
 
@@ -30,10 +31,10 @@ TODO: Port Pibot(ROS) to Neuronbot2(ROS2)
 1. Setup the environment.
     ```
     $ source /opt/ros/dashing/setup.bash
-    $ source ~/neuronbot2_ws/install/local_setup.bash
+    $ source ~/neuronbot2_ros2_ws/install/local_setup.bash
 
     # link for gazebo model
-    $ export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/neuronbot2_ws/src/neuronbot2/neuronbot2_gazebo/models
+    $ export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_gazebo/models
     ```
 2. Launch empty world (TODO: create a wonderland for NeuronBot2).
     ```
