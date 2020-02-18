@@ -1,8 +1,8 @@
 <launch>
   <!-- Modify from $(find gazebo_ros)/launch/empty_world.launch -->
-  <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/phenix_world.model"/>
 
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="world_model" default="mememan_world.model" />
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="extra_gazebo_args" default=""/>
@@ -15,11 +15,11 @@
   <arg name="debug" default="false"/>
   <arg name="physics" default="ode"/>
   <arg name="verbose" default="false"/>
-  <!-- <arg name="world_name" default="worlds/empty.world"/> Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
   <arg name="respawn_gazebo" default="false"/>
   <arg name="use_clock_frequency" default="false"/>
   <arg name="pub_clock_frequency" default="100"/>
   <arg name="enable_ros_network" default="true" />
+  <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/$(arg world_model)"/>
 
   <!-- set use_sim_time flag -->
   <param name="/use_sim_time" value="$(arg use_sim_time)"/>
@@ -51,5 +51,5 @@
   <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
     <arg name="namespace" value="/"/>
     <arg name="model_name" value="neuronbot2"/>
-  </include> 
+  </include>
 </launch>

@@ -50,9 +50,12 @@
       </include>
     </model>
 
+    <!--
     <include>
       <uri>model://neuronbot2</uri>
     </include>
+    -->
+
 
   </world>
 </sdf>
