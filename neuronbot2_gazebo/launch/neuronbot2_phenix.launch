@@ -48,6 +48,8 @@
   <group if="$(arg gui)">
     <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" args="$(arg command_arg3)"/>
   </group>
-
-  <include file="$(find neuronbot2_gazebo)/launch/robot_state_publisher.launch"/>
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="model_name" value="neuronbot2"/>
+  </include> 
 </launch>

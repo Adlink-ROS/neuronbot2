@@ -385,10 +385,6 @@
           </noise>
         </ray>
         <plugin name="neuronbot2_laserscan" filename="libgazebo_ros_laser.so">
-          <ros>
-            <argument>~/out:=scan</argument>
-          </ros>
-          <robotNamespace>/</robotNamespace>
           <topicName>scan</topicName>
           <frameName>laser_frame</frameName>
         </plugin>
@@ -443,7 +439,6 @@
           </linear_acceleration>
         </imu>
         <plugin name="neuronbot2_imu" filename="libgazebo_ros_imu_sensor.so">
-          <robotNamespace/>
           <topicName>imu/data</topicName>
           <frameName>imu_link</frameName>
           <ros>
@@ -791,7 +786,6 @@
 
 
     <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
-      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <leftJoint>l_wheel_joint</leftJoint>
       <rightJoint>r_wheel_joint</rightJoint>
@@ -812,10 +806,6 @@
 
     <!--┐(´～｀)┌ Joint state publisher ┐(´～｀)┌-->
     <plugin name='neuronbot2_joint_state' filename='libgazebo_ros_joint_state_publisher.so'>
-      <ros>
-        <argument>~/out:=joint_states</argument>
-      </ros>
-      <robotNamespace>/</robotNamespace>
       <updateRate>30</updateRate>
       <jointName>r_wheel_joint</jointName>
       <jointName>l_wheel_joint</jointName>
