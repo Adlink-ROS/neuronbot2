@@ -108,12 +108,20 @@ git checkout dashing-devel
 
    Then, you shall turn off Gmapping.
 ### Navigate to the desired location
-Once users obtain the map, the pgm file & yaml file, navigation is available to work.
+Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running.
     ```
     roslaunch neuronbot2_nav neuronbot2_nav.launch map_name:=mememan.yaml open_rviz:=true
     ```
     ![](readme_resource/mememan_launch_nav.png)
+2. Set Estimation
+   
+   Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
+   ![](readme_resource/nav_estimate.gif)
+3. Set Goal
 
+   Click "2D Nav Goal", and set goal to any free space on the map.
+   
+   ![](readme_resource/nav_set_goal.gif)
 
