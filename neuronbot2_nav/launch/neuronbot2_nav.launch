@@ -4,7 +4,7 @@
 
 	<arg name="open_rviz" default="false" />
 
-	<arg name="map_name" default="phenix.yaml" />
+	<arg name="map_name" default="mememan.yaml" />
 
 	<group ns="/$(arg namespace)">
 		<node name="map_server" pkg="map_server" type="map_server" args="$(find neuronbot2_nav)/maps/$(arg map_name)">
