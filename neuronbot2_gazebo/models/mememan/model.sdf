@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
   <model name='mememan'>
-    <pose frame=''>2.08033 -0.403156 0 0 -0 0</pose>
+    <pose frame=''>2.08033 -0.403156 0 0 -0 -1.57</pose>
     <link name='Wall_0'>
       <collision name='Wall_0_Collision'>
         <geometry>
