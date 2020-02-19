@@ -16,7 +16,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         ExecuteProcess(
-            cmd=['gazebo', '--verbose', world, '-s', 'libgazebo_ros_init.so'],
+            cmd=['gzserver', '--verbose', world, '-s', 'libgazebo_ros_init.so'],
+            output='screen'),
+
+        ExecuteProcess(
+            cmd=['gzclient'],
             output='screen'),
 
         ExecuteProcess(
