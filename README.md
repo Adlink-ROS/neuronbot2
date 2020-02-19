@@ -1,4 +1,4 @@
-## NueronBot 2 in ROS1
+## NeuronBot 2 in ROS1
 NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
 
 ### Features
@@ -61,7 +61,7 @@ git checkout dashing-devel
    ```
    source /opt/ros/melodic/setup.bash
    source ~/neuronbot2_ros1_ws/devel/setup.bash
-   export GAZEBO_MODEL_PATH=~/neuronbot2_ros1_ws/neuronbot2/neuronbot2_gazebo/models
+   export GAZEBO_MODEL_PATH=~/neuronbot2_ros1_ws/src/neuronbot2/neuronbot2_gazebo/models
    ```
 2. Launch Gazebo simulation.
     
@@ -78,8 +78,9 @@ git checkout dashing-devel
    ![](readme_resource/phenix_world.png)
 3. Teleop it in the world
 
-    Users are able to control the NeuronBot2 with the following rosnode.
+    Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
+   source /opt/ros/melodic/setup.bash
    rosrun teleop_twist_keyboard teleop_twist_keyboard.py
    ```
    ![](readme_resource/teleop.png)
