@@ -4,10 +4,14 @@
 
 	<arg name="open_rviz" default="false" />
 
-	<arg name="map_name" default="phenix.yaml" />
+	<arg name="map_name" default="$(find neuronbot2_nav)/maps/phenix.yaml" />
+
+	<arg name="x_pos" default="0.0"/>
+	<arg name="y_pos" default="0.0"/>
+	<arg name="yaw" default="0.0"/>
 
 	<group ns="/$(arg namespace)">
-		<node name="map_server" pkg="map_server" type="map_server" args="$(find neuronbot2_nav)/maps/$(arg map_name)">
+		<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_name)">
 			<param name="frame_id" value="$(arg namespace)/map"/>
 		</node>
 
@@ -19,6 +23,9 @@
 
 		<include file="$(find neuronbot2_nav)/launch/include/amcl.launch">
 			<arg name="namespace" value="$(arg namespace)"/>
+			<arg name="x_pos" value="$(arg x_pos)"/>
+			<arg name="y_pos" value="$(arg y_pos)"/>
+			<arg name="yaw" value="$(arg yaw)"/>
 		</include>
 	</group>
 
