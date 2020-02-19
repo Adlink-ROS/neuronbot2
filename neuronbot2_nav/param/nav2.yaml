@@ -7,7 +7,7 @@ amcl:
     alpha3: 0.08
     alpha4: 0.08
     alpha5: 0.08
-    base_frame_id: "base_link"
+    base_frame_id: "base_footprint"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -85,7 +85,7 @@ dwb_controller:
     vx_samples: 20
     vy_samples: 0
     vtheta_samples: 40
-    sim_time: 0.7
+    sim_time: 2.0
     linear_granularity: 0.05
     xy_goal_tolerance: 0.25
     transform_tolerance: 0.2
