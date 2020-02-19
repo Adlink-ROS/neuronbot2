@@ -1,5 +1,6 @@
-## NeuronBot 2 in ROS2
-NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully supports ROS1 and ROS2. 
+# NeuronBot 2 in ROS2
+## Introduction
+NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
 
 ### Features
 * Nice
@@ -27,9 +28,6 @@ git checkout melodic-dev
 git checkout dashing-devel
 ``` 
 
-# ROS2
-
-
 ## Installation
 ------
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/ "ros-dashing-desktop installation"). For the sake of convenience, you might want to download ros-dashing-desktop version to make sure all the dependencies are installed.
@@ -47,6 +45,7 @@ source ~/neuronbot2_ros2_ws/install/local_setup.bash
 
 
 ## Bring up your robot
+TODO:
 
 ## Simulation quick-start guide
 ![](readme_resource/NueronBot2_sim.jpg)
@@ -158,13 +157,8 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
    ![](readme_resource/nav_set_goal.gif)
 
 
-## Introduction
-------
-
-Touched introduction.
 
 ## Trouble Shooting
----
 1. If you see below warning messages after NeuronBot performing navigation, don't worry, it has been fixed at ROS 2 Eloquent.
 
 <img src="./readme_resource/bt_navigator_setUsingDedicatedThread.png" title="" width="100%" align="middle">
