@@ -11,7 +11,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    open_rviz = LaunchConfiguration('open_rviz', default='false')
+    open_rviz = LaunchConfiguration('open_rviz', default='False')
 
     map_dir = LaunchConfiguration(
         'map_dir',
@@ -38,9 +38,9 @@ def generate_launch_description():
     nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
 
     rviz_config_dir = os.path.join(
-        get_package_share_directory('nav2_bringup'),
-        'launch',
-        'nav2_default_view.rviz')
+        get_package_share_directory('neuronbot2_nav'),
+        'rviz',
+        'nav2.rviz')
 
     return LaunchDescription([
 
@@ -66,7 +66,7 @@ def generate_launch_description():
     
         DeclareLaunchArgument(
             'open_rviz', 
-            default_value='True', 
+            default_value=open_rviz, 
             description='Launch Rviz?'),
 
         IncludeLaunchDescription(
