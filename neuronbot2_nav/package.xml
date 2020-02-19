@@ -55,12 +55,14 @@
 	<build_depend>rospy</build_depend>
 	<build_depend>tf</build_depend>
 	<build_depend>amcl</build_depend>
+	<build_depend>navigation</build_depend>
 	<build_export_depend>geometry_msgs</build_export_depend>
 	<build_export_depend>nav_msgs</build_export_depend>
 	<build_export_depend>roscpp</build_export_depend>
 	<build_export_depend>rospy</build_export_depend>
 	<build_export_depend>tf</build_export_depend>
 	<build_export_depend>amcl</build_export_depend>
+	<build_export_depend>navigation</build_export_depend>
 	<exec_depend>geometry_msgs</exec_depend>
 	<exec_depend>nav_msgs</exec_depend>
 	<exec_depend>roscpp</exec_depend>
@@ -70,6 +72,7 @@
 	<exec_depend>map_server</exec_depend>
 	<exec_depend>dwa_local_planner</exec_depend>
 	<exec_depend>global_planner</exec_depend>
+	<exec_depend>navigation</exec_depend>
 
 
 	<!-- The export tag contains other, unspecified, tags -->
