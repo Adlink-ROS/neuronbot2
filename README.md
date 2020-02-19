@@ -1,5 +1,5 @@
 ## NeuronBot 2 in ROS2
-NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
+NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully supports ROS1 and ROS2. 
 
 ### Features
 * Nice
