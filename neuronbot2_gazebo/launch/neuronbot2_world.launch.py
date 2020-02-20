@@ -7,16 +7,23 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import ThisLaunchFileDir
 from launch.actions import ExecuteProcess
 from launch.substitutions import LaunchConfiguration
+from launch.actions import SetEnvironmentVariable
+from launch.substitutions import EnvironmentVariable
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
-    world_file_name = 'phenix_world.model'
-    world = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'worlds', world_file_name)
+    world = [get_package_share_directory('neuronbot2_gazebo'), '/worlds/']
+    world.append(LaunchConfiguration('world_model', default='mememan_world.model'))
     launch_file_dir = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'launch')
+    gazebo_model_path = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models')
+    print(gazebo_model_path)
 
     return LaunchDescription([
+        SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[EnvironmentVariable('GAZEBO_MODEL_PATH'), gazebo_model_path]),
+
         ExecuteProcess(
-            cmd=['gzserver', '--verbose', world, '-s', 'libgazebo_ros_init.so'],
+            cmd=['gzserver', '--verbose', world , '-s', 'libgazebo_ros_init.so'],
+            # additional_env=EnvironmentVariable('GAZEBO_MODEL_PATH'),
             output='screen'),
 
         ExecuteProcess(
