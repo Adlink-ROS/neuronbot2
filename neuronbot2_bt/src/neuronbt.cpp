@@ -10,10 +10,10 @@ int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
 
   auto nh = rclcpp::Node::make_shared("neuronbt");
-  nh->declare_parameter("bt_xml", rclcpp::ParameterValue(std::string("/home/iven/iven_ws/neuronbot2_ws/src/neuronbot2/neuronbt/config/neuronbt.xml")));
-  std::string bt_xml;
-  nh->get_parameter("bt_xml", bt_xml);
-  RCLCPP_INFO(nh->get_logger(), "Loading XML : %s", bt_xml.c_str());
+  nh->declare_parameter("bt_path", rclcpp::ParameterValue(std::string("absolute path to the bt_path")));
+  std::string bt_path;
+  nh->get_parameter("bt_path", bt_path);
+  RCLCPP_INFO(nh->get_logger(), "Loading XML : %s", bt_path.c_str());
 
   // We use the BehaviorTreeFactory to register our custom nodes
   BehaviorTreeFactory factory;
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   // Trees are created at deployment-time (i.e. at run-time, but only once at
   // the beginning). The currently supported format is XML. IMPORTANT: when the
   // object "tree" goes out of scope, all the TreeNodes are destroyed
-  auto tree = factory.createTreeFromFile(bt_xml);
+  auto tree = factory.createTreeFromFile(bt_path);
 
   // Create a logger
   StdCoutLogger logger_cout(tree);
