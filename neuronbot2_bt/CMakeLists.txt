@@ -51,13 +51,6 @@ set(dependencies
   tf2_ros
 )
 
-add_executable(send_goal 
-  src/send_goal
-)
-ament_target_dependencies(send_goal
-	${dependencies}
-)
-
 add_executable(neuronbot2_bt
   src/neuronbt.cpp
 )
@@ -66,7 +59,6 @@ ament_target_dependencies(neuronbot2_bt
 )
 
 install (TARGETS
-  send_goal
   neuronbot2_bt
 	DESTINATION lib/${PROJECT_NAME})
 
