@@ -2,10 +2,10 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>neuronbot2_slam</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="B10307115@gapps.ntust.edu.tw">iven</maintainer>
-  <license>TODO: License declaration</license>
+  <version>0.1.0</version>
+  <description>SLAM package for NeuronBot2 on ROS2</description>
+  <maintainer email="real.yuwen@gmail.com">airuchen</maintainer>
+  <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

@@ -1,15 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-
 <package format="3">
   <name>neuronbot2_description</name>
-  <version>0.0.0</version>
-  <description>
-    3D models of the Neuronbot2 for simulation and visualization
-  </description>
-  <!--<author email="xxxx@xxx.xx.x">SYY</author> -->
-  <author email="b10307115@gapps.ntust.edu.tw">airuchen</author>
-  <maintainer email="b10307115@gapps.ntust.edu.tw">airuchen</maintainer>
+  <version>0.1.0</version>
+  <description> 3D models of the Neuronbot2 for simulation and visualization </description>
+  <author email="real.yuwen@gmail.com">airuchen</author>
+  <maintainer email="real.yuwen@gmail.com">airuchen</maintainer>
   <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
