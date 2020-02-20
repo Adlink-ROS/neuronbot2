@@ -12,13 +12,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     open_rviz = LaunchConfiguration('open_rviz', default='False')
-
-    map_dir = LaunchConfiguration(
-        'map_dir',
-        default=os.path.join(
-            get_package_share_directory('neuronbot2_nav'),
-            'map',
-            'mememan.yaml'))
+    map_dir = [get_package_share_directory('neuronbot2_nav'), '/map/']
+    map_dir.append(LaunchConfiguration('map_name', default='mememan.yaml'))
 
     param_dir = LaunchConfiguration(
         'params',
