@@ -80,19 +80,18 @@ TODO:
    ```
    source /opt/ros/dashing/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
-   export GAZEBO_MODEL_PATH=~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_gazebo/models
    ```
 2. Launch Gazebo simulation.
     
    ***There are two worlds for users to explore.***
    * Mememan world
    ```
-   ros2 launch neuronbot2_gazebo neuronbot2_mememan.launch.py
+   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py map_model:=mememan_world.model
    ```
    ![](./readme_resource/mememan_world.png)
    * Phenix world
    ``` 
-   ros2 launch neuronbot2_gazebo neuronbot2_phenix.launch.py
+   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py map_model:=phenix_world.model
    ```
    ![](readme_resource/phenix_world.png)
 3. Teleop it in the world
@@ -141,16 +140,29 @@ TODO:
 ### Navigate to the desired location
 Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running. Default map is set to mememan.yaml.
+
+   * Navigate in mememan map
+   ```
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_name:=mememan.yaml open_rviz:=true
+
+   ```
+   * Navigate in phenix map
+   ```
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_name:=phenix.yaml open_rviz:=true
+   ``` 
+
+   * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
+
     ```
-    ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/<map_name>.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
     ```
     ![](readme_resource/mememan_launch_nav.png)
-2. Set Estimation
+1. Set Estimation
    
    Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
    ![](readme_resource/nav_estimate.gif)
-3. Set Goal
+2. Set Goal
 
    Click "2D Nav Goal", and set goal to any free space on the map.
    
