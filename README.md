@@ -156,7 +156,19 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
    
    ![](readme_resource/nav_set_goal.gif)
 
+### Control with Behavior Tree
+To run this demo, users should execute Gazebo server and Navigation (with Rviz for visualization) first.
 
+1. Open the other terminal and source the environment variables.
+   ```
+   source /opt/ros/dashing/setup.bash
+   source ~/neuronbot2_ros2_ws/install/local_setup.bash
+   ```
+2. Run Behavior Tree
+   ```
+   ros2 launch neuronbot2_bt neuronbot2_bt.launch.py bt_xml:=neuronbt.xml
+   ```
+   ![](readme_resource/nav2_bt.gif)
 
 ## Trouble Shooting
 1. If you see below warning messages after NeuronBot performing navigation, don't worry, it has been fixed at ROS 2 Eloquent.
