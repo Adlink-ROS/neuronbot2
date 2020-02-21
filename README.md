@@ -86,12 +86,12 @@ TODO:
    ***There are two worlds for users to explore.***
    * Mememan world
    ```
-   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py map_model:=mememan_world.model
+   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py world_model:=mememan_world.model
    ```
    ![](./readme_resource/mememan_world.png)
    * Phenix world
    ``` 
-   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py map_model:=phenix_world.model
+   ros2 launch neuronbot2_gazebo neuronbot2_world.launch.py world_model:=phenix_world.model
    ```
    ![](readme_resource/phenix_world.png)
 3. Teleop it in the world
