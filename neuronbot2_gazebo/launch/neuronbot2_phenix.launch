@@ -1,4 +1,5 @@
 <launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find neuronbot2_gazebo)/models"/>
   <!-- Modify from $(find gazebo_ros)/launch/empty_world.launch -->
   <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/phenix_world.model"/>
 
