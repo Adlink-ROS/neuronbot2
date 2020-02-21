@@ -4,7 +4,7 @@
 
 	<arg name="open_rviz" default="false" />
 
-	<arg name="map_name" default="$(find neuronbot2_nav)/maps/phenix.yaml" />
+	<arg name="map_name" default="$(find neuronbot2_nav)/maps/mememan.yaml" />
 
 	<arg name="x_pos" default="0.0"/>
 	<arg name="y_pos" default="0.0"/>
