@@ -28,7 +28,7 @@ se_node:
 
 # If you're having trouble, try setting this to true, and then echo the /diagnostics_agg topic to see if the node is
 # unhappy with any settings or data.
-        print_diagnostics: true
+        print_diagnostics: false
 
 # Debug settings. Not for the faint of heart. Outputs a ludicrous amount of information to the file specified by
 # debug_out_file. I hope you like matrices! Please note that setting this to true will have strongly deleterious
