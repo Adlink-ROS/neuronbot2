@@ -1,4 +1,5 @@
 # NeuronBot 2 in ROS2
+![](readme_resource/nb2_robot.png) 
 ## Introduction
 NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
 
@@ -19,8 +20,6 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 
 Users are able to checkout to different branch of this package to run on ROS1(melodic-version) and ROS2(dashing-version).
 ```
-git clone https://github.com/airuchen/neuronbot2.git
-
 # For ROS melodic
 git checkout melodic-dev
 
@@ -29,27 +28,7 @@ git checkout dashing-devel
 ``` 
 
 ## Installation
-------
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/ "ros-dashing-desktop installation"). For the sake of convenience, you might want to download ros-dashing-desktop version to make sure all the dependencies are installed.
-### Setup the workspace 
-```
-source /opt/ros/dashing/setup.bash
-mkdir -p ~/neuronbot2_ros2_ws/src
-cd ~/neuronbot2_ros2_ws
-wget https://gist.githubusercontent.com/airuchen/dd5e7962706b32ffaa8d46ba905fea91/raw/d21c4fe2ca0d494202cf84c734c9e8cbca769ff1/NeuronBot2_ros2.repos
-vcs import src < NeuronBot2_ros2.repos
-rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install
-source ~/neuronbot2_ros2_ws/install/local_setup.bash
-```
-
-
-## Bring up your robot
-TODO:
-
-## Simulation quick-start guide
-![](readme_resource/NueronBot2_sim.jpg)
-### Git Clone & Dependencies Installation
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/)
 2. Create workspace
     ```
@@ -72,9 +51,84 @@ TODO:
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/dashing/setup.bash
-   colcon build --symlink-install
+   colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
+
+---
+
+## Bring up your NeuronBot2
+![](readme_resource/nb2_opening_re.gif)
+
+Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- telop it.
+### Launch NeuronBot2
+Open a new terminal (Ctrl + Alt + t).
+   ```
+   source /opt/ros/dashing/setup.bash
+   source ~/neuronbot2_ros2_ws/install/local_setup.bash
+   ros2 launch neuronbot2_bringup neuronbot2_bringup.launch.py
+   ```
+###  Teleop NeuronBot2
+   ```
+   source /opt/ros/dashing/setup.bash
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard
+   ```
+   Follow the hints and start to cruise your NeuronBot2.
+
+   ![](readme_resource/teleop.png)
+### SLAM your map
+1. Launch SLAM as well as Rviz.
+   
+   ***We provide three slam methods.***
+
+   * Gmapping
+   ```
+   ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ```
+   * Slam_toolbox
+   ``` 
+   ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ```
+   * Cartographer
+   ```
+   ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true
+   ```
+2. Teleop NeuronBot2 to explore the world
+   ```
+   # Run on the other terminal
+   source /opt/ros/dashing/setup.bash
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard
+   ```
+3. Save the map
+   ```
+   source /opt/ros/dashing/setup.bash
+   cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/
+   ros2 run nav2_map_server map_saver -f <map_name>
+   ```
+
+   The map is ready and SLAM can be turned off.
+### Navigation
+
+   * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
+      ```
+      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
+      ```
+1. Set Estimation
+   
+   ![](readme_resource/2d_setestimate.png)   
+
+   Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
+
+2. Set Goal
+ 
+   ![](readme_resource/2d_nav_goal.png)
+
+   Click "2D Nav Goal", and set goal to any free space on the map.
+   
+
+--- 
+## Bring up in Simulation
+![](readme_resource/NueronBot2_sim.jpg)
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
