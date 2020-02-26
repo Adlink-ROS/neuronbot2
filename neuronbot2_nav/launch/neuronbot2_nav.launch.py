@@ -11,31 +11,39 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    open_rviz = LaunchConfiguration('open_rviz', default='false')
-    map_dir = [get_package_share_directory('neuronbot2_nav'), '/map/']
-    map_dir.append(LaunchConfiguration('map_name', default='mememan.yaml'))
+
+    open_rviz = LaunchConfiguration('open_rviz', default='False')
+
+    map_dir = LaunchConfiguration(
+            'map_dir',
+            default=os.path.join(
+                get_package_share_directory('neuronbot2_nav'),
+                'map',
+                'mememan.yaml')
+            )
 
     param_dir = LaunchConfiguration(
-        'params',
-        default=os.path.join(
-            get_package_share_directory('neuronbot2_nav'),
-            'param',
-            'nav2.yaml'))
+            'params',
+            default=os.path.join(
+                get_package_share_directory('neuronbot2_nav'),
+                'param',
+                'nav2.yaml')
+            )
 
     bt_xml_path = LaunchConfiguration(
-        'bt_xml',
-        default=os.path.join(
-            get_package_share_directory('neuronbot2_nav'),
-            'param',
-            'bt_nav2.xml'
-        )
-    )
-    nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
+            'bt_xml',
+            default=os.path.join(
+                get_package_share_directory('neuronbot2_nav'),
+                'param',
+                'bt_nav2.xml')
+            )
+    nav2_launch_file_dir = os.path.join(
+            get_package_share_directory('nav2_bringup'), 'launch')
 
     rviz_config_dir = os.path.join(
-        get_package_share_directory('neuronbot2_nav'),
-        'rviz',
-        'nav2.rviz')
+            get_package_share_directory('neuronbot2_nav'),
+            'rviz',
+            'nav2.rviz')
 
     return LaunchDescription([
 
@@ -58,7 +66,7 @@ def generate_launch_description():
             'bt_xml_filename',
             default_value=bt_xml_path,
             description='Full path to behavior_tree xml file'),
-    
+
         DeclareLaunchArgument(
             'open_rviz', 
             default_value=open_rviz, 
@@ -71,8 +79,8 @@ def generate_launch_description():
                 'bt_xml_filename': bt_xml_path,
                 'use_sim_time': use_sim_time,
                 'params': param_dir}.items(),
-        ),
-        
+            ),
+
         Node(
             package='rviz2',
             node_executable='rviz2',
@@ -82,4 +90,4 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration("open_rviz"))
             # output='log'
             ),
-    ])
+        ])

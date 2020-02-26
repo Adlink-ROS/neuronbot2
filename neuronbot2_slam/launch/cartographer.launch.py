@@ -21,6 +21,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(
+            'open_rviz',
+            default_value='false',
+            description='open rviz'),
+
+        DeclareLaunchArgument(
             'cartographer_config_dir',
             default_value=cartographer_config_dir,
             description='Full path to config file to load'),

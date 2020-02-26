@@ -1,6 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
 import launch_ros.actions
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -16,6 +17,11 @@ def generate_launch_description():
         'slam.rviz')
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'open_rviz',
+            default_value='false',
+            description='open rviz'),
+
         launch_ros.actions.Node(
             parameters=[
                 get_package_share_directory("neuronbot2_slam") + '/config/slam_toolbox_params.yaml'

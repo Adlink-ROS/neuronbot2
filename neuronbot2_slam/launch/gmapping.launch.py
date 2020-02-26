@@ -2,6 +2,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 import launch_ros.actions
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
@@ -50,6 +51,11 @@ def generate_launch_description():
         'lasamplestep': '0.005',
     }
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'open_rviz',
+            default_value='false',
+            description='open rviz'),
+
         launch_ros.actions.Node(
             package='slam_gmapping', 
             node_executable='slam_gmapping', 

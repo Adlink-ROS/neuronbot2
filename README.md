@@ -101,17 +101,16 @@ Open a new terminal (Ctrl + Alt + t).
    ```
 3. Save the map
    ```
-   source /opt/ros/dashing/setup.bash
-   cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/
-   ros2 run nav2_map_server map_saver -f <map_name>
+   source /opt/ros/dashing/setup.bash 
+   ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
    The map is ready and SLAM can be turned off.
 ### Navigation
 
-   * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
+   * Try navigation on your own map. 
       ```
-      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
+      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
       ```
 1. Set Estimation
    
@@ -185,24 +184,28 @@ Open a new terminal (Ctrl + Alt + t).
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
    ```
-   source /opt/ros/dashing/setup.bash
-   cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/
-   ros2 run nav2_map_server map_saver -f <map_name>
+   source /opt/ros/dashing/setup.bash 
+   ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
+
 
    Then, you shall turn off SLAM.
 ### Navigate to the desired location
 Once users obtain the map, the pgm file & yaml file, navigation is good to go.
+   * Try navigation on your own map. 
+      ```
+      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
+      ```
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running. Default map is set to mememan.yaml.
 
    * Navigate in mememan map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_name:=mememan.yaml open_rviz:=true
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
 
    ```
    * Navigate in phenix map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_name:=phenix.yaml open_rviz:=true
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
    ``` 
 
    * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***

@@ -39,10 +39,12 @@ private:
     void on_raw_imu(sensor_msgs::msg::Imu::ConstSharedPtr msg);
     void on_odom(nav_msgs::msg::Odometry::ConstSharedPtr msg);
     void update_status();
+    void timeout();
 
     // Switch
     bool publish_tf_;
     bool calibrate_imu_;
+    bool cmd_vel_timeout_switch;
 
     // Timer
     rclcpp::TimerBase::SharedPtr update_status_timer;
