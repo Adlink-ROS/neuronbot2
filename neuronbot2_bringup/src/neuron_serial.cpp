@@ -44,12 +44,12 @@ NeuronSerial::NeuronSerial()
     try {
         serial_ = std::make_unique<serial::Serial>(port, baudrate);
     } catch (const std::exception & e) {
-        RCLCPP_ERROR(get_logger(), "Beep-bee-bee-boop-bee-doo-weep Can't connect to serail.");
+        RCLCPP_ERROR(get_logger(), "Beep-bee-bee-boop-bee-doo-weep Can't connect to serial.");
         RCLCPP_ERROR(get_logger(), e.what());
         throw;
     }
 
-    // Set the data frame for serail data
+    // Set the data frame for serial data
     frame = std::make_shared<Simple_dataframe>(serial_.get());
     dh = Data_holder::get();    // store pending data
 

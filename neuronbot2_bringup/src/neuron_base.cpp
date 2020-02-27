@@ -28,6 +28,7 @@ NeuronBase::NeuronBase()
 	std::string raw_imu_sub_topic = declare_parameter("raw_imu_sub_topic", "raw_imu");
 	std::string imu_repub_topic = declare_parameter("imu_repub_topic", "imu");
 	std::string odom_sub_topic = declare_parameter("odom_sub_topic", "raw_odom");
+	cmd_vel_timeout_time = declare_parameter("cmd_vel_timeout_time", 2);
 
 	// imu calibration
 	acc_x_bias = declare_parameter("acc_x_bias", -2.42);
@@ -40,7 +41,7 @@ NeuronBase::NeuronBase()
 	calibrate_imu_ = declare_parameter("calibrate_imu", true);
 
 	// Define timer
-	double update_status_freq = declare_parameter("update_status_freq", 10.0);
+	update_status_freq = declare_parameter("update_status_freq", 10.0);
 	update_status_timer = create_wall_timer(1s/ update_status_freq, [=]() {update_status(); });
 
 	// Define subscriber
@@ -85,7 +86,7 @@ void NeuronBase::on_raw_imu(sensor_msgs::msg::Imu::ConstSharedPtr msg)
 }
 void NeuronBase::on_odom(nav_msgs::msg::Odometry::ConstSharedPtr msg)
 {
-	// Subscribe to odom from serail, and re-publish it to the higher level.
+	// Subscribe to odom from serial, and re-publish it to the higher level.
 	odom_tf.header.stamp = msg->header.stamp; 
 	odom_tf.header.frame_id = msg->header.frame_id;
 	odom_tf.child_frame_id = msg->child_frame_id;
@@ -103,7 +104,7 @@ void NeuronBase::update_status()
 		timeout_counter = 0;
 		cmd_vel_timeout_switch = true;
 	} else {
-		if (timeout_counter > 20) {
+		if (timeout_counter > cmd_vel_timeout_time*update_status_freq) { 
 			motor_cmd.linear.x = 0; 
 			motor_cmd.linear.y = 0;
 			motor_cmd.angular.z = 0;
