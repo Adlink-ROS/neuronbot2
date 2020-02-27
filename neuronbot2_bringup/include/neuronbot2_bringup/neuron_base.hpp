@@ -48,6 +48,8 @@ private:
 
     // Timer
     rclcpp::TimerBase::SharedPtr update_status_timer;
+    double update_status_freq;
+    double cmd_vel_timeout_time;
 
     // Subscriber
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub;
