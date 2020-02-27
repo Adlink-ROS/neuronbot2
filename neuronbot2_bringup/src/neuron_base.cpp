@@ -28,7 +28,7 @@ NeuronBase::NeuronBase()
 	std::string raw_imu_sub_topic = declare_parameter("raw_imu_sub_topic", "raw_imu");
 	std::string imu_repub_topic = declare_parameter("imu_repub_topic", "imu");
 	std::string odom_sub_topic = declare_parameter("odom_sub_topic", "raw_odom");
-	cmd_vel_timeout_time = declare_parameter("cmd_vel_timeout_time", 2);
+	cmd_vel_timeout_time = declare_parameter("cmd_vel_timeout_time", 1);
 
 	// imu calibration
 	acc_x_bias = declare_parameter("acc_x_bias", -2.42);
