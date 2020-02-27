@@ -16,9 +16,9 @@ class Simple_dataframe : public Dataframe{
         Simple_dataframe(serial::Serial* _trans);
         ~Simple_dataframe();
 
+        bool init();
         bool data_recv(unsigned char c);
         bool data_parse();
-        bool init();
         bool interact(const MESSAGE_ID id);
 
     private:

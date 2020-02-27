@@ -150,6 +150,7 @@ bool Simple_dataframe::interact(const MESSAGE_ID id){
         break;
     case ID_GET_IMU_DATA:
         send_message(id);
+        break;
     default:
         break;
     }
