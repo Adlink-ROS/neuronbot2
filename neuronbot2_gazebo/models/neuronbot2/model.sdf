@@ -53,10 +53,10 @@
       <collision name='collision'>
         <laser_retro>0</laser_retro>
         <max_contacts>10</max_contacts>
-        <pose frame=''>0 0 0.126 3.14 -0 0</pose>
+        <pose frame=''>0 0 0.101 3.14 -0 0</pose>
         <geometry>
           <box>
-            <size>0.25 0.25 0.25</size>
+            <size>0.25 0.25 0.20</size>
           </box>
         </geometry>
         <surface>
@@ -795,10 +795,10 @@
       <wheelAcceleration>1.0</wheelAcceleration>
       <commandTopic>cmd_vel</commandTopic>
       <publishOdom>1</publishOdom>
-      <publishOdomTF>1</publishOdomTF>
-      <publishWheelJointState>1</publishWheelJointState>
+      <publishOdomTF>0</publishOdomTF>
+      <publishWheelJointState>0</publishWheelJointState>
       <publishWheelTF>0</publishWheelTF>
-      <odometryTopic>odom</odometryTopic>
+      <odometryTopic>raw_odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishTf>1</publishTf>

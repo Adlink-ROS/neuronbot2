@@ -51,6 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>neuronbot2_msgs</buildtool_depend>
   <buildtool_depend>robot_pose_ekf</buildtool_depend>
+  <buildtool_depend>robot_localization</buildtool_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
