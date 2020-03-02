@@ -18,18 +18,21 @@ NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully suppor
 
 This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
 
-Users are able to checkout to different branch of this package to run on ROS1(melodic-version) and ROS2(dashing-version).
+Users are able to checkout to different branch of this package to run on ROS1(melodic-version), ROS2 dashing-version and ROS2 eloquent-version.
 ```
 # For ROS melodic
 git checkout melodic-dev
 
 # For ROS2 Dashing
 git checkout dashing-devel
+
+# For ROS2 Eloquent
+git checkout eloquent-devel
 ``` 
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/ "ros-dashing-desktop installation"). For the sake of convenience, you might want to download ros-dashing-desktop version to make sure all the dependencies are installed.
-1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/)
+Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
+1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/)
 2. Create workspace
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
@@ -37,7 +40,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 3. Git clone this package
     ```
     cd ~/neuronbot2_ros2_ws/
-    wget https://gist.githubusercontent.com/airuchen/dd5e7962706b32ffaa8d46ba905fea91/raw/d21c4fe2ca0d494202cf84c734c9e8cbca769ff1/NeuronBot2_ros2.repos
+    git clone https://github.com/skylerpan/NeuronBot2_ros2.repos.git -b eloquent-devel .
     vcs import src < NeuronBot2_ros2.repos
 
     ```
@@ -50,7 +53,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 5. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
@@ -64,13 +67,13 @@ Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- t
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ros2 launch neuronbot2_bringup neuronbot2_bringup.launch.py
    ```
 ###  Teleop NeuronBot2
    ```
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    Follow the hints and start to cruise your NeuronBot2.
@@ -96,12 +99,12 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 3. Save the map
    ```
-   source /opt/ros/dashing/setup.bash 
+   source /opt/ros/eloquent/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -131,7 +134,7 @@ Open a new terminal (Ctrl + Alt + t).
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Launch Gazebo simulation.
@@ -151,7 +154,7 @@ Open a new terminal (Ctrl + Alt + t).
 
     Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
-   source /opt/ros/dashing/local_setup.bash
+   source /opt/ros/eloquent/local_setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/teleop.png)
@@ -178,13 +181,13 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
    ```
-   source /opt/ros/dashing/setup.bash 
+   source /opt/ros/eloquent/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -230,7 +233,7 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 
 1. Open the other terminal and source the environment variables.
    ```
-   source /opt/ros/dashing/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Run Behavior Tree
