@@ -33,20 +33,20 @@ git checkout eloquent-devel
 ## Installation
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/)
-2. Create workspace
+2. Git clone repos list
+    ```
+    git clone https://github.com/skylerpan/NeuronBot2_ros2.repos.git -b eloquent-devel ~/neuronbot2_ros2_ws
+    ```
+3. Git clone this package and others source
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
-    ```
-3. Git clone this package
-    ```
     cd ~/neuronbot2_ros2_ws/
-    git clone https://github.com/skylerpan/NeuronBot2_ros2.repos.git -b eloquent-devel .
     vcs import src < NeuronBot2_ros2.repos
-
     ```
 4. Install dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
+   source /opt/ros/eloquent/setup.bash
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y # Show my respect to this line
    ```
@@ -165,11 +165,11 @@ Open a new terminal (Ctrl + Alt + t).
    
    ***We provide three slam methods.***
 
-   * Gmapping
+   * Gmapping (Not support on Eloquent now)
    ```
    ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true
    ```
-   * Slam_toolbox
+   * Slam_toolbox (Not support on Eloquent now)
    ``` 
    ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
    ```
@@ -243,7 +243,3 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
    ![](readme_resource/nav2_bt.gif)
 
 ## Trouble Shooting
-1. If you see below warning messages after NeuronBot performing navigation, don't worry, it has been fixed at ROS 2 Eloquent.
-
-<img src="./readme_resource/bt_navigator_setUsingDedicatedThread.png" title="" width="100%" align="middle">
-<br/>
