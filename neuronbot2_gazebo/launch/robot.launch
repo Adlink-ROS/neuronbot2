@@ -6,12 +6,26 @@
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+  <arg name="ekf" default="true"/>
 
   <group ns="$(arg namespace)">
     <node name="gazebo_robot" pkg="gazebo_ros" type="spawn_model" output="screen"
-    args="-file $(arg model_file) -$(arg file_type) -z -1 -model $(arg model_name)" />
+    args="-file $(arg model_file) -$(arg file_type) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg yaw) -model $(arg model_name)">
+      <remap unless="$(arg ekf)" from="raw_odom" to="odom"/>
+    </node>
     <include file="$(find neuronbot2_gazebo)/launch/robot_state_publisher.launch">
       <arg name="prefix" value="$(arg namespace)"/>
     </include>
+    <node if="$(arg ekf)" name="ekf" pkg="robot_localization" type="ekf_localization_node" output="screen">
+      <rosparam command="load" file="$(find neuronbot2_gazebo)/params/ekf_params.yaml"/>
+      <param if="$(eval namespace != '/')" name="map_frame" value="$(arg namespace)/map"/>
+      <param if="$(eval namespace != '/')" name="odom_frame" value="$(arg namespace)/odom"/>
+      <param if="$(eval namespace != '/')" name="base_link_frame" value="$(arg namespace)/base_footprint"/>
+      <param if="$(eval namespace != '/')" name="world_frame" value="$(arg namespace)/odom"/>
+      <param name="odom0" value="raw_odom"/>
+      <param name="imu0" value="imu/data"/>
+      <remap from="odometry/filtered" to="odom"/>
+    </node>
   </group>  
 </launch>

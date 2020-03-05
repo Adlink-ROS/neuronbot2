@@ -4,10 +4,14 @@
   <arg name="use_map_topic" default="true"/>
   <arg name="scan_topic" default="scan"/>
 
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+
   <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
     <!-- Publish scans from best pose at a max of 10 Hz -->
-    <param name="odom_model_type" value="diff"/>
+    <param name="odom_model_type" value="diff-corrected"/>
     <param name="odom_alpha5" value="0.08"/>
     <param name="gui_publish_rate" value="5.0"/>
     <param name="laser_max_beams" value="200"/>
@@ -25,8 +29,8 @@
     <param name="laser_z_short" value="0.05"/>
     <param name="laser_z_max" value="0.05"/>
     <param name="laser_z_rand" value="0.5"/>
-    <param name="laser_sigma_hit" value="0.2"/>
-    <param name="laser_lambda_short" value="0.1"/>
+    <param name="laser_sigma_hit" value="0.02"/>
+    <param name="laser_lambda_short" value="0.01"/>
     <param name="laser_model_type" value="likelihood_field"/>
     <!-- <param name="laser_model_type" value="beam"/> -->
     <param name="laser_likelihood_max_dist" value="2.0"/>
@@ -42,5 +46,9 @@
     <param if="$(eval namespace != '')" name="odom_frame_id" value="$(arg namespace)/odom"/>
     <param if="$(eval namespace != '')" name="base_frame_id" value="$(arg namespace)/base_link"/>
     <param if="$(eval namespace != '')" name="global_frame_id" value="$(arg namespace)/map"/>
+    <!-- Inital pose -->
+    <param name="initial_pose_x" value="$(arg x_pos)"/>
+    <param name="initial_pose_y" value="$(arg y_pos)"/>
+    <param name="initial_pose_a" value="$(arg yaw)"/>
   </node>
 </launch>

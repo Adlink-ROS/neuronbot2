@@ -8,7 +8,7 @@
   </material>
 
   <material name="black">
-    <color rgba="0 0 0 0.9"/>
+    <color rgba="0 0 0 0.7"/>
   </material>
 
   <material name="red">
@@ -41,7 +41,7 @@
         <mesh
           filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="white"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin
@@ -169,4 +169,12 @@
     <axis xyz="0 1 0"/>
   </joint>
 
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0.075 0 0.250" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <link name="camera_link"/>
 </robot>
