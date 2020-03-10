@@ -12,6 +12,7 @@
 #include "neuronbot2_bringup/transport.h"
 #include "neuronbot2_bringup/dataframe.h"
 #include <neuronbot2_msgs/RawImu.h>
+#include <sensor_msgs/Imu.h>
 
 class BaseDriver
 {
@@ -88,6 +89,18 @@ private:
   //ros::Time last_update_odom_time; 
 
   neuronbot2_msgs::RawImu raw_imu_msgs;
+  sensor_msgs::Imu imu_msgs;
 
   ros::Publisher raw_imu_pub;
+  ros::Publisher imu_pub;
+
+  double acc_x_bias = 0.0;
+  double acc_y_bias = 0.0;
+  double acc_z_bias = 0.0;
+  double vel_theta_bias = 0.0;
+
+  // double acc_x_bias = -2.42;
+  // double acc_y_bias =  0.19;
+  // double acc_z_bias = -2.0;
+  // double vel_theta_bias = 0.012;
 };
