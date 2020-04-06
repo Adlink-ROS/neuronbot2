@@ -33,28 +33,32 @@ def generate_launch_description():
             parameters=[hardware_config],
         ),
 
-        #Node(
-        #    package='joint_state_publisher', 
-        #    node_executable='joint_state_publisher', 
-        #    node_name='joint_state_publisher',
-        #    output='screen',
-        #    arguments=[str(urdf_path)],
-        #    parameters=[hardware_config]
-        #),
+#        Node(
+#            package='joint_state_publisher', 
+#            node_executable='joint_state_publisher', 
+#            node_name='joint_state_publisher',
+#            output='screen',
+#            arguments=[str(urdf_path)],
+#            parameters=[hardware_config]
+#        ),
 
 
         Node(
             package='neuronbot2_bringup',
             node_executable='neuronbot2_driver',
             output='screen',
-            # parameters=[{'publish_tf': 'true'}],
+            parameters=[{
+                'publish_tf': True,
+                'odom_topic': 'odom',
+                'odom_sub_topic' : 'odom'
+                }],
         ),
 
-        Node(
-            package='robot_localization',
-            node_executable='se_node',
-            output='screen',
-            parameters=[ekf_config],
-            remappings=[("odometry/filtered", "odom")]
-        ),
+#        Node(
+#            package='robot_localization',
+#            node_executable='se_node',
+#            output='screen',
+#            parameters=[ekf_config],
+#            remappings=[("odometry/filtered", "odom")]
+#        ),
     ])
