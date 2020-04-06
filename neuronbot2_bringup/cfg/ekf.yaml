@@ -9,7 +9,7 @@ se_node:
 # The period, in seconds, after which we consider a sensor to have timed out. In this event, we carry out a predict
 # cycle on the EKF without correcting it. This parameter can be thought of as the minimum frequency with which the
 # filter will generate new output. Defaults to 1 / frequency if not specified.
-        sensor_timeout: 0.1
+        sensor_timeout: 0.2
 
 # ekf_localization_node and ukf_localization_node both use a 3D omnidirectional motion model. If this parameter is
 # set to true, no 3D information will be used in your state estimate. Use this if you are operating in a planar
@@ -82,9 +82,9 @@ se_node:
 # do not provide some of the state variables estimated by the filter. For example, a TwistWithCovarianceStamped message
 # has no pose information, so the first six values would be meaningless in that case. Each vector defaults to all false
 # if unspecified, effectively making this parameter required for each sensor.
-        odom0_config: [false, false,  false,
-                       false, false, false,
-                       true, true, false,
+        odom0_config: [true,  true, false,
+                       false, false, true,
+                       true,  false, false,
                        false, false, false,
                        false, false, false]
 
@@ -95,7 +95,7 @@ se_node:
 # [ADVANCED] Large messages in ROS can exhibit strange behavior when they arrive at a high frequency. This is a result
 # of Nagle's algorithm. This option tells the ROS subscriber to use the tcpNoDelay option, which disables Nagle's
 # algorithm.
-        odom0_nodelay: false
+        odom0_nodelay: true
 
 # [ADVANCED] When measuring one pose variable with two sensors, a situation can arise in which both sensors under-
 # report their covariances. This can lead to the filter rapidly jumping back and forth between each measurement as they
@@ -126,14 +126,14 @@ se_node:
         imu0_config: [false, false, false,
                       false, false, false,
                       false, false, false,
-                      true, true,  true,
+                      true,  true,  true,
                       true,  true,  true]
         imu0_nodelay: false
-        imu0_differential: false
+        imu0_differential: true
         imu0_relative: true
-        imu0_queue_size: 5
+        imu0_queue_size: 8
         # imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-        imu0_twist_rejection_threshold: 0.8                #
+        # imu0_twist_rejection_threshold: 0.8                #
         # imu0_linear_acceleration_rejection_threshold: 0.1  #
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
