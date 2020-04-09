@@ -20,7 +20,7 @@ global_costmap:
                 - {name: static,           type: "costmap_2d::StaticLayer"}            
                 - {name: sensor,           type: "costmap_2d::ObstacleLayer"}
                 - {name: inflation,        type: "costmap_2d::InflationLayer"}
-
+                - {name: proxemicLayer,    type: "social_navigation_layers::ProxemicLayer"}
         static:        
                 map_topic: /map
                 subscribe_to_updates: true
