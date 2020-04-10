@@ -27,7 +27,7 @@ global_costmap:
 
         sensor:
                 observation_sources: laser
-                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 2.0, raytrace_range: 5.0}
+                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 2.0, raytrace_range: 5.0, inf_is_valid: true}
 
         inflation:
                 inflation_radius: 1
