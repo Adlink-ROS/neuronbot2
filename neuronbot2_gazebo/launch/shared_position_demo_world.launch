@@ -1,0 +1,69 @@
+<launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find neuronbot2_gazebo)/models"/>
+  <arg name="x_pos" default="-3.0"/>
+  <arg name="y_pos" default="1.0"/>
+  <arg name="z_pos" default="0.0"/>
+  <arg name="demo"  default="1"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_house.world"/> -->
+    <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/shared_position_demo_$(arg demo).model"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <group if="$(eval demo == 1)">
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="x_pos" value="1.424464"/>
+    <arg name="y_pos" value="-0.433"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 0.0"/>
+  </include>
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="nb2_1"/>
+    <arg name="x_pos" value="1.424464"/>
+    <arg name="y_pos" value="-1.380"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 0.0"/>
+  </include>
+  </group>
+
+  <group if="$(eval demo == 2)">
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="x_pos" value="1.424464"/>
+    <arg name="y_pos" value="-0.433"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 0.0"/>
+  </include>
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="nb2_1"/>
+    <arg name="x_pos" value="1.424464"/>
+    <arg name="y_pos" value="-1.380"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 0.0"/>
+  </include>
+  </group>
+
+  <group if="$(eval demo == 4)">
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="x_pos" value="0.24"/>
+    <arg name="y_pos" value="-0.25"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" -0.785"/>
+  </include>
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="nb2_1"/>
+    <arg name="x_pos" value="1.47"/>
+    <arg name="y_pos" value="-1.50"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 2.355"/>
+  </include>
+  </group>
+
+</launch>

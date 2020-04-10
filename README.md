@@ -15,6 +15,7 @@ git clone https://github.com/QQting/people.git -b melodic
 3. Build all
 ```
 cd <nb2_workspace>
+rosdep install --from-paths src --ignore-src -r -y
 rm -rf build devel   # remove old files
 catkin_make
 ```
