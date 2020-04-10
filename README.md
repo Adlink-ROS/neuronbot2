@@ -1,7 +1,7 @@
 # Social Navigation Layer for ROS Melodic
 
 ## Prerequisite
-1. Download NeuronBot2 source codes from [melodic-dev](https://github.com/skylerpan/neuronbot2/tree/melodic-dev) branch and setup the workspace by following NeuronBot2 instructions.
+1. Download NeuronBot2 source codes from [melodic-dev](https://github.com/Adlink-ROS/neuronbot2/tree/melodic-dev) branch and setup the workspace by following NeuronBot2 instructions.
    
 2. Checkout and switch to this (social_navigation_layer) branch to get modified local/global costmap settings.
    
