@@ -255,7 +255,7 @@ inline double bias(double input, double correct)
 
 void BaseDriver::update_imu()
 {
-    #define SAMPLE_IMU_TIMES 3 
+    #define SAMPLE_IMU_TIMES 16 
     static int init_calibration_cnt = SAMPLE_IMU_TIMES;
 
     frame->interact(ID_GET_IMU_DATA);
