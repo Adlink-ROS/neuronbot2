@@ -117,6 +117,9 @@ void BaseDriver::init_imu()
     raw_imu_msgs.accelerometer = true;
     raw_imu_msgs.gyroscope = true;
     raw_imu_msgs.magnetometer = true;
+
+    imu_pub = nh.advertise<sensor_msgs::Imu>("imu/data", 50);
+    imu_msgs.header.frame_id = "imu_link";
 }
 
 void BaseDriver::read_param()
@@ -245,9 +248,32 @@ void BaseDriver::update_pid_debug()
     }
 }
 
+inline double bias(double input, double correct)
+{
+    return (input - correct);
+}
+
 void BaseDriver::update_imu()
 {
+    #define SAMPLE_IMU_TIMES 16 
+    static int init_calibration_cnt = SAMPLE_IMU_TIMES;
+
     frame->interact(ID_GET_IMU_DATA);
+
+    if(init_calibration_cnt > 0)
+    {
+        int i = SAMPLE_IMU_TIMES - init_calibration_cnt;
+        acc_x_bias = ((acc_x_bias * i) + bias(Data_holder::get()->imu_data[0], 0.0)) / (i+1);
+        acc_y_bias = ((acc_y_bias * i) + bias(Data_holder::get()->imu_data[1], 0.0)) / (i+1);
+        acc_z_bias = ((acc_z_bias * i) + bias(Data_holder::get()->imu_data[2], 9.8)) / (i+1);
+        vel_theta_bias
+            = ((vel_theta_bias * i) + bias(Data_holder::get()->imu_data[5], 0.0)) / (i+1);
+        init_calibration_cnt--;
+        ROS_INFO("bias %.2f %.2f %.2f %.2f ",
+            acc_x_bias, acc_y_bias, acc_z_bias, vel_theta_bias
+        );
+    }
+
     raw_imu_msgs.header.stamp = ros::Time::now();
     raw_imu_msgs.raw_linear_acceleration.x = Data_holder::get()->imu_data[0];
     raw_imu_msgs.raw_linear_acceleration.y = Data_holder::get()->imu_data[1];
@@ -264,4 +290,14 @@ void BaseDriver::update_imu()
     // raw_imu_msgs.raw_magnetic_field.x, raw_imu_msgs.raw_magnetic_field.y, raw_imu_msgs.raw_magnetic_field.z);
 
     raw_imu_pub.publish(raw_imu_msgs);
+
+    imu_msgs.header.stamp = ros::Time::now();
+    imu_msgs.linear_acceleration.x = Data_holder::get()->imu_data[0] - acc_x_bias;
+    imu_msgs.linear_acceleration.y = Data_holder::get()->imu_data[1] - acc_y_bias;
+    imu_msgs.linear_acceleration.z = Data_holder::get()->imu_data[2] - acc_z_bias;
+    imu_msgs.angular_velocity.x = Data_holder::get()->imu_data[3];
+    imu_msgs.angular_velocity.y = Data_holder::get()->imu_data[4];
+    imu_msgs.angular_velocity.z = Data_holder::get()->imu_data[5] - vel_theta_bias;
+
+    imu_pub.publish(imu_msgs);
 }
