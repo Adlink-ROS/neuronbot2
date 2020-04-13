@@ -21,14 +21,14 @@
     <arg name="x_pos" value="1.424464"/>
     <arg name="y_pos" value="-0.433"/>
     <arg name="z_pos" value="0.0"/>
-    <arg name="yaw" value=" 0.0"/>
+    <arg name="yaw" value="3.14"/>
   </include>
   <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
     <arg name="namespace" value="nb2_1"/>
     <arg name="x_pos" value="1.424464"/>
     <arg name="y_pos" value="-1.380"/>
     <arg name="z_pos" value="0.0"/>
-    <arg name="yaw" value=" 0.0"/>
+    <arg name="yaw" value="3.14"/>
   </include>
   </group>
 
@@ -38,14 +38,31 @@
     <arg name="x_pos" value="1.424464"/>
     <arg name="y_pos" value="-0.433"/>
     <arg name="z_pos" value="0.0"/>
-    <arg name="yaw" value=" 0.0"/>
+    <arg name="yaw" value="3.14"/>
   </include>
   <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
     <arg name="namespace" value="nb2_1"/>
     <arg name="x_pos" value="1.424464"/>
     <arg name="y_pos" value="-1.380"/>
     <arg name="z_pos" value="0.0"/>
-    <arg name="yaw" value=" 0.0"/>
+    <arg name="yaw" value="3.14"/>
+  </include>
+  </group>
+
+  <group if="$(eval demo == 3)">
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="x_pos" value="0.24"/>
+    <arg name="y_pos" value="-0.25"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" -0.785"/>
+  </include>
+  <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
+    <arg name="namespace" value="nb2_1"/>
+    <arg name="x_pos" value="1.47"/>
+    <arg name="y_pos" value="-1.50"/>
+    <arg name="z_pos" value="0.0"/>
+    <arg name="yaw" value=" 2.355"/>
   </include>
   </group>
 

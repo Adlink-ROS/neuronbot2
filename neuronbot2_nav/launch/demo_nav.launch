@@ -1,0 +1,79 @@
+<launch>
+    <arg name="demo" default="1"/>
+	<arg name="map_name" default="$(find neuronbot2_nav)/maps/shared_position_demo_$(arg demo).yaml" />
+
+    <group if="$(eval demo == 1)">
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value=""/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.424464"/>
+        <arg name="y_pos" value="-0.433"/>
+        <arg name="yaw" value=" 0.0"/>
+    </include>
+    <!-- <rosparam command="load" ns="" file="$(find neuronbot2_multibot)/params/multilayer_costmap.yaml" /> -->
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value="nb2_1"/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.424464"/>
+        <arg name="y_pos" value="-1.380"/>
+        <arg name="yaw" value=" 0.0"/>
+    </include>
+    </group> 
+    
+    <group if="$(eval demo == 2)">
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value=""/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.424464"/>
+        <arg name="y_pos" value="-0.433"/>
+        <arg name="yaw" value=" 0.0"/>
+    </include>
+    <!-- <rosparam command="load" ns="" file="$(find neuronbot2_multibot)/params/multilayer_costmap.yaml" /> -->
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value="nb2_1"/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.424464"/>
+        <arg name="y_pos" value="-1.380"/>
+        <arg name="yaw" value=" 0.0"/>
+    </include>
+    </group>
+
+    <group if="$(eval demo == 3)">
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value=""/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="0.24"/>
+        <arg name="y_pos" value="-0.25"/>
+        <arg name="yaw" value=" -0.785"/>
+    </include>
+    <!-- <rosparam command="load" ns="" file="$(find neuronbot2_multibot)/params/multilayer_costmap.yaml" /> -->
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value="nb2_1"/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.47"/>
+        <arg name="y_pos" value="-1.50"/>
+        <arg name="yaw" value=" 2.355"/>
+    </include>
+    </group>
+
+    <group if="$(eval demo == 4)">
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value=""/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="0.24"/>
+        <arg name="y_pos" value="-0.25"/>
+        <arg name="yaw" value=" -0.785"/>
+    </include>
+    <!-- <rosparam command="load" ns="" file="$(find neuronbot2_multibot)/params/multilayer_costmap.yaml" /> -->
+    <include file="$(find neuronbot2_nav)/launch/neuronbot2_nav.launch">
+        <arg name="namespace" value="nb2_1"/>
+	    <arg name="map_name" value="$(arg map_name)" />
+        <arg name="x_pos" value="1.47"/>
+        <arg name="y_pos" value="-1.50"/>
+        <arg name="yaw" value=" 2.355"/>
+    </include>
+    </group>
+    <rosparam param="/amcl/global_frame_id">world</rosparam>
+    <rosparam param="/nb2_1/amcl/global_frame_id">world</rosparam>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_nav)/rviz/view_navigation_multibot.rviz" />
+</launch>
