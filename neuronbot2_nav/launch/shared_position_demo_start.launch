@@ -1,5 +1,7 @@
 <launch>
     <arg name="demo" default="1"/>
+    <arg name="info_shared" default="true"/>
+
     <env name="GAZEBO_MODEL_PATH" value="$(find neuronbot2_gazebo)/models"/>
     <include file="$(find neuronbot2_gazebo)/launch/shared_position_demo_world.launch">
         <arg name="demo" value="$(arg demo)"/>
@@ -7,6 +9,18 @@
     <include file="$(find neuronbot2_nav)/launch/demo_nav.launch">
         <arg name="demo" value="$(arg demo)"/>
     </include>
+
+    <group if="$(arg info_shared)">
+        <node name="info_publisher" pkg="info_publisher" type="info_publisher_node" output="screen">
+            <param name="robot_frame" value="base_link"/>
+            <remap from="/people" to="nb2_1/people" />
+        </node>
+        <node name="info_publisher" pkg="info_publisher" type="info_publisher_node" ns="nb2_1" output="screen">
+            <param name="robot_frame" value="nb2_1/base_link"/>
+            <remap from="/cmd_vel" to="cmd_vel" />
+        </node>
+    </group>
+
     <!-- <include file="$(find neuronbot2_nav)/launch/bt_scheduler.launch">
         <param name="demo" value="$(arg demo)"/>
     </include> -->
