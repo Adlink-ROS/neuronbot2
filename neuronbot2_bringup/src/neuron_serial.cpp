@@ -38,6 +38,7 @@ NeuronSerial::NeuronSerial()
     odom_frame_child = declare_parameter("odom_frame_child", "base_footprint");
     imu_frame = declare_parameter("imu_frame", "imu_link");
 
+	this->get_parameter("odom_topic", odom_topic);
 
     // Initialize serial.
     RCLCPP_INFO(get_logger(), "Connecting to serial: '%s', with baudrate '%d'", port.c_str(), baudrate);

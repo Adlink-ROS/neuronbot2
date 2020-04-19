@@ -31,14 +31,20 @@ NeuronBase::NeuronBase()
 	cmd_vel_timeout_time = declare_parameter("cmd_vel_timeout_time", 1);
 
 	// imu calibration
-	acc_x_bias = declare_parameter("acc_x_bias", -2.42);
-	acc_y_bias = declare_parameter("acc_y_bias", 0.19);
-	acc_z_bias = declare_parameter("acc_z_bias", -2.0);
-	vel_theta_bias = declare_parameter("vel_theta_bias", 0.012);
-
+	acc_x_bias = declare_parameter("acc_x_bias", 0.0);
+	acc_y_bias = declare_parameter("acc_y_bias", 0.0);
+	acc_z_bias = declare_parameter("acc_z_bias", 0.0);
+	vel_theta_bias = declare_parameter("vel_theta_bias", 0.0);
+	// acc_x_bias = declare_parameter("acc_x_bias", -2.42);
+	// acc_y_bias = declare_parameter("acc_y_bias", 0.19);
+	// acc_z_bias = declare_parameter("acc_z_bias", -2.0);
+	// vel_theta_bias = declare_parameter("vel_theta_bias", 0.012);
 	// Function switch
 	publish_tf_ = declare_parameter("publish_tf", false);
 	calibrate_imu_ = declare_parameter("calibrate_imu", true);
+
+	this->get_parameter("publish_tf", publish_tf_);
+	this->get_parameter("odom_sub_topic", odom_sub_topic);
 
 	// Define timer
 	update_status_freq = declare_parameter("update_status_freq", 10.0);
@@ -75,9 +81,31 @@ void NeuronBase::on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg)
 	RCLCPP_DEBUG(get_logger(), "Update cmd_vel x = %f, y = %f, theta = %f", motor_cmd.linear.x, motor_cmd.linear.y, motor_cmd.angular.z);
 }
 
+inline double bias(double input, double correct)
+{
+    return (input - correct);
+}
+
 void NeuronBase::on_raw_imu(sensor_msgs::msg::Imu::ConstSharedPtr msg)
 {
 	// Calibrate the data in "raw_imu", and re-publish it to "imu"
+    #define SAMPLE_IMU_TIMES 32 
+    static int init_calibration_cnt = SAMPLE_IMU_TIMES;
+
+    if(init_calibration_cnt > 0)
+    {
+        int i = SAMPLE_IMU_TIMES - init_calibration_cnt;
+        acc_x_bias = ((acc_x_bias * i) + bias(msg->linear_acceleration.x, 0.0)) / (i+1);
+        acc_y_bias = ((acc_y_bias * i) + bias(msg->linear_acceleration.y, 0.0)) / (i+1);
+        acc_z_bias = ((acc_z_bias * i) + bias(msg->linear_acceleration.z, 9.8)) / (i+1);
+        vel_theta_bias
+            = ((vel_theta_bias * i) + bias(msg->angular_velocity.z, 0.0)) / (i+1);
+		if(acc_x_bias != 0)
+        init_calibration_cnt--;
+        RCLCPP_ERROR(get_logger(), "bias %.2f %.2f %.2f %.2f ",
+            acc_x_bias, acc_y_bias, acc_z_bias, vel_theta_bias
+        );
+    }
 	imu_data_ = *msg;
 	imu_data_.angular_velocity.z = msg->angular_velocity.z - vel_theta_bias;
 	imu_data_.linear_acceleration.x = msg->linear_acceleration.x - acc_x_bias;
