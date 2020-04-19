@@ -76,9 +76,9 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/nav2_bringup_launch.py']),
             launch_arguments={
                 'map': map_dir,
-                'bt_xml_filename': bt_xml_path,
+              # 'bt_xml_filename': bt_xml_path,
                 'use_sim_time': use_sim_time,
-                'params': param_dir}.items(),
+                'params_file': param_dir}.items(),
             ),
 
         Node(
