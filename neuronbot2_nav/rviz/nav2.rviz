@@ -83,11 +83,9 @@ Visualization Manager:
           Value: true
         laser_frame:
           Value: true
+        map:
+          Value: true
         odom:
-          Value: true
-        wheel_left_link:
-          Value: true
-        wheel_right_link:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -95,7 +93,14 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        {}
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                imu_link:
+                  {}
+                laser_frame:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
