@@ -83,29 +83,40 @@ void NeuronBase::on_cmd_vel(geometry_msgs::msg::Twist::ConstSharedPtr msg)
 
 inline double bias(double input, double correct)
 {
-    return (input - correct);
+	return (input - correct);
 }
 
 void NeuronBase::on_raw_imu(sensor_msgs::msg::Imu::ConstSharedPtr msg)
 {
 	// Calibrate the data in "raw_imu", and re-publish it to "imu"
-    #define SAMPLE_IMU_TIMES 32 
-    static int init_calibration_cnt = SAMPLE_IMU_TIMES;
+	#define SAMPLE_IMU_TIMES 128
+	static int init_calibration_cnt = SAMPLE_IMU_TIMES;
 
-    if(init_calibration_cnt > 0)
-    {
-        int i = SAMPLE_IMU_TIMES - init_calibration_cnt;
-        acc_x_bias = ((acc_x_bias * i) + bias(msg->linear_acceleration.x, 0.0)) / (i+1);
-        acc_y_bias = ((acc_y_bias * i) + bias(msg->linear_acceleration.y, 0.0)) / (i+1);
-        acc_z_bias = ((acc_z_bias * i) + bias(msg->linear_acceleration.z, 9.8)) / (i+1);
-        vel_theta_bias
-            = ((vel_theta_bias * i) + bias(msg->angular_velocity.z, 0.0)) / (i+1);
-		if(acc_x_bias != 0)
-        init_calibration_cnt--;
-        RCLCPP_ERROR(get_logger(), "bias %.2f %.2f %.2f %.2f ",
-            acc_x_bias, acc_y_bias, acc_z_bias, vel_theta_bias
-        );
-    }
+	if(init_calibration_cnt > 0)
+	{
+		static std::vector<double> ax, ay, az, ayaw; 
+		int i = SAMPLE_IMU_TIMES - init_calibration_cnt;
+
+		ax.push_back(bias(msg->linear_acceleration.x, 0.0));
+		ay.push_back(bias(msg->linear_acceleration.y, 0.0));
+		az.push_back(bias(msg->linear_acceleration.z, 9.8));
+		ayaw.push_back(bias(msg->angular_velocity.z, 0.0));
+
+		std::sort(ax.begin(), ax.end());
+		std::sort(ay.begin(), ay.end());
+		std::sort(az.begin(), az.end());
+		std::sort(ayaw.begin(), ayaw.end());
+
+		acc_x_bias = ax[ax.size()/2];
+		acc_y_bias = ay[ay.size()/2];
+		acc_z_bias = az[az.size()/2];
+		vel_theta_bias = ayaw[ayaw.size()/2];
+
+		init_calibration_cnt--;
+		RCLCPP_INFO(get_logger(), "IMU calibration bias %.2f %.2f %.2f %.2f ",
+			acc_x_bias, acc_y_bias, acc_z_bias, vel_theta_bias
+		);
+	}
 	imu_data_ = *msg;
 	imu_data_.angular_velocity.z = msg->angular_velocity.z - vel_theta_bias;
 	imu_data_.linear_acceleration.x = msg->linear_acceleration.x - acc_x_bias;
