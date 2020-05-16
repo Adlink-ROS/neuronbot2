@@ -44,7 +44,7 @@ git checkout melodic-dev
    ```
    cd ~/neuronbot2_ros1_ws/
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y # Show my respect to this line
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro melodic
    ```
 5. Catkin_make 
    ```
