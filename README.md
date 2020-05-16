@@ -16,15 +16,12 @@ NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully suppor
 
 This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
 
-Users are able to checkout to different branch of this package to run on ROS1(melodic-version) and ROS2(dashing-version).
+Users are able to checkout to different branch of this package to run on ROS1 and ROS2.
 ```
 git clone https://github.com/Adlink-ROS/neuronbot2.git
 
 # For ROS melodic
 git checkout melodic-dev
-
-# For ROS2 Dashing
-git checkout dashing-devel
 ``` 
 
 # ROS1
@@ -39,7 +36,7 @@ git checkout dashing-devel
     ```
 3. Git clone this package
     ```
-    git clone https://github.com/airuchen/neuronbot2.git
+    git clone https://github.com/Adlink-ROS/neuronbot2.git
     # Checkout to ROS melodic version
     git checkout melodic-dev
     ```
