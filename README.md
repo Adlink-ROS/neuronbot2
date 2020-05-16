@@ -18,7 +18,7 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 
 Users are able to checkout to different branch of this package to run on ROS1(melodic-version) and ROS2(dashing-version).
 ```
-git clone https://github.com/airuchen/neuronbot2.git
+git clone https://github.com/Adlink-ROS/neuronbot2.git
 
 # For ROS melodic
 git checkout melodic-dev
