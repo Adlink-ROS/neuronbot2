@@ -18,13 +18,10 @@ NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully suppor
 
 This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
 
-Users are able to checkout to different branch of this package to run on ROS1(melodic-version) and ROS2(dashing-version).
+Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
 ```
-# For ROS melodic
-git checkout melodic-dev
-
 # For ROS2 Dashing
-git checkout dashing-devel
+git clone https://github.com/Adlink-ROS/neuronbot2.git -b dashing-devel
 ``` 
 
 ## Installation
@@ -45,7 +42,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
    ```
    cd ~/neuronbot2_ros2_ws/
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y # Show my respect to this line
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro dashing
    ```
 5. Colcon build the package 
    ```
