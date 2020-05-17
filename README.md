@@ -123,3 +123,9 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
    
    ![](readme_resource/nav_set_goal.gif)
 
+### Other tips
+1. Speed up simulation
+
+    ```
+    rosrun dynamic_reconfigure dynparam set gazebo time_step 0.002  # default is 0.001
+    ```
