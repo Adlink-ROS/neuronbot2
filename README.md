@@ -32,11 +32,9 @@ git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
     mkdir -p ~/neuronbot2_ros1_ws/src
     cd ~/neuronbot2_ros1_ws/src
     ```
-3. Git clone this package
+3. Git clone this package with melodic-devel branch
     ```
-    git clone https://github.com/Adlink-ROS/neuronbot2.git
-    # Checkout to ROS melodic version
-    git checkout melodic-devel
+    git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
     ```
 4. Install dependencies
    ```
@@ -44,7 +42,7 @@ git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro melodic
    ```
-5. Catkin_make 
+5. catkin_make 
    ```
    cd ~/neuronbot2_ros1_ws/
    source /opt/ros/melodic/setup.bash
