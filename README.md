@@ -127,3 +127,20 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
     ```
     rosrun dynamic_reconfigure dynparam set gazebo time_step 0.002  # default is 0.001
     ```
+
+### Trouble shooting
+1. Q: Meet "ERROR: cannot launch node of type [xxx] ..."
+ 
+   ANS: You probably forgot to install dependent packages, please try below commands:
+
+   ```
+   cd ~/neuronbot2_ros1_ws/
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro $ROS_DISTRO
+   ```
+
+2. Q: Meet "RLException: [xxx.launch] is neither a launch file in package [neuronbot2_xxx]"
+
+   ANS: You probably forgot to source the environment of this workspace, please try below commands:
+   ```
+   source ~/neuronbot2_ros1_ws/devel/setup.bash
+   ```
