@@ -16,8 +16,10 @@ global_costmap:
         plugins: 
                 - {name: static,           type: "costmap_2d::StaticLayer"}            
                 - {name: sensor,           type: "costmap_2d::ObstacleLayer"}
-                - {name: inflation,        type: "costmap_2d::InflationLayer"}
+
                 - {name: rgbd_obstacle_layer,     type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
+                - {name: inflation,        type: "costmap_2d::InflationLayer"}
+
 
         static:        
                 map_topic: /map
