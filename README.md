@@ -121,6 +121,12 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
    
    ![](readme_resource/nav_set_goal.gif)
 
+### 3D Costmap (STVL)
+
+   We use this [plugin](https://github.com/SteveMacenski/spatio_temporal_voxel_layer) which receives pointclouds from Depth Camera or 3D LiDAR to generate 3D Costmap. Below picture is the screenshot:
+   ![](readme_resource/STVL_demo.png)
+
+
 ### Other tips
 1. Speed up simulation
 
