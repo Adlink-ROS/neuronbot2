@@ -19,7 +19,7 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 Users are able to checkout to different branch of this package to run on ROS1 and ROS2.
 ```
 # For ROS melodic
-git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-dev
+git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
 ``` 
 
 # ROS1
@@ -36,7 +36,7 @@ git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-dev
     ```
     git clone https://github.com/Adlink-ROS/neuronbot2.git
     # Checkout to ROS melodic version
-    git checkout melodic-dev
+    git checkout melodic-devel
     ```
 4. Install dependencies
    ```
