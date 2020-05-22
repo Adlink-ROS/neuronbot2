@@ -73,7 +73,7 @@ def generate_launch_description():
             description='Launch Rviz?'),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/nav2_bringup_launch.py']),
+            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
             launch_arguments={
                 'map': map_dir,
               # 'bt_xml_filename': bt_xml_path,
