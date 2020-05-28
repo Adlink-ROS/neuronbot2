@@ -1,5 +1,5 @@
 global_costmap:
-        global_frame: map
+        global_frame: odom
         robot_base_frame: base_footprint
         update_frequency: 4.0
         publish_frequency: 0.5
@@ -10,24 +10,20 @@ global_costmap:
         height: 50
         resolution: 0.075
 
-        rolling_window: false
+        rolling_window: true
         track_unknown_space: true
-        # plugins:
-        #         - {name: static_layer,            type: "costmap_2d::StaticLayer"}
-        #         - {name: obstacle_layer,          type: "costmap_2d::VoxelLayer"}
-        #         - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
         plugins: 
-                - {name: static,           type: "costmap_2d::StaticLayer"}            
+        #        - {name: static,           type: "costmap_2d::StaticLayer"}            
                 - {name: sensor,           type: "costmap_2d::ObstacleLayer"}
                 - {name: inflation,        type: "costmap_2d::InflationLayer"}
 
-        static:        
-                map_topic: /map
-                subscribe_to_updates: true
+        #static:        
+        #        map_topic: /map
+        #        subscribe_to_updates: true
 
         sensor:
                 observation_sources: laser
-                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 2.0, raytrace_range: 5.0, inf_is_valid: true}
+                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 10.0, raytrace_range: 10.0, inf_is_valid: true}
 
         inflation:
                 inflation_radius: 1
