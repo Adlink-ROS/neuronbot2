@@ -8,7 +8,7 @@
   </material>
 
   <material name="black">
-    <color rgba="0 0 0 0.9"/>
+    <color rgba="0 0 0 0.7"/>
   </material>
 
   <material name="red">
@@ -41,7 +41,7 @@
         <mesh
           filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="white"/>
+      <material name="black"/>
     </visual>
     <collision>
       <origin
@@ -50,7 +50,7 @@
       <geometry>
           <box size="0.25 0.25 0.25" />
       </geometry>
-      <material name="white"/>
+      <material name="black"/>
     </collision>
   </link>
 
