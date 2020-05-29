@@ -10,9 +10,9 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='True')
 
-    open_rviz = LaunchConfiguration('open_rviz', default='False')
+    open_rviz = LaunchConfiguration('open_rviz', default='True')
 
     map_dir = LaunchConfiguration(
             'map_dir',
