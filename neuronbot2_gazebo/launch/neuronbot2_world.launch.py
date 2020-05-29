@@ -18,9 +18,14 @@ def generate_launch_description():
     gazebo_model_path = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models')
     print(gazebo_model_path)
 
-    return LaunchDescription([
-        SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=[EnvironmentVariable('GAZEBO_MODEL_PATH'), gazebo_model_path]),
+    if 'GAZEBO_MODEL_PATH' in os.environ:
+        os.environ['GAZEBO_MODEL_PATH'] += ":" + gazebo_model_path
+    else :
+        os.environ['GAZEBO_MODEL_PATH'] = gazebo_model_path
 
+    print(os.environ['GAZEBO_MODEL_PATH'])
+
+    return LaunchDescription([
         ExecuteProcess(
             cmd=['gzserver', '--verbose', world , '-s', 'libgazebo_ros_init.so'],
             # additional_env=EnvironmentVariable('GAZEBO_MODEL_PATH'),
