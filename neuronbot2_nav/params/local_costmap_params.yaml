@@ -30,7 +30,7 @@ local_costmap:
      decay_model:              0     # 0=linear, 1=exponential, -1=persistent
      voxel_size:               0.05  # meters
      track_unknown_space:      true  # default space is known
-     max_obstacle_height:      2.0   # meters
+     max_obstacle_height:      0.5   # meters
      unknown_threshold:        15    # voxel height
      mark_threshold:           0     # voxel height
      update_footprint_enabled: true
@@ -48,11 +48,11 @@ local_costmap:
        marking: true
        clearing: false
        min_obstacle_height: 0.0     # default 0, meters
-       max_obstacle_height: 2.0     # default 3, meters
+       max_obstacle_height: 0.5     # default 3, meters
        expected_update_rate: 0.0    # default 0, if not updating at this rate at least, remove from buffer
        observation_persistence: 0.0 # default 0, use all measurements taken during now-value, 0=latest
        inf_is_valid: false          # default false, for laser scans
-       voxel_filter: false          # default off, apply voxel filter to sensor, recommend on
+       voxel_filter: true          # default off, apply voxel filter to sensor, recommend on
        voxel_min_points: 0          # default 0, minimum points per voxel for voxel filter
        clear_after_reading: true    # default false, clear the buffer after the layer gets readings from it
      rgbd1_clear:
