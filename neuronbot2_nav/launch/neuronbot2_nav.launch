@@ -10,6 +10,8 @@
 	<arg name="y_pos" default="0.0"/>
 	<arg name="yaw" default="0.0"/>
 
+    <arg name="local_planner" default="dwa" doc="Local planner can be either dwa or teb"/>
+
 	<group ns="/$(arg namespace)">
 		<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_name)">
 			<param name="frame_id" value="$(arg namespace)/map"/>
@@ -19,6 +21,7 @@
 
 		<include file="$(find neuronbot2_nav)/launch/include/move_base.launch">
 			<arg name="namespace" value="$(arg namespace)"/>
+            <arg name="local_planner" value="$(arg local_planner)"/>
 		</include>
 
 		<include file="$(find neuronbot2_nav)/launch/include/amcl.launch">

@@ -1,13 +1,14 @@
 <launch>
   <arg name="namespace" default="" />
   <arg name="model" default="neuronbot2" />
+  <arg name="local_planner" default="dwa" doc="Local planner can be either dwa or teb"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
     <rosparam file="$(find neuronbot2_nav)/params/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find neuronbot2_nav)/params/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find neuronbot2_nav)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find neuronbot2_nav)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find neuronbot2_nav)/params/dwa_local_planner_params_$(arg model).yaml" command="load" />
+    <rosparam file="$(find neuronbot2_nav)/params/$(arg local_planner)_local_planner_params_$(arg model).yaml" command="load" />
     <rosparam file="$(find neuronbot2_nav)/params/move_base_params.yaml" command="load" />
     <rosparam file="$(find neuronbot2_nav)/params/global_planner_params.yaml" command="load" />
 
