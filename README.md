@@ -106,8 +106,8 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running.
     ```
     roslaunch neuronbot2_nav neuronbot2_nav.launch map_name:=mememan.yaml open_rviz:=true local_planner:=dwa
-    # map_name: sholud be assigned to the absolute path if you are not in neuronbot2_nav/maps [default: mememan]
-    # open_rviz: whether open RViz or not [default: not open]
+    # map_name: sholud be assigned to the absolute path if you are not in neuronbot2_nav/maps [default: mememan.yaml]
+    # open_rviz: whether open RViz or not [default: false]
     # local_planner: can be either dwa or teb [default: dwa]
     ```
     ![](readme_resource/mememan_launch_nav.png)
