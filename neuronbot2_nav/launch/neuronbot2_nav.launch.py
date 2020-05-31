@@ -35,7 +35,7 @@ def generate_launch_description():
             default=os.path.join(
                 get_package_share_directory('neuronbot2_nav'),
                 'param',
-                'bt_nav2.xml')
+                'navigate_w_replanning_and_recovery.xml')
             )
     nav2_launch_file_dir = os.path.join(
             get_package_share_directory('nav2_bringup'), 'launch')
@@ -76,7 +76,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
             launch_arguments={
                 'map': map_dir,
-              # 'bt_xml_filename': bt_xml_path,
+                'bt_xml_filename': bt_xml_path,
                 'use_sim_time': use_sim_time,
                 'params_file': param_dir}.items(),
             ),
