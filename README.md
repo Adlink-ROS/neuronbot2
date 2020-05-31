@@ -28,14 +28,17 @@ git checkout dashing-devel
 
 # For ROS2 Eloquent
 git checkout eloquent-devel
+
+# For ROS2 Foxy
+git checkout foxy-devel
 ``` 
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
-1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/)
+Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
+1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
 2. Git clone repos list
     ```
-    git clone https://github.com/skylerpan/NeuronBot2_ros2.repos.git -b eloquent-devel ~/neuronbot2_ros2_ws
+    git clone https://github.com/Adlink-ROS/neuronbot2_ros2.repos.git -b foxy-devel ~/neuronbot2_ros2_ws
     ```
 3. Git clone this package and others source
     ```
@@ -46,14 +49,14 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 4. Install dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y # Show my respect to this line
    ```
 5. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
@@ -67,13 +70,13 @@ Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- t
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ros2 launch neuronbot2_bringup neuronbot2_bringup.launch.py
    ```
 ###  Teleop NeuronBot2
    ```
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    Follow the hints and start to cruise your NeuronBot2.
@@ -86,25 +89,25 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping
    ```
-   ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam gmapping.launch.py open_rviz:=true
    ```
    * Slam_toolbox
    ``` 
-   ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
    ```
    * Cartographer
    ```
-   ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam cartographer.launch.py open_rviz:=true
    ```
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 3. Save the map
    ```
-   source /opt/ros/eloquent/setup.bash 
+   source /opt/ros/foxy/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -134,7 +137,7 @@ Open a new terminal (Ctrl + Alt + t).
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Launch Gazebo simulation.
@@ -167,11 +170,11 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping (Not support on Eloquent now)
    ```
-   ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam gmapping.launch.py open_rviz:=true
    ```
    * Slam_toolbox (Not support on Eloquent now)
    ``` 
-   ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
    ```
    * Cartographer
    ```
@@ -181,13 +184,13 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
    ```
-   source /opt/ros/eloquent/setup.bash 
+   source /opt/ros/foxy/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -203,12 +206,12 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 
    * Navigate in mememan map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
 
    ```
    * Navigate in phenix map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
    ``` 
 
    * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
@@ -233,7 +236,7 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 
 1. Open the other terminal and source the environment variables.
    ```
-   source /opt/ros/eloquent/setup.bash
+   source /opt/ros/foxy/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Run Behavior Tree
