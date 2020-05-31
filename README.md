@@ -203,12 +203,12 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 
    * Navigate in mememan map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
 
    ```
    * Navigate in phenix map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
+   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
    ``` 
 
    * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
