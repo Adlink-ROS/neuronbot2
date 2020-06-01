@@ -31,7 +31,7 @@ def generate_launch_description():
             )
 
     bt_xml_path = LaunchConfiguration(
-            'bt_xml',
+            'bt_xml_file',
             default=os.path.join(
                 get_package_share_directory('neuronbot2_nav'),
                 'param',
@@ -63,7 +63,7 @@ def generate_launch_description():
             description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument(
-            'bt_xml_filename',
+            'bt_xml_file',
             default_value=bt_xml_path,
             description='Full path to behavior_tree xml file'),
 
@@ -76,7 +76,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
             launch_arguments={
                 'map': map_dir,
-                'bt_xml_filename': bt_xml_path,
+                'bt_xml_file': bt_xml_path,
                 'use_sim_time': use_sim_time,
                 'params_file': param_dir}.items(),
             ),

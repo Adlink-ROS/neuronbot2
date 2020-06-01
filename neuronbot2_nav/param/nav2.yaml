@@ -49,8 +49,8 @@ amcl_rclcpp_node:
 bt_navigator:
   ros__parameters:
     use_sim_time: False
+    # You should modify bt_xml_filename from launch file, not from here.
     bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
-    #bt_xml_filename: "bt_nav2.xml"
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_follow_path_action_bt_node
