@@ -194,14 +194,10 @@ Open a new terminal (Ctrl + Alt + t).
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
-
    Then, you shall turn off SLAM.
 ### Navigate to the desired location
 Once users obtain the map, the pgm file & yaml file, navigation is good to go.
-   * Try navigation on your own map. 
-      ```
-      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
-      ```
+
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running. Default map is set to mememan.yaml.
 
    * Navigate in mememan map
@@ -216,9 +212,9 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 
    * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
 
-    ```
+   ```
    ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
-    ```
+   ```
 
    * You can run localization and navigation in different terminal.
 
