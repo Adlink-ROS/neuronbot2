@@ -219,13 +219,25 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
     ```
    ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
     ```
+
+   * You can run localization and navigation in different terminal.
+
+   ```
+   # terminal 1
+   ros2 launch neuronbot2_nav localization_launch.py use_sim_time:=true
+   # terminal 2
+   ros2 launch neuronbot2_nav navigation_launch.py use_sim_time:=true
+   # terminal 3
+   rviz2
+   ```
+
     ![](readme_resource/mememan_launch_nav.png)
-1. Set Estimation
+2. Set Estimation
    
    Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
    ![](readme_resource/nav_estimate.gif)
-2. Set Goal
+3. Set Goal
 
    Click "2D Nav Goal", and set goal to any free space on the map.
    
