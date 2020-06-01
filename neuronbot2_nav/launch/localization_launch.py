@@ -27,9 +27,8 @@ def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')    
-    my_param_file = 'nav2.yaml'
+    my_param_file = 'neuronbot_params.yaml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
-    #my_map_file = 'map.yaml'
     my_map_file = 'mememan.yaml'
 
     namespace = LaunchConfiguration('namespace')
@@ -87,24 +86,24 @@ def generate_launch_description():
 
         Node(
             package='nav2_map_server',
-            node_executable='map_server',
-            node_name='map_server',
+            executable='map_server',
+            name='map_server',
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
 
         Node(
             package='nav2_amcl',
-            node_executable='amcl',
-            node_name='amcl',
+            executable='amcl',
+            name='amcl',
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
 
         Node(
             package='nav2_lifecycle_manager',
-            node_executable='lifecycle_manager',
-            node_name='lifecycle_manager_localization',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
