@@ -1,12 +1,12 @@
 amcl:
   ros__parameters:
     use_sim_time: False
-    alpha1: 0.2
-    alpha2: 0.2
-    alpha3: 0.2
-    alpha4: 0.2
-    alpha5: 0.2
-    base_frame_id: "base_footprint"
+    alpha1: 0.9
+    alpha2: 0.1
+    alpha3: 0.05
+    alpha4: 0.01
+    alpha5: 0.04
+    base_frame_id: "base_link"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -21,22 +21,22 @@ amcl:
     max_particles: 2000
     min_particles: 500
     odom_frame_id: "odom"
-    pf_err: 0.05
-    pf_z: 0.99
+    pf_err: 0.02
+    pf_z: 0.85
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
     resample_interval: 1
     robot_model_type: "differential"
     save_pose_rate: 0.5
-    sigma_hit: 0.2
+    sigma_hit: 0.02
     tf_broadcast: true
     transform_tolerance: 1.0
-    update_min_a: 0.2
-    update_min_d: 0.25
-    z_hit: 0.5
-    z_max: 0.05
-    z_rand: 0.5
-    z_short: 0.05
+    update_min_a: 0.06
+    update_min_d: 0.025
+    z_hit: 0.7
+    z_max: 0.001
+    z_rand: 0.059
+    z_short: 0.24
 
 amcl_map_client:
   ros__parameters:
@@ -91,22 +91,22 @@ controller_server:
     FollowPath.debug_trajectory_details: True
     FollowPath.min_vel_x: 0.0
     FollowPath.min_vel_y: 0.0
-    FollowPath.max_vel_x: 0.26
+    FollowPath.max_vel_x: 0.5
     FollowPath.max_vel_y: 0.0
-    FollowPath.max_vel_theta: 1.0
+    FollowPath.max_vel_theta: 0.8
     FollowPath.min_speed_xy: 0.0
-    FollowPath.max_speed_xy: 0.26
+    FollowPath.max_speed_xy: 0.5
     FollowPath.min_speed_theta: 0.0
     # Add high threshold velocity for turtlebot 3 issue.
     # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-    FollowPath.acc_lim_x: 2.5
+    FollowPath.acc_lim_x: 1.5
     FollowPath.acc_lim_y: 0.0
-    FollowPath.acc_lim_theta: 3.2
-    FollowPath.decel_lim_x: -2.5
+    FollowPath.acc_lim_theta: 1.3
+    FollowPath.decel_lim_x: -1.5
     FollowPath.decel_lim_y: 0.0
-    FollowPath.decel_lim_theta: -3.2
+    FollowPath.decel_lim_theta: -1.3
     FollowPath.vx_samples: 20
-    FollowPath.vy_samples: 5
+    FollowPath.vy_samples: 0
     FollowPath.vtheta_samples: 20
     FollowPath.sim_time: 1.7
     FollowPath.linear_granularity: 0.05
@@ -118,12 +118,12 @@ controller_server:
     FollowPath.stateful: True
     FollowPath.critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
     FollowPath.BaseObstacle.scale: 0.02
-    FollowPath.PathAlign.scale: 32.0
-    FollowPath.GoalAlign.scale: 24.0
+    FollowPath.PathAlign.scale: 50.0
+    FollowPath.GoalAlign.scale: 5.0
     FollowPath.PathAlign.forward_point_distance: 0.1
     FollowPath.GoalAlign.forward_point_distance: 0.1
-    FollowPath.PathDist.scale: 32.0
-    FollowPath.GoalDist.scale: 24.0
+    FollowPath.PathDist.scale: 50.0
+    FollowPath.GoalDist.scale: 5.0
     FollowPath.RotateToGoal.scale: 32.0
     FollowPath.RotateToGoal.slowing_factor: 5.0
     FollowPath.RotateToGoal.lookahead_time: -1.0
@@ -239,7 +239,7 @@ planner_server:
     planner_plugin_types: ["nav2_navfn_planner/NavfnPlanner"]
     planner_plugin_ids: ["GridBased"]
     use_sim_time: False
-    GridBased.tolerance: 0.5
+    GridBased.tolerance: 0.0
     GridBased.use_astar: false
     GridBased.allow_unknown: true
 
@@ -257,7 +257,7 @@ recoveries_server:
     global_frame: odom
     robot_base_frame: base_link
     transform_timeout: 0.1
-    use_sim_time: true
+    use_sim_time: False
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
