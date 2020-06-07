@@ -805,9 +805,12 @@
     </plugin>
 
     <!--┐(´～｀)┌ Joint state publisher ┐(´～｀)┌-->
-    <plugin name='neuronbot2_joint_state' filename='libgazebo_ros_joint_state_publisher.so'>
+    <plugin name='neuronbot2_joint_state_right_wheel' filename='libgazebo_ros_joint_state_publisher.so'>
       <updateRate>30</updateRate>
       <jointName>r_wheel_joint</jointName>
+    </plugin>
+    <plugin name='neuronbot2_joint_state_lefft_wheel' filename='libgazebo_ros_joint_state_publisher.so'>
+      <updateRate>30</updateRate>
       <jointName>l_wheel_joint</jointName>
     </plugin>
 

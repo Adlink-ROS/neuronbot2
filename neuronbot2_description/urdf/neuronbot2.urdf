@@ -158,7 +158,7 @@
   <joint name="r_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
-    <origin xyz="0.0 -0.109 0.0415" rpy="0 0 3.14"/>
+    <origin xyz="0.0 -0.09 0.0415" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
