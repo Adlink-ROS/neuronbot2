@@ -47,7 +47,7 @@ NeuronBase::NeuronBase()
 	this->get_parameter("odom_sub_topic", odom_sub_topic);
 
 	// Define timer
-	update_status_freq = declare_parameter("update_status_freq", 10.0);
+	update_status_freq = declare_parameter("update_status_freq", 50.0);
 	update_status_timer = create_wall_timer(1s/ update_status_freq, [=]() {update_status(); });
 
 	// Define subscriber

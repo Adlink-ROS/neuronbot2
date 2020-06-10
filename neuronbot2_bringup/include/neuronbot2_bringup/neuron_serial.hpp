@@ -50,7 +50,7 @@ public:
 private:
     rclcpp::Node::SharedPtr node_handle_;
     duration keepalive_period = 100ms;  // The frequency for an idle publisher to keep the node alive.
-    duration uart_poll_period = 50ms;   // The frequency to poll for a uart message.
+    duration uart_poll_period = 20ms;   // The frequency to poll for a uart message.
     duration pub_period = 100ms;        // The frequency to publish feedback message from imu and odom.
 
     std::string odom_frame_parent;
