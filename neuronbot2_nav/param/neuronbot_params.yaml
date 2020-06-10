@@ -25,12 +25,12 @@ amcl:
     pf_z: 0.85
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
-    resample_interval: 1
+    resample_interval: 2
     robot_model_type: "differential"
     save_pose_rate: 0.5
     sigma_hit: 0.02
     tf_broadcast: true
-    transform_tolerance: 1.0
+    transform_tolerance: 0.5
     update_min_a: 0.06
     update_min_d: 0.025
     z_hit: 0.7
@@ -146,7 +146,7 @@ local_costmap:
       resolution: 0.05
       plugin_names: ["obstacle_layer", "voxel_layer", "inflation_layer"]
       plugin_types: ["nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::VoxelLayer", "nav2_costmap_2d::InflationLayer"]
-      robot_radius: 0.22
+      robot_radius: 0.20
       inflation_layer:
         cost_scaling_factor: 3.0
       obstacle_layer:
@@ -186,14 +186,14 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 1.0
+      update_frequency: 2.0
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
       plugin_names: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
       plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::VoxelLayer", "nav2_costmap_2d::InflationLayer"]
-      robot_radius: 0.22
+      robot_radius: 0.20
       resolution: 0.05
       obstacle_layer:
         enabled: True
@@ -259,9 +259,9 @@ recoveries_server:
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
-    min_rotational_vel: 0.4
-    rotational_acc_lim: 3.2
+    max_rotational_vel: 0.8
+    min_rotational_vel: 0.0
+    rotational_acc_lim: 1.3
 
 robot_state_publisher:
   ros__parameters:
