@@ -675,7 +675,7 @@
     <joint name="imu_joint" type="fixed">
       <parent>base_link</parent>
       <child>imu_link</child>
-      <pose> 0.075 0 0.138 0 0 0</pose>
+      <pose> 0 0 -0.05 0 0 0</pose>
     </joint>
 
     <joint name='l_wheel_joint' type='revolute'>
