@@ -91,16 +91,16 @@ void NeuronSerial::parameter_init()
     Robot_parameter* rp = &dh->parameter;
     memset(rp ,0, sizeof(Robot_parameter));
 
-    rp->params.wheel_diameter = 86;
-    rp->params.wheel_track = 221;
-    rp->params.encoder_resolution = 980;
+    rp->params.wheel_diameter = 84;
+    rp->params.wheel_track = 225;
+    rp->params.encoder_resolution = 1428;
     rp->params.do_pid_interval = 10; 
     rp->params.kp = 75;
     rp->params.ki = 2500;
     rp->params.kd = 0;
     rp->params.ko = 10;
     rp->params.cmd_last_time = 250;
-    rp->params.max_v_liner_x = 30;
+    rp->params.max_v_liner_x = 40;
     rp->params.max_v_liner_y = 0;
     rp->params.max_v_angular_z = 150;
     rp->params.imu_type = 69; // 'E'(69) for enable
