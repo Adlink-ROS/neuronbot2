@@ -130,7 +130,7 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
     ```
 
 ### Troubleshooting
-1. Q: Meet "ERROR: cannot launch node of type [xxx] ..."
+1. Why do I see "ERROR: cannot launch node of type [xxx] ..." ?
  
    ANS: You probably forgot to install dependent packages, please try below commands:
 
@@ -139,7 +139,7 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
    rosdep install --from-paths src --ignore-src -r -y --rosdistro $ROS_DISTRO
    ```
 
-2. Q: Meet "RLException: [xxx.launch] is neither a launch file in package [neuronbot2_xxx]"
+2. Why do I see "RLException: [xxx.launch] is neither a launch file in package [neuronbot2_xxx]" ?
 
    ANS: You probably forgot to source the environment of this workspace, please try below commands:
    ```
