@@ -129,7 +129,7 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
     rosrun dynamic_reconfigure dynparam set gazebo time_step 0.002  # default is 0.001
     ```
 
-### Trouble shooting
+### Troubleshooting
 1. Q: Meet "ERROR: cannot launch node of type [xxx] ..."
  
    ANS: You probably forgot to install dependent packages, please try below commands:
