@@ -32,7 +32,7 @@ Now we support the following version, you can checkout to these branch.
     mkdir -p ~/neuronbot2_ros1_ws/src
     cd ~/neuronbot2_ros1_ws/src
     ```
-3. Git clone this package with melodic-devel branch
+3. Git clone this package with melodic-devel branches
     ```
     git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
     ```
