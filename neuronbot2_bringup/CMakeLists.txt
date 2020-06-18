@@ -39,7 +39,6 @@ add_executable(${EXECUTABLE_NAME}
   src/main.cpp
   src/simple_dataframe_master.cpp
   src/neuron_serial.cpp
-  src/neuron_base.cpp
 )
 set(DEPENDENCIES
   "rclcpp"           

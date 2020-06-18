@@ -30,20 +30,30 @@ NeuronSerial::NeuronSerial()
     // Declare parameters
     std::string port = declare_parameter("port", "/dev/neuronbot2");
     int32_t baudrate = declare_parameter("baudrate", 115200);
-    std::string cmd_vel_topic = declare_parameter("cmd_vel_topic", "motor_cmd_vel");
+    std::string cmd_vel_topic = declare_parameter("cmd_vel_topic", "cmd_vel");
+	cmd_vel_timeout = declare_parameter("cmd_vel_timeout", 1.0);    
     std::string odom_topic = declare_parameter("odom_topic", "raw_odom");
-    std::string raw_imu_topic = declare_parameter("raw_imu_topic", "raw_imu");
-    std::string raw_mag_topic = declare_parameter("raw_mag_topic", "raw_mag");
+    std::string imu_topic = declare_parameter("imu_topic", "raw_imu");
+    std::string mag_topic = declare_parameter("mag_topic", "raw_mag");
     odom_frame_parent = declare_parameter("odom_frame_parent", "odom");
-    odom_frame_child = declare_parameter("odom_frame_child", "base_footprint");
+    odom_frame_child = declare_parameter("odom_frame_child", "base_link");
     imu_frame = declare_parameter("imu_frame", "imu_link");
 
-	this->get_parameter("odom_topic", odom_topic);
+	// Function switch
+	publish_tf_ = declare_parameter("publish_tf", false);
+	calibrate_imu_ = declare_parameter("calibrate_imu", true);
+
+	// imu calibration
+	acc_x_bias = declare_parameter("acc_x_bias", 0.0);
+	acc_y_bias = declare_parameter("acc_y_bias", 0.0);
+	acc_z_bias = declare_parameter("acc_z_bias", 0.0);
+	vel_theta_bias = declare_parameter("vel_theta_bias", 0.0);
 
     // Initialize serial.
     RCLCPP_INFO(get_logger(), "Connecting to serial: '%s', with baudrate '%d'", port.c_str(), baudrate);
     try {
         serial_ = std::make_unique<serial::Serial>(port, baudrate);
+        serial_->setTimeout(0, 1000, 0, 1000, 0);
     } catch (const std::exception & e) {
         RCLCPP_ERROR(get_logger(), "Beep-bee-bee-boop-bee-doo-weep Can't connect to serial.");
         RCLCPP_ERROR(get_logger(), e.what());
@@ -53,40 +63,34 @@ NeuronSerial::NeuronSerial()
     // Set the data frame for serial data
     frame = std::make_shared<Simple_dataframe>(serial_.get());
     dh = Data_holder::get();    // store pending data
-
+    rclcpp::sleep_for(1s);
+    
+    frame->init();
     parameter_init();       // Initialize firmware's parameter (DO NOT CHANGE THEM)
     read_firmware_info();   // Check the version of firmware
 
-    // Initialize odom data
-    frame->interact(ID_INIT_ODOM);
-    
     // Define Subscriber
     cmd_vel_sub = create_subscription<geometry_msgs::msg::Twist>(
-        cmd_vel_topic, rclcpp::QoS(1), [=](geometry_msgs::msg::Twist::SharedPtr msg) {on_motor_move(msg); });
+        cmd_vel_topic, rclcpp::QoS(1), [=](geometry_msgs::msg::Twist::SharedPtr msg) {on_cmd_vel(msg); });
+	cmd_vel_pub = create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, rclcpp::QoS(1));
+    motor_cmd = std::make_unique<geometry_msgs::msg::Twist>();
 
     // Create Publisher
-    odom_pub = create_publisher<nav_msgs::msg::Odometry>(odom_topic, rclcpp::QoS(4));
-    raw_imu_pub = create_publisher<sensor_msgs::msg::Imu>(raw_imu_topic, rclcpp::QoS(1));
-    raw_mag_pub = create_publisher<sensor_msgs::msg::MagneticField>(raw_mag_topic, rclcpp::QoS(1));
-    
+    odom_pub = create_publisher<nav_msgs::msg::Odometry>(odom_topic, rclcpp::QoS(1));
+    imu_pub = create_publisher<sensor_msgs::msg::Imu>(imu_topic, rclcpp::QoS(1));
+    mag_pub = create_publisher<sensor_msgs::msg::MagneticField>(mag_topic, rclcpp::QoS(1));
+    tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this);
+
     // Set up timer and callback
-    keepalive_timer = create_wall_timer(keepalive_period, [=]() { keepalive_cb(); });
-    read_timer = create_wall_timer(uart_poll_period, [=]() { 
-        update_imu();
-        update_odom(); });
+	odom_freq = declare_parameter("odom_freq", 50.0);
+	imu_freq = declare_parameter("imu_freq", 100.0);
+    odom_read_timer = create_wall_timer(1s/odom_freq, [=]() { update_odom(); });
+    imu_read_timer = create_wall_timer(1s/imu_freq, [=]() { update_imu(); });
+    //keepalive_timer = create_wall_timer(1s, [=]() { keepalive_cb(); });
 }
 
 void NeuronSerial::parameter_init()
 {
-    // DO NOT even try to change parameters here, or the robot might die. Seriously.
-    // I mean seriously.
-
-    // Just don't.
-
-    frame->init();
-
-    rclcpp::sleep_for(1s);
-    
     // Set up control parameter
     Robot_parameter* rp = &dh->parameter;
     memset(rp ,0, sizeof(Robot_parameter));
@@ -141,9 +145,15 @@ void NeuronSerial::read_firmware_info()
 {
     // Read in information from firmware
     frame->interact(ID_GET_VERSION);
-    std::string version(dh->firmware_info.version);
-    std::string time(dh->firmware_info.time);
-    RCLCPP_INFO(get_logger(), "Robot firmware version:%s || build time:%s", version.c_str(), time.c_str());
+    RCLCPP_INFO(get_logger(), "NeuronBot2 firmware version: %s_build_%s", dh->firmware_info.version, dh->firmware_info.time);
+}
+
+void NeuronSerial::on_cmd_vel(geometry_msgs::msg::Twist::SharedPtr msg)
+{
+    motor_cmd->linear.x = msg->linear.x;
+    motor_cmd->linear.y = msg->linear.y;
+    motor_cmd->angular.z = msg->angular.z;
+    cmd_vel_timeout_switch = false;
 }
 
 void NeuronSerial::on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg)
@@ -193,30 +203,118 @@ void NeuronSerial::update_odom()
     odom->pose.pose.orientation.y = q.y(); 
     odom->pose.pose.orientation.z = q.z(); 
     odom->pose.pose.orientation.w = q.w(); 
+    odom->pose.covariance.fill(0.0);
+    odom->pose.covariance[0] = 1e-3;
+    odom->pose.covariance[7] = 1e-3;
+    odom->pose.covariance[14] = 1e6; 
+    odom->pose.covariance[21] = 1e6; 
+    odom->pose.covariance[28] = 1e6;
+    odom->pose.covariance[35] = 1e-3;
+
     odom->twist.twist.linear.x = vxy;  
-    odom->twist.twist.angular.z = vth;  
+    odom->twist.twist.angular.z = vth;      
     odom->twist.covariance.fill(0.0);
+    odom->twist.covariance[0] = 1e-3;
+    odom->twist.covariance[7] = 1e-3;
+    odom->twist.covariance[14] = 1e6;
+    odom->twist.covariance[21] = 1e6;
+    odom->twist.covariance[28] = 1e6;
+    odom->twist.covariance[35] = 1e3;
+
+	if (publish_tf_)
+    {
+        // publish TF
+        geometry_msgs::msg::TransformStamped odom_tf;
+        odom_tf.header.stamp = now; 
+        odom_tf.header.frame_id = odom_frame_parent;
+        odom_tf.child_frame_id = odom_frame_child;
+        odom_tf.transform.translation.x = x;
+        odom_tf.transform.translation.y = y;
+        odom_tf.transform.translation.z = 0;
+        odom_tf.transform.rotation = odom->pose.pose.orientation;
+        tf_broadcaster_->sendTransform(odom_tf);
+    }
 
     // publish odom
     odom_pub->publish(std::move(odom));
+
+    // set motor velocity
+    static int timeout_counter = 0;
+    if (!cmd_vel_timeout_switch){
+		timeout_counter = 0;
+		cmd_vel_timeout_switch = true;
+	} else {
+		if (timeout_counter > cmd_vel_timeout*odom_freq) { 
+			motor_cmd->linear.x = 0; 
+			motor_cmd->linear.y = 0;
+			motor_cmd->angular.z = 0;
+			timeout_counter = 0;
+			RCLCPP_DEBUG(get_logger(), "Oh oh! cmd_vel timeout");
+		} else {
+			timeout_counter++;
+		}
+	}
+    on_motor_move(motor_cmd);
 }
 
 void NeuronSerial::update_imu()
 {
-    // A callback to publish imu data
-    frame->interact(ID_GET_IMU_DATA);
+	static bool calibration_start = true;	
 
+    frame->interact(ID_GET_IMU_DATA);
     const rclcpp::Time & now = get_clock()->now();
     auto raw_imu_msg = std::make_unique<sensor_msgs::msg::Imu>();
 
+    if (calibrate_imu_) 
+    {
+        if (calibration_start) 
+        {
+            #define SAMPLE_IMU_TIMES 200
+            static int init_calibration_cnt = 0;            
+            int i = init_calibration_cnt;
+
+            if (init_calibration_cnt == 0) {
+                RCLCPP_INFO(get_logger(), "Running IMU calibration...");
+            }
+
+            acc_x_bias = ((acc_x_bias * i) + dh->imu_data[0]) / (i+1);
+            acc_y_bias = ((acc_y_bias * i) + dh->imu_data[1]) / (i+1);
+            acc_z_bias = ((acc_z_bias * i) + dh->imu_data[2] - 9.81) / (i+1);
+            vel_theta_bias = ((vel_theta_bias * i) + dh->imu_data[5]) / (i+1);
+            init_calibration_cnt++;
+            if (init_calibration_cnt >= SAMPLE_IMU_TIMES) {
+                calibration_start = false;
+                RCLCPP_INFO(get_logger(), "IMU calibration done. Bias: %.2f %.2f %.2f %.2f",
+                    acc_x_bias, acc_y_bias, acc_z_bias, vel_theta_bias
+                );                
+            }
+        }
+    }
+    else 
+    {
+        acc_x_bias = 0.0;
+        acc_y_bias = 0.0;
+        acc_z_bias = 9.81;
+        vel_theta_bias = 0.0;
+    }
+
     raw_imu_msg->header.frame_id = imu_frame;
     raw_imu_msg->header.stamp = now;    
-    raw_imu_msg->linear_acceleration.x = dh->imu_data[0];
-    raw_imu_msg->linear_acceleration.y = dh->imu_data[1];
-    raw_imu_msg->linear_acceleration.z= dh->imu_data[2];
+    raw_imu_msg->orientation_covariance[0] = -1; // we don't have estimation for orientation
+    raw_imu_msg->linear_acceleration.x = dh->imu_data[0] - acc_x_bias;
+    raw_imu_msg->linear_acceleration.y = dh->imu_data[1] - acc_y_bias;
+    raw_imu_msg->linear_acceleration.z = dh->imu_data[2] - acc_z_bias;
+    raw_imu_msg->linear_acceleration_covariance.fill(0.0);
+    raw_imu_msg->linear_acceleration_covariance[0] = 0.01;
+    raw_imu_msg->linear_acceleration_covariance[4] = 0.01;
+    raw_imu_msg->linear_acceleration_covariance[8] = 0.01;
     raw_imu_msg->angular_velocity.x = dh->imu_data[3];
     raw_imu_msg->angular_velocity.y = dh->imu_data[4];
-    raw_imu_msg->angular_velocity.z = dh->imu_data[5];
+    raw_imu_msg->angular_velocity.z = dh->imu_data[5] - vel_theta_bias;
+    raw_imu_msg->angular_velocity_covariance.fill(0.0);
+    raw_imu_msg->angular_velocity_covariance[0] = 0.01;
+    raw_imu_msg->angular_velocity_covariance[4] = 0.01;
+    raw_imu_msg->angular_velocity_covariance[8] = 0.01;
 
     auto raw_mag_msg = std::make_unique<sensor_msgs::msg::MagneticField>();
     raw_mag_msg->header.frame_id = imu_frame;
@@ -229,6 +327,6 @@ void NeuronSerial::update_imu()
     raw_imu_msg->angular_velocity.x, raw_imu_msg->angular_velocity.y ,raw_imu_msg->angular_velocity.z,
     raw_mag_msg->magnetic_field.x, raw_mag_msg->magnetic_field.y, raw_mag_msg->magnetic_field.z);
 
-    raw_imu_pub->publish(std::move(raw_imu_msg));
-    raw_mag_pub->publish(std::move(raw_mag_msg));
+    imu_pub->publish(std::move(raw_imu_msg));
+    mag_pub->publish(std::move(raw_mag_msg));
 }

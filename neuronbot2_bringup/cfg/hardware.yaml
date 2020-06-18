@@ -16,6 +16,5 @@ robot_state_publisher:
 
 joint_state_publisher:
   ros__parameters:
-    publish_default_positions: True
-    rate: 30
+    publish_default_positions: True    
 

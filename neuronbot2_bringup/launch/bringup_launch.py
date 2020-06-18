@@ -43,7 +43,7 @@ def generate_launch_description():
 
         Node(
             package='rplidar_ros',
-            executable='rplidar_composition',
+            executable='rplidar_node',
             name='rplidar',
             output='screen',
             parameters=[hardware_config],
@@ -57,9 +57,12 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'publish_tf': False,
+                'calibrate_imu' : True,
                 'odom_topic': 'raw_odom',
-                'odom_sub_topic': 'raw_odom',
-                'update_status_freq' : 50.0
+                'odom_freq' : 50.0,
+                'imu_topic': 'raw_imu',
+                'imu_freq' : 100.0,
+                'cmd_vel_timeout' : 1.0
                 }],
         ),
         Node(
@@ -79,13 +82,16 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'publish_tf': True,
-                'odom_topic': 'raw_odom',
-                'odom_sub_topic': 'raw_odom',
-                'update_status_freq': 50.0
+                'calibrate_imu' : False,
+                'odom_topic': 'odom',
+                'odom_freq' : 50.0,
+                'imu_topic': 'raw_imu',
+                'imu_freq' : 100.0,
+                'cmd_vel_timeout' : 1.0
                 }],
-            remappings=[("raw_odom", "odom")]
         ),
 
+        # RealSense node
         Node(
             condition=IfCondition(use_camera),
             package='realsense_node',

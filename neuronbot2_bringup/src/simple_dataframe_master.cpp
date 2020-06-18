@@ -11,8 +11,7 @@ Simple_dataframe::~Simple_dataframe(){
 }
 
 bool Simple_dataframe::init(){
-    interact(ID_INIT_ODOM);
-    return true;
+    return interact(ID_INIT_ODOM);
 }
 
 bool Simple_dataframe::data_recv(unsigned char c){
@@ -155,8 +154,10 @@ bool Simple_dataframe::interact(const MESSAGE_ID id){
         break;
     }
 
-    if (!recv_proc())
+    if (!recv_proc()) {
+        fprintf(stderr, "serial cmd(%d) failure\n", id);
         return false;
+    }
 
     return true;
 }
@@ -172,7 +173,7 @@ bool Simple_dataframe::recv_proc(){
             auto n = trans->read(inbuf, 1);
             if (n == 0) {
                 // time out
-                printf("timeout \n");
+                fprintf(stderr, "serial read timeout\n");
                 return false;
             }
         }

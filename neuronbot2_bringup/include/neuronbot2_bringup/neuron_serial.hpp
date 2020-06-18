@@ -28,6 +28,8 @@
 #include <sensor_msgs/msg/imu.hpp>
 #include <sensor_msgs/msg/magnetic_field.hpp>
 #include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/transform_broadcaster.h>
 
 #include "neuronbot2_bringup/dataframe.hpp"
 #include "neuronbot2_bringup/simple_dataframe.hpp"
@@ -49,36 +51,52 @@ public:
 
 private:
     rclcpp::Node::SharedPtr node_handle_;
-    duration keepalive_period = 100ms;  // The frequency for an idle publisher to keep the node alive.
-    duration uart_poll_period = 20ms;   // The frequency to poll for a uart message.
-    duration pub_period = 100ms;        // The frequency to publish feedback message from imu and odom.
+    double odom_freq;
+    double imu_freq;
+    double cmd_vel_timeout;
 
     std::string odom_frame_parent;
     std::string odom_frame_child;
     std::string imu_frame;
 
+    // Switch
+    bool publish_tf_;
+    bool calibrate_imu_;
+    bool cmd_vel_timeout_switch;
+
+    // imu calibration bias
+    float acc_x_bias;
+    float acc_y_bias;
+    float acc_z_bias;
+    float vel_theta_bias;        
+
     void parameter_init();
     void read_firmware_info();
     void keepalive_cb();
+    void on_cmd_vel(geometry_msgs::msg::Twist::SharedPtr msg);
     void on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg);
     void update_odom();
     void update_imu();
 
     // Timer
     rclcpp::TimerBase::SharedPtr keepalive_timer;
-    rclcpp::TimerBase::SharedPtr read_timer;
+    rclcpp::TimerBase::SharedPtr odom_read_timer;
+    rclcpp::TimerBase::SharedPtr imu_read_timer;
     
     // Subscriber
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub;
 
     // Publisher
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub;
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub;
-    rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr raw_imu_pub;
-    rclcpp::Publisher<sensor_msgs::msg::MagneticField>::SharedPtr raw_mag_pub;
+    rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub;
+    rclcpp::Publisher<sensor_msgs::msg::MagneticField>::SharedPtr mag_pub;
+    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
     std::shared_ptr<serial::Serial> serial_;
     std::shared_ptr<Simple_dataframe> frame;
     std::shared_ptr<Robot_parameter> rp;
+    std::shared_ptr<geometry_msgs::msg::Twist> motor_cmd;
     Data_holder *dh;
 };
 } // neuronbot2
