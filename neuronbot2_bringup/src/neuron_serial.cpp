@@ -36,7 +36,7 @@ NeuronSerial::NeuronSerial()
     std::string imu_topic = declare_parameter("imu_topic", "raw_imu");
     std::string mag_topic = declare_parameter("mag_topic", "raw_mag");
     odom_frame_parent = declare_parameter("odom_frame_parent", "odom");
-    odom_frame_child = declare_parameter("odom_frame_child", "base_link");
+    odom_frame_child = declare_parameter("odom_frame_child", "base_footprint");
     imu_frame = declare_parameter("imu_frame", "imu_link");
 
 	// Function switch

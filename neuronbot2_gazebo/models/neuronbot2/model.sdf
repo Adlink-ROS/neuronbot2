@@ -647,7 +647,6 @@
       </collision>
     </link>
 
-
     <joint name='base_link_joint' type='fixed'>
       <parent>base_footprint</parent>
       <child>base_link</child>
