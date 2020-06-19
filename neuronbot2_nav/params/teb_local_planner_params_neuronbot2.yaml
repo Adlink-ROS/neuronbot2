@@ -40,8 +40,8 @@ TebLocalPlannerROS:
   free_goal_vel: false                     # Allow the robot's velocity to be nonzero for planning purposes (the robot can arrive at the goal with max speed)
 
   # Obstacles
-  min_obstacle_dist: 0.05                  # Minimum desired separation from obstacles
-  inflation_dist: 0.1                      # Buffer zone around obstacles with non-zero penalty costs (should be larger than min_obstacle_dist in order to take effect)
+  min_obstacle_dist: 0.015                  # Minimum desired separation from obstacles
+  inflation_dist: 0.02                      # Buffer zone around obstacles with non-zero penalty costs (should be larger than min_obstacle_dist in order to take effect)
   dynamic_obstacle_inflation_dist: 0.6     # Buffer zone around predicted locations of dynamic obstacles with non-zero penalty costs (should be larger than min_obstacle_dist in order to take effect)
   include_dynamic_obstacles: false         # Specify whether the movement of dynamic obstacles should be predicted by a constant velocity model (this also changes the homotopy class search). If false, all obstacles are considered to be static.
   include_costmap_obstacles: true          # Specify whether the obstacles in the costmap should be taken into account directly (this is necessary if no seperate clustering and detection is implemented)
@@ -59,22 +59,22 @@ TebLocalPlannerROS:
   no_outer_iterations: 4                   # Each outerloop iteration automatically resizes the trajectory and invokes the internal optimizer with no_inner_iterations
   optimization_activate: true              # Activate the optimization
   optimization_verbose: false              # Print verbose information
-  penalty_epsilon: 0.1                     # Add a small safty margin to penalty functions for hard-constraint approximations
-  weight_max_vel_x: 2.0                    # Optimization weight for satisfying the maximum allowed translational velocity
+  penalty_epsilon: 0.17                     # Add a small safty margin to penalty functions for hard-constraint approximations
+  weight_max_vel_x: 120.0                    # Optimization weight for satisfying the maximum allowed translational velocity
   weight_max_vel_y: 2.0                    # Optimization weight for satisfying the maximum allowed strafing velocity (in use only for holonomic robots)
-  weight_max_vel_theta: 1.0                # Optimization weight for satisfying the maximum allowed angular velocity
-  weight_acc_lim_x: 1.0                    # Optimization weight for satisfying the maximum allowed translational acceleration
+  weight_max_vel_theta: 130.0                # Optimization weight for satisfying the maximum allowed angular velocity
+  weight_acc_lim_x: 60.0                    # Optimization weight for satisfying the maximum allowed translational acceleration
   weight_acc_lim_y: 1.0                    # Optimization weight for satisfying the maximum allowed strafing acceleration (in use only for holonomic robots)
-  weight_acc_lim_theta: 1.0                # Optimization weight for satisfying the maximum allowed angular acceleration
-  weight_kinematics_nh: 1000.0             # Optimization weight for satisfying the non-holonomic kinematics
+  weight_acc_lim_theta: 75.0                # Optimization weight for satisfying the maximum allowed angular acceleration
+  weight_kinematics_nh: 2000.0             # Optimization weight for satisfying the non-holonomic kinematics
   weight_kinematics_forward_drive: 1.0     # Optimization weight for forcing the robot to choose only forward directions (positive transl. velocities, only diffdrive robot)
   weight_kinematics_turning_radius: 1.0    # Optimization weight for enforcing a minimum turning radius (carlike robots)
-  weight_optimaltime: 1.0                  # Optimization weight for contracting the trajectory w.r.t transition time
+  weight_optimaltime: 60.0                  # Optimization weight for contracting the trajectory w.r.t transition time
   weight_obstacle: 50.0                    # Optimization weight for satisfying a minimum seperation from obstacles
-  weight_inflation: 0.1                    # Optimization weight for the inflation penalty (should be small)
+  weight_inflation: 0.5                    # Optimization weight for the inflation penalty (should be small)
   weight_dynamic_obstacle: 50.0            # Optimization weight for satisfying a minimum seperation from dynamic obstacles
   weight_dynamic_obstacle_inflation: 0.1   # Optimization weight for the inflation penalty of dynamic obstacles (should be small)
-  weight_viapoint: 1.0                     # Optimization weight for minimizing the distance to via-points
+  weight_viapoint: 150.0                     # Optimization weight for minimizing the distance to via-points
   weight_adapt_factor: 2.0                 # Some special weights (currently 'weight_obstacle') are repeatedly scaled by this factor in each outer TEB iteration (weight_new: weight_old * factor); Increasing weights iteratively instead of setting a huge value a-priori leads to better numerical conditions of the underlying optimization problem.
 
   # Homotopy Class Planner
