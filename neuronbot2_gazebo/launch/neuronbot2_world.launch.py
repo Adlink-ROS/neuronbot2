@@ -35,9 +35,12 @@ def generate_launch_description():
             cmd=['gzclient'],
             output='screen'),
 
-        ExecuteProcess(
-            cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
-            output='screen'),
+        #
+        # Comment below lines because those parameters are not in Eloquent...
+        #
+        #ExecuteProcess(
+        #    cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
+        #    output='screen'),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([launch_file_dir, '/robot_state_publisher.launch.py']),
