@@ -115,8 +115,8 @@ controller_server:
     xy_goal_tolerance: 0.25
     critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
     BaseObstacle.scale: 0.02
-    PathAlign.scale: 50.0
-    GoalAlign.scale: 5.0
+    PathAlign.scale: 0.0
+    GoalAlign.scale: 0.0
     PathDist.scale: 50.0
     GoalDist.scale: 5.0
     RotateToGoal.scale: 32.0
