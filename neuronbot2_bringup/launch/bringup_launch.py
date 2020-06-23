@@ -27,15 +27,15 @@ def generate_launch_description():
 
         Node(
             package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
+            node_executable='robot_state_publisher',
+            node_name='robot_state_publisher',
             output='screen',
             arguments=[str(urdf_path)],
         ),
 #        Node(
 #            package='joint_state_publisher', 
-#            executable='joint_state_publisher', 
-#            name='joint_state_publisher',
+#            node_executable='joint_state_publisher', 
+#            node_name='joint_state_publisher',
 #            output='screen',
 #            arguments=[str(urdf_path)],
 #            parameters=[hardware_config]
@@ -43,8 +43,8 @@ def generate_launch_description():
 
         Node(
             package='rplidar_ros',
-            executable='rplidar_node',
-            name='rplidar',
+            node_executable='rplidar_node',
+            node_name='rplidar',
             output='screen',
             parameters=[hardware_config],
         ),
@@ -53,7 +53,7 @@ def generate_launch_description():
         Node(
             condition=IfCondition(use_ekf),
             package='neuronbot2_bringup',
-            executable='neuronbot2_driver',
+            node_executable='neuronbot2_driver',
             output='screen',
             parameters=[{
                 'publish_tf': False,
@@ -68,7 +68,7 @@ def generate_launch_description():
         Node(
             condition=IfCondition(use_ekf),
             package='robot_localization',
-            executable='ekf_node',
+            node_executable='ekf_node',
             output='screen',
             parameters=[ekf_config],
             remappings=[("odometry/filtered", "odom")]
@@ -78,7 +78,7 @@ def generate_launch_description():
         Node(
             condition=UnlessCondition(use_ekf),
             package='neuronbot2_bringup',
-            executable='neuronbot2_driver',
+            node_executable='neuronbot2_driver',
             output='screen',
             parameters=[{
                 'publish_tf': True,
@@ -95,7 +95,7 @@ def generate_launch_description():
         Node(
             condition=IfCondition(use_camera),
             package='realsense_node',
-            executable='realsense_node',
+            node_executable='realsense_node',
             namespace='',
             output='screen'
         ),

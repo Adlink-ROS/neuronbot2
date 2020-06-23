@@ -20,16 +20,16 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 
 Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
 ```
-# For ROS2 Foxy
-git clone https://github.com/Adlink-ROS/neuronbot2.git -b foxy-devel
+# For ROS2 Eloquent
+git clone https://github.com/Adlink-ROS/neuronbot2.git -b eloquent-devel
 ``` 
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
-1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
+Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
+1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/)
 2. Git clone repos list
     ```
-    git clone https://github.com/Adlink-ROS/neuronbot2_ros2.repos.git -b foxy-devel ~/neuronbot2_ros2_ws
+    git clone https://github.com/Adlink-ROS/neuronbot2_ros2.repos.git -b eloquent-devel ~/neuronbot2_ros2_ws
     ```
 3. Git clone this package and others source
     ```
@@ -40,14 +40,14 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 4. Install dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro eloquent
    ```
 5. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
@@ -61,13 +61,13 @@ Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- t
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ros2 launch neuronbot2_bringup neuronbot2_bringup.launch.py
    ```
 ###  Teleop NeuronBot2
    ```
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    Follow the hints and start to cruise your NeuronBot2.
@@ -93,12 +93,12 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 3. Save the map
    ```
-   source /opt/ros/foxy/setup.bash 
+   source /opt/ros/eloquent/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -128,7 +128,7 @@ Open a new terminal (Ctrl + Alt + t).
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Launch Gazebo simulation.
@@ -175,13 +175,13 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
    ```
-   source /opt/ros/foxy/setup.bash 
+   source /opt/ros/eloquent/setup.bash 
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
@@ -237,7 +237,7 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 
 1. Open the other terminal and source the environment variables.
    ```
-   source /opt/ros/foxy/setup.bash
+   source /opt/ros/eloquent/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Run Behavior Tree
