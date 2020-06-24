@@ -19,10 +19,6 @@ NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully suppor
 This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
 
 Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
-```
-# For ROS2 Eloquent
-git clone https://github.com/Adlink-ROS/neuronbot2.git -b eloquent-devel
-``` 
 
 ## Installation
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
