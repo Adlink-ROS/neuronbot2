@@ -23,24 +23,21 @@ Users are able to checkout to different branch of this package to run on ROS1 an
 ## Installation
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-eloquent-desktop version to make sure all the dependencies are installed.
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Eloquent/Linux-Install-Debians/)
-2. Git clone repos list
-    ```
-    git clone https://github.com/Adlink-ROS/neuronbot2_ros2.repos.git -b eloquent-devel ~/neuronbot2_ros2_ws
-    ```
-3. Git clone this package and others source
+2. Git clone this package and others source
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
     cd ~/neuronbot2_ros2_ws/
-    vcs import src < NeuronBot2_ros2.repos
+    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/eloquent-devel/neuronbot2_ros2.repos
+    vcs import src < neuronbot2_ros2.repos
     ```
-4. Install dependencies
+3. Install dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/eloquent/setup.bash
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro eloquent
    ```
-5. Colcon build the package 
+4. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/eloquent/setup.bash
