@@ -25,14 +25,14 @@
             <GoalUpdated/>
             <RoundRobin name="PlannerRecoveryActions">
               <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap"/>
-              <Spin spin_dist="0.5"/>
+              <Spin spin_dist="1.57"/>
             </RoundRobin>
           </ReactiveFallback>
         </RecoveryNode>
       </PipelineSequence>
       <ReactiveFallback name="RecoveryFallback">
         <GoalUpdated/>
-        <Wait wait_duration="1"/>
+        <Wait wait_duration="5"/>
       </ReactiveFallback>
     </RecoveryNode>
   </BehaviorTree>

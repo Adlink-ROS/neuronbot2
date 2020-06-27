@@ -20,6 +20,7 @@ from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, GroupAction,
                             IncludeLaunchDescription, SetEnvironmentVariable)
 from launch.conditions import IfCondition
+from launch.conditions import UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import PushRosNamespace
@@ -31,7 +32,7 @@ def generate_launch_description():
     my_launch_dir = os.path.join(my_nav_dir, 'launch')
     my_param_dir = os.path.join(my_nav_dir, 'param')
     my_param_file = 'neuronbot_params.yaml'
-    my_bt_file = 'navigate_w_replanning_and_recovery.xml'
+    my_bt_file = 'navigate_w_replanning_time.xml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
 
@@ -40,8 +41,9 @@ def generate_launch_description():
     use_namespace = LaunchConfiguration('use_namespace')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
+    use_slam = LaunchConfiguration('use_slam', default='false')
     params_file = LaunchConfiguration('params_file')
-    bt_xml_file = LaunchConfiguration('bt_xml_file')
+    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     autostart = LaunchConfiguration('autostart')
     open_rviz = LaunchConfiguration('open_rviz')
 
@@ -68,13 +70,18 @@ def generate_launch_description():
         default_value='false',
         description='Use simulation (Gazebo) clock if true')
 
+    declare_slam_cmd = DeclareLaunchArgument(
+        'use_slam',
+        default_value='false',
+        description='Whether run a SLAM')
+
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=os.path.join(my_param_dir, my_param_file),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_bt_xml_cmd = DeclareLaunchArgument(
-        'bt_xml_file',
+        'default_bt_xml_filename',
         default_value=os.path.join(my_param_dir, my_bt_file),
         description='Full path to the behavior tree xml file to use')
 
@@ -95,7 +102,17 @@ def generate_launch_description():
             namespace=namespace),
 
         IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(my_launch_dir, 'slam_launch.py')),
+            condition=IfCondition(use_slam),
+            launch_arguments={'namespace': namespace,
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                              'params_file': params_file}.items()),
+
+        IncludeLaunchDescription(
+            # Run Localization only when we don't use SLAM
             PythonLaunchDescriptionSource(os.path.join(my_launch_dir, 'localization_launch.py')),
+            condition=UnlessCondition(use_slam),
             launch_arguments={'namespace': namespace,
                               'map': map_yaml_file,
                               'use_sim_time': use_sim_time,
@@ -109,7 +126,7 @@ def generate_launch_description():
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'params_file': params_file,
-                              'bt_xml_file': bt_xml_file,
+                              'default_bt_xml_filename': default_bt_xml_filename,
                               'use_lifecycle_mgr': 'false',
                               'map_subscribe_transient_local': 'true'}.items()),
                               
@@ -132,6 +149,7 @@ def generate_launch_description():
     ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_map_yaml_cmd)
     ld.add_action(declare_use_sim_time_cmd)
+    ld.add_action(declare_slam_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_bt_xml_cmd)
