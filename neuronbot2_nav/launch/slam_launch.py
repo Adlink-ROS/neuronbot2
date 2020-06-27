@@ -76,14 +76,14 @@ def generate_launch_description():
 
     start_map_saver_server_cmd = Node(
             package='nav2_map_server',
-            node_executable='map_saver_server',
+            executable='map_saver_server',
             output='screen',
             parameters=[configured_params])
 
     start_lifecycle_manager_cmd = Node(
             package='nav2_lifecycle_manager',
-            node_executable='lifecycle_manager',
-            node_name='lifecycle_manager_slam',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_slam',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
