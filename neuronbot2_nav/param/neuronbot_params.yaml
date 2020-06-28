@@ -202,8 +202,8 @@ global_costmap:
       use_sim_time: False
       #plugin_names: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
       #plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::VoxelLayer", "nav2_costmap_2d::InflationLayer"]
-      plugin_names: ["static_layer", "stvl_layer"]
-      plugin_types: ["nav2_costmap_2d::StaticLayer", "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"]
+      plugin_names: ["static_layer", "obstacle_layer", "stvl_layer", "inflation_layer"]
+      plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer", "nav2_costmap_2d::InflationLayer"]
       robot_radius: 0.20
       resolution: 0.05
       obstacle_layer:
@@ -232,7 +232,6 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "PointCloud2"
-      
       stvl_layer:
         enabled: true
         voxel_decay: 15.0
@@ -269,7 +268,6 @@ global_costmap:
           horizontal_fov_angle: 1.048
           decay_acceleration: 15.0
           model_type: 0
-
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
