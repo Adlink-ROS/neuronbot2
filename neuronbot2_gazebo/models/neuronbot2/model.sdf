@@ -810,5 +810,95 @@
       <joint_name>r_wheel_joint</joint_name>
       <joint_name>l_wheel_joint</joint_name>
     </plugin>
+
+    <!-- Virtual RealSense camera -->
+    <joint name="camera_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>realsense_link</child>
+    </joint>
+    <!-- Virtual RealSense camera link -->
+    <link name="realsense_link">
+      <inertial>
+        <pose>0.1 0.0 0.1 0 0 0</pose>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0.000</ixy>
+          <ixz>0.000</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0.000</iyz>
+          <izz>0.001</izz>
+        </inertia>
+        <mass>0.035</mass>
+      </inertial>
+      <collision name="collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.008 0.130 0.022</size>
+          </box>
+        </geometry>
+      </collision>
+      <pose>0.1 0.0 0.1 0 0 0</pose>
+      <!-- Virtual RealSense depth sensor -->
+      <sensor name="intel_realsense_r200_depth" type="depth">
+        <always_on>1</always_on>
+        <update_rate>2</update_rate>
+        <pose>0.1 0.0 0.1 0 0 0</pose>
+        <camera name="realsense_depth_camera">
+        </camera>
+        <plugin name="intel_realsense_r200_depth_driver" filename="libgazebo_ros_camera.so">
+          <ros>
+            <!-- 
+                  <argument>custom_camera/image_raw:=custom_camera/custom_image</argument>
+                  <argument>custom_camera/image_depth:=custom_camera/custom_image_depth</argument>
+                  <argument>custom_camera/camera_info:=custom_camera/custom_info_raw</argument>
+                  <argument>custom_camera/camera_info_depth:=custom_camera/custom_info_depth</argument>
+                  <argument>custom_camera/points:=custom_camera/custom_points</argument> 
+            -->
+          </ros>
+          <camera_name>intel_realsense_r200_depth</camera_name>
+          <frame_name>realsense_depth_frame</frame_name>
+          <hack_baseline>0.07</hack_baseline>
+          <min_depth>0.001</min_depth>
+        </plugin>
+      </sensor>
+      <!-- Virtual RealSense RGB sensor -->
+      <sensor name="intel_realsense_r200_rgb" type="camera">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>2</update_rate>
+        <pose>0.1 0.0 0.1 0 0 0</pose>
+        <camera name="realsense_rgb_camera">
+          <horizontal_fov>1.02974</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="intel_realsense_r200_rgb_driver" filename="libgazebo_ros_camera.so">
+          <ros>
+              <!--
+                <namespace>custom_ns</namespace>
+                <argument>image_raw:=custom_image</argument>
+                <argument>camera_info:=custom_info_raw</argument> 
+              -->
+          </ros>
+          <camera_name>intel_realsense_r200_rgb</camera_name>
+          <frame_name>realsense_rgb_frame</frame_name>
+          <hack_baseline>0.07</hack_baseline>
+        </plugin>
+      </sensor>
+    </link>  
+
   </model>
 </sdf>
