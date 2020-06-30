@@ -9,7 +9,7 @@ TebLocalPlannerROS:
   dt_hysteresis: 0.1                       # Hysteresis that is utilized for automatic resizing depending on the current temporal resolution (dt): usually 10% of dt_ref
   global_plan_overwrite_orientation: false # Some global planners are not considering the orientation at local subgoals between start and global goal, therefore determine it automatically
   allow_init_with_backwards_motion: false  # If true, the underlying trajectories might be initialized with backwards motions in case the goal is behind the start within the local costmap (this is only recommended if the robot is equipped with rear sensors)
-  max_global_plan_lookahead_dist: 3.0      # Specify maximum length (cumulative Euclidean distances) of the subset of the global plan taken into account for optimization [if 0 or negative: disabled; the length is also bounded by the local costmap size]
+  max_global_plan_lookahead_dist: 6.0      # Specify maximum length (cumulative Euclidean distances) of the subset of the global plan taken into account for optimization [if 0 or negative: disabled; the length is also bounded by the local costmap size]
   force_reinit_new_goal_dist: 1.0          # Force the planner to reinitialize the trajectory if a previous goal is updated with a seperation of more than the specified value in meters (skip hot-starting)
   feasibility_check_no_poses: 5            # Specify up to which pose on the predicted plan the feasibility should be checked each sampling interval
   global_plan_viapoint_sep: -0.1           # Min. separation between each two consecutive via-points extracted from the global plan [if negative: disabled]
@@ -59,7 +59,7 @@ TebLocalPlannerROS:
   no_outer_iterations: 4                   # Each outerloop iteration automatically resizes the trajectory and invokes the internal optimizer with no_inner_iterations
   optimization_activate: true              # Activate the optimization
   optimization_verbose: false              # Print verbose information
-  penalty_epsilon: 0.17                     # Add a small safty margin to penalty functions for hard-constraint approximations
+  penalty_epsilon: 0.15                     # Add a small safty margin to penalty functions for hard-constraint approximations
   weight_max_vel_x: 120.0                    # Optimization weight for satisfying the maximum allowed translational velocity
   weight_max_vel_y: 2.0                    # Optimization weight for satisfying the maximum allowed strafing velocity (in use only for holonomic robots)
   weight_max_vel_theta: 130.0                # Optimization weight for satisfying the maximum allowed angular velocity
@@ -70,11 +70,11 @@ TebLocalPlannerROS:
   weight_kinematics_forward_drive: 1.0     # Optimization weight for forcing the robot to choose only forward directions (positive transl. velocities, only diffdrive robot)
   weight_kinematics_turning_radius: 1.0    # Optimization weight for enforcing a minimum turning radius (carlike robots)
   weight_optimaltime: 60.0                  # Optimization weight for contracting the trajectory w.r.t transition time
-  weight_obstacle: 50.0                    # Optimization weight for satisfying a minimum seperation from obstacles
+  weight_obstacle: 100.0                    # Optimization weight for satisfying a minimum seperation from obstacles
   weight_inflation: 0.5                    # Optimization weight for the inflation penalty (should be small)
   weight_dynamic_obstacle: 50.0            # Optimization weight for satisfying a minimum seperation from dynamic obstacles
   weight_dynamic_obstacle_inflation: 0.1   # Optimization weight for the inflation penalty of dynamic obstacles (should be small)
-  weight_viapoint: 150.0                     # Optimization weight for minimizing the distance to via-points
+  weight_viapoint: 20.0                     # Optimization weight for minimizing the distance to via-points
   weight_adapt_factor: 2.0                 # Some special weights (currently 'weight_obstacle') are repeatedly scaled by this factor in each outer TEB iteration (weight_new: weight_old * factor); Increasing weights iteratively instead of setting a huge value a-priori leads to better numerical conditions of the underlying optimization problem.
 
   # Homotopy Class Planner
@@ -84,7 +84,7 @@ TebLocalPlannerROS:
   max_number_classes: 2                    # Specify the maximum number of allowed alternative homotopy classes (limits computational effort)
   selection_cost_hysteresis: 1.0           # Specify how much trajectory cost must a new candidate have w.r.t. a previously selected trajectory in order to be selected (selection if new_cost < old_cost*factor)
   selection_prefer_initial_plan: 0.95      # Specify a cost reduction in the interval (0,1) for the trajectory in the equivalence class of the initial plan.)
-  selection_obst_cost_scale: 100.0         # Extra scaling of obstacle cost terms just for selecting the 'best' candidate (new_obst_cost: obst_cost*factor)
+  selection_obst_cost_scale: 95.0         # Extra scaling of obstacle cost terms just for selecting the 'best' candidate (new_obst_cost: obst_cost*factor)
   selection_viapoint_cost_scale: 1.0       # Extra scaling of via-point cost terms just for selecting the 'best' candidate. (new_viapt_cost: viapt_cost*factor)
   selection_alternative_time_cost: false   # If true, time cost is replaced by the total transition time.
   roadmap_graph_no_samples: 15             # Specify the number of samples generated for creating the roadmap graph, if simple_exploration is turend off
