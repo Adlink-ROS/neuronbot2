@@ -168,4 +168,25 @@
     <axis xyz="0 1 0"/>
   </joint>
 
+  <!-- RealSense camera -->
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.175 0.0 0.175" rpy="0 0.1 0"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+  <link name="camera_link">
+    <visual>
+     <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+      <geometry>
+       <mesh filename="package://TODO.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.003 0.065 0.007" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.012 0.132 0.020"/>
+      </geometry>
+    </collision>
+  </link>
+
 </robot>

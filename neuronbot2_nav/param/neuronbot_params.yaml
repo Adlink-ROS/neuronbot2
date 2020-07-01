@@ -151,8 +151,10 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      plugin_names: ["obstacle_layer", "voxel_layer", "inflation_layer"]
-      plugin_types: ["nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::VoxelLayer", "nav2_costmap_2d::InflationLayer"]
+      plugin_names: ["obstacle_layer", "stvl_layer", "inflation_layer"]
+      plugin_types: ["nav2_costmap_2d::ObstacleLayer", "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer", "nav2_costmap_2d::InflationLayer"]      
+      #plugin_names: ["obstacle_layer", "inflation_layer"]
+      #plugin_types: ["nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::InflationLayer"]
       robot_radius: 0.20
       inflation_layer:
         cost_scaling_factor: 3.0
@@ -167,23 +169,42 @@ local_costmap:
           data_type: "LaserScan"
           obstacle_range: 2.5
           raytrace_range: 10.0
-      voxel_layer:
-        enabled: True
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        mark_threshold: 0
+      stvl_layer:
+        enabled: true
+        voxel_decay: 5.0                # seconds if linear, e^n if exponential
+        decay_model: 0                  # 0=linear, 1=exponential, -1=persistent
+        voxel_size: 0.05                # meters
+        track_unknown_space: true       # default space is known
+        max_obstacle_height: 0.5        # meters
+        unknown_threshold: 15           # voxel height
+        mark_threshold: 0               # voxel height
+        update_footprint_enabled: true
+        combination_method: 1           # 1=max, 0=override
+        obstacle_range: 3.0             # meters
+        origin_z: 0.0                   # meters
+        publish_voxel_map: true         # default off, visualize in RViz
+        transform_tolerance: 0.2        # seconds
+        mapping_mode: false             # default off, saves map not for navigation
+        map_save_duration: 60.0         # default 60s, how often to autosave
         observation_sources: pointcloud
         pointcloud:
-          topic: /intel_realsense_r200_depth/points
-          max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "PointCloud2"
-      static_layer:
-        map_subscribe_transient_local: True
+          data_type: PointCloud2
+          topic: /camera/pointcloud
+          marking: true
+          clearing: true
+          min_obstacle_height: 0.0      # default 0, meters
+          max_obstacle_height: 0.5      # default 3, meters
+          expected_update_rate: 0.0     # default 0, if not updating at this rate at least, remove from buffer
+          observation_persistence: 0.0  # default 0, use all measurements taken during now-value, 0=latest
+          inf_is_valid: false           # default false, for laser scans
+          voxel_filter: true            # default off, apply voxel filter to sensor, recommend on
+          clear_after_reading: true     # default false, clear the buffer after the layer gets readings from it
+          max_z: 7.0                    # default 0, meters
+          min_z: 0.0                    # default 10, meters
+          vertical_fov_angle: 0.9948    # 57 degree to radian
+          horizontal_fov_angle: 1.501   # 86 degree to radian
+          decay_acceleration: 15.0      # default 0, 1/s^2. If laser scanner MUST be 0
+          model_type: 0                 # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -200,8 +221,10 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: False
-      plugin_names: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
-      plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::VoxelLayer", "nav2_costmap_2d::InflationLayer"]
+      #plugin_names: ["static_layer", "obstacle_layer", "stvl_layer", "inflation_layer"]
+      #plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer", "nav2_costmap_2d::InflationLayer"]
+      plugin_names: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugin_types: ["nav2_costmap_2d::StaticLayer", "nav2_costmap_2d::ObstacleLayer", "nav2_costmap_2d::InflationLayer"]      
       robot_radius: 0.20
       resolution: 0.05
       obstacle_layer:
@@ -215,21 +238,42 @@ global_costmap:
           data_type: "LaserScan"
           obstacle_range: 2.5
           raytrace_range: 10.0
-      voxel_layer:
-        enabled: True
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        mark_threshold: 0
+      stvl_layer:
+        enabled: true
+        voxel_decay: 5.0                # seconds if linear, e^n if exponential
+        decay_model: 0                  # 0=linear, 1=exponential, -1=persistent
+        voxel_size: 0.05                # meters
+        track_unknown_space: true       # default space is known
+        max_obstacle_height: 0.5        # meters
+        unknown_threshold: 15           # voxel height
+        mark_threshold: 0               # voxel height
+        update_footprint_enabled: true
+        combination_method: 1           # 1=max, 0=override
+        obstacle_range: 3.0             # meters
+        origin_z: 0.0                   # meters
+        publish_voxel_map: true         # default off, visualize in RViz
+        transform_tolerance: 0.2        # seconds
+        mapping_mode: false             # default off, saves map not for navigation
+        map_save_duration: 60.0         # default 60s, how often to autosave
         observation_sources: pointcloud
         pointcloud:
-          topic: /intel_realsense_r200_depth/points
-          max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "PointCloud2"
+          data_type: PointCloud2
+          topic: /camera/pointcloud
+          marking: true
+          clearing: true
+          min_obstacle_height: 0.0      # default 0, meters
+          max_obstacle_height: 0.5      # default 3, meters
+          expected_update_rate: 0.0     # default 0, if not updating at this rate at least, remove from buffer
+          observation_persistence: 0.0  # default 0, use all measurements taken during now-value, 0=latest
+          inf_is_valid: false           # default false, for laser scans
+          voxel_filter: true            # default off, apply voxel filter to sensor, recommend on
+          clear_after_reading: true     # default false, clear the buffer after the layer gets readings from it
+          max_z: 7.0                    # default 0, meters
+          min_z: 0.0                    # default 10, meters
+          vertical_fov_angle: 0.9948    # 57 degree to radian
+          horizontal_fov_angle: 1.501   # 86 degree to radian
+          decay_acceleration: 15.0      # default 0, 1/s^2. If laser scanner MUST be 0
+          model_type: 0                 # default 0, model type for frustum. 0=depth camera, 1=3d lidar like VLP16 or similar
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
