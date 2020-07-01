@@ -3,11 +3,11 @@ rplidar:
     serial_port: /dev/rplidar
     serial_baudrate: 115200
     frame_id: laser_frame
-    inverted: False # set to True if RPLidar is upside down,
+    inverted: False     # set to True if RPLidar is upside down,
     angle_compensate: True
-    scan_mode: Boost
-    angle_min: 0.0    # start angle
-    angle_max: 359.0  # end angle
+    scan_mode: Boost    # Since firmware v1.24 => Standard: 2K samples with intensity, Express: 4K samples, Boost: 8K samples
+    angle_min: 0.0      # start angle
+    angle_max: 359.0    # end angle
     min_distance: 0.20
 
 robot_state_publisher:
@@ -17,4 +17,6 @@ robot_state_publisher:
 joint_state_publisher:
   ros__parameters:
     publish_default_positions: True    
+    rate: 30
+
 

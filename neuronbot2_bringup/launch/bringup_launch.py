@@ -22,6 +22,7 @@ def generate_launch_description():
 
     # Whether to open RealSense D435
     use_camera = LaunchConfiguration('use_camera', default='false')
+    camera_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'camera.yaml')
 
     return LaunchDescription([
 
@@ -32,14 +33,15 @@ def generate_launch_description():
             output='screen',
             arguments=[str(urdf_path)],
         ),
-#        Node(
-#            package='joint_state_publisher', 
-#            executable='joint_state_publisher', 
-#            name='joint_state_publisher',
-#            output='screen',
-#            arguments=[str(urdf_path)],
-#            parameters=[hardware_config]
-#        ),
+        
+        #Node(
+        #    package='joint_state_publisher', 
+        #    executable='joint_state_publisher', 
+        #    name='joint_state_publisher',
+        #    output='screen',
+        #    arguments=[str(urdf_path)],
+        #    parameters=[hardware_config]
+        #),
 
         Node(
             package='rplidar_ros',
@@ -97,7 +99,8 @@ def generate_launch_description():
             package='realsense_node',
             executable='realsense_node',
             namespace='',
-            output='screen'
+            output='screen',
+            parameters=[camera_config]
         ),
 
     ])
