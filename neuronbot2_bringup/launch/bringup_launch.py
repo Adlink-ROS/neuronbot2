@@ -96,7 +96,7 @@ def generate_launch_description():
             condition=IfCondition(use_camera),
             package='realsense_node',
             node_executable='realsense_node',
-            namespace='',
+            node_namespace='',
             output='screen'
         ),
 
