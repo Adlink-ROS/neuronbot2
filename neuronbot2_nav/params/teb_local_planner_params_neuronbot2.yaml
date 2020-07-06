@@ -84,7 +84,7 @@ TebLocalPlannerROS:
   max_number_classes: 2                    # Specify the maximum number of allowed alternative homotopy classes (limits computational effort)
   selection_cost_hysteresis: 1.0           # Specify how much trajectory cost must a new candidate have w.r.t. a previously selected trajectory in order to be selected (selection if new_cost < old_cost*factor)
   selection_prefer_initial_plan: 0.95      # Specify a cost reduction in the interval (0,1) for the trajectory in the equivalence class of the initial plan.)
-  selection_obst_cost_scale: 100.0         # Extra scaling of obstacle cost terms just for selecting the 'best' candidate (new_obst_cost: obst_cost*factor)
+  selection_obst_cost_scale: 95.0         # Extra scaling of obstacle cost terms just for selecting the 'best' candidate (new_obst_cost: obst_cost*factor)
   selection_viapoint_cost_scale: 1.0       # Extra scaling of via-point cost terms just for selecting the 'best' candidate. (new_viapt_cost: viapt_cost*factor)
   selection_alternative_time_cost: false   # If true, time cost is replaced by the total transition time.
   roadmap_graph_no_samples: 15             # Specify the number of samples generated for creating the roadmap graph, if simple_exploration is turend off
