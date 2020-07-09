@@ -1,0 +1,7 @@
+image: training_room.pgm
+mode: trinary
+resolution: 0.05
+origin: [-7.84, -2.48, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.25
