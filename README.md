@@ -50,7 +50,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 ## Bring up your NeuronBot2
 ![](readme_resource/nb2_opening_re.gif)
 
-Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- telop it.
+Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- teleop it.
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
