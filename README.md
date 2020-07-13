@@ -21,7 +21,7 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-eloquent-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
+Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-foxy-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
 2. Git clone this package and others source
     ```
@@ -56,7 +56,7 @@ Open a new terminal (Ctrl + Alt + t).
    ```
    source /opt/ros/foxy/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
-   ros2 launch neuronbot2_bringup neuronbot2_bringup.launch.py
+   ros2 launch neuronbot2_bringup bringup.launch.py
    ```
 ###  Teleop NeuronBot2
    ```
@@ -141,7 +141,7 @@ Open a new terminal (Ctrl + Alt + t).
 
     Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
-   source /opt/ros/eloquent/local_setup.bash
+   source /opt/ros/foxy/local_setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/teleop.png)
@@ -152,11 +152,11 @@ Open a new terminal (Ctrl + Alt + t).
    
    ***We provide three slam methods.***
 
-   * Gmapping (Not support on Eloquent now)
+   * Gmapping (Not support on Foxy now)
    ```
    ros2 launch neuronbot2_slam gmapping.launch.py open_rviz:=true
    ```
-   * Slam_toolbox (Not support on Eloquent now)
+   * Slam_toolbox (Not support on Foxy now)
    ``` 
    ros2 launch neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
    ```
