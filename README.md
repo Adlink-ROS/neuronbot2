@@ -23,21 +23,38 @@ Users are able to checkout to different branch of this package to run on ROS1 an
 ## Installation
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-foxy-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
-2. Git clone this package and others source
+2. Install ROS 2 development tools
+    ```
+    sudo apt update && sudo apt install -y \
+      build-essential \
+      cmake \
+      git \
+      libbullet-dev \
+      python3-colcon-common-extensions \
+      python3-flake8 \
+      python3-pip \
+      python3-pytest-cov \
+      python3-rosdep \
+      python3-setuptools \
+      python3-vcstool \
+      wget
+    ```
+
+3. Git clone NeuronBot2 and other related sources
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
     cd ~/neuronbot2_ros2_ws/
     wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/foxy-devel/neuronbot2_ros2.repos
     vcs import src < neuronbot2_ros2.repos
     ```
-3. Install dependencies
+4. Install other dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/foxy/setup.bash
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy
    ```
-4. Colcon build the package 
+5. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/foxy/setup.bash
