@@ -109,8 +109,8 @@ Open a new terminal (Ctrl + Alt + t).
    ```
 3. Save the map
    ```
-   source /opt/ros/foxy/setup.bash 
-   ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
+   source /opt/ros/foxy/setup.bash    
+   ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name>
    ```
 
    The map is ready and SLAM can be turned off.
