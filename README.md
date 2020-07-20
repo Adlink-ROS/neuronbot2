@@ -37,6 +37,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
       python3-rosdep \
       python3-setuptools \
       python3-vcstool \
+      openssh-server \
       wget
     ```
 
