@@ -96,6 +96,8 @@ void Serial_transport::write(Buffer &data)
 
 bool Serial_transport::init()
 {
+    system("stty -F /dev/neuronbot2 raw");
+    
     try
     {
         port_ = boost::make_shared<boost::asio::serial_port>(boost::ref(*ios_), params_.serialPort);
