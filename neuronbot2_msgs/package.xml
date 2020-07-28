@@ -1,13 +1,12 @@
-<package>
+<?xml version="1.0"?>
+<package format="2">
   <name>neuronbot2_msgs</name>
   <version>0.10.0</version>
   <description>
     Messages and Services definitions for the NeuronBot2.
   </description>
-  <author>PIBOT</author>
-  <maintainer email="iven.chen@adlinktech.com">IvenChen</maintainer>
-  <license>BSD</license>
-  <url></url>
+	<maintainer email="ting.chang@adlinktech.com">Ting Chang</maintainer>
+	<license>Apache-2.0</license>
   
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -15,9 +14,9 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>message_generation</build_depend>
 
-  <run_depend>std_msgs</run_depend>
-  <run_depend>geometry_msgs</run_depend>
-  <run_depend>message_runtime</run_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
 </package>
 
 
