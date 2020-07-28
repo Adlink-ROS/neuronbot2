@@ -32,7 +32,7 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
 
     frame->interact(ID_GET_VERSION);
 
-    ROS_INFO("[NeuronBot2] Firmware version: %s build time: %s", Data_holder::get()->firmware_info.version, Data_holder::get()->firmware_info.time);
+    ROS_INFO("[NeuronBot2] Motor controller version: %s build time: %s", Data_holder::get()->firmware_info.version, Data_holder::get()->firmware_info.time);
     
     init_cmd_odom();
 
@@ -53,10 +53,10 @@ void BaseDriver::init_cmd_odom()
 {
     frame->interact(ID_INIT_ODOM);
 
-    // ROS_INFO_STREAM("subscribe cmd topic on [" << bdg.cmd_vel_topic << "]");
+    ROS_INFO_STREAM("[NeuronBot2] Subscribe cmd topic on [" << bdg.cmd_vel_topic << "]");
     cmd_vel_sub = nh.subscribe(bdg.cmd_vel_topic, 1000, &BaseDriver::cmd_vel_callback, this);
 
-    // ROS_INFO_STREAM("advertise odom topic on [" << bdg.odom_topic << "]");
+    ROS_INFO_STREAM("[NeuronBot2] Advertise odom topic on [" << bdg.odom_topic << "]");
     odom_pub = nh.advertise<nav_msgs::Odometry>(bdg.odom_topic, 50);
 
     //init odom_trans
@@ -109,6 +109,7 @@ void BaseDriver::init_pid_debug()
 
 void BaseDriver::init_imu()
 {
+    ROS_INFO_STREAM("[NeuronBot2] Advertise imu topic on [raw_imu]");
     raw_imu_pub = nh.advertise<neuronbot2_msgs::RawImu>("raw_imu", 50);
     raw_imu_msgs.header.frame_id = "imu_link";
     raw_imu_msgs.accelerometer = true;
