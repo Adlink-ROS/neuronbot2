@@ -27,14 +27,14 @@ void BaseDriverConfig::init(Robot_parameter* r)
   pn.param<std::string>("port", port, "/dev/ttyACM0");
   pn.param<int32_t>("buadrate", buadrate, 115200);
   
-  ROS_INFO("port:%s buadrate:%d", port.c_str(), buadrate);
+  ROS_INFO("[NeuronBot2] port: %s buadrate: %d", port.c_str(), buadrate);
 
   pn.param<std::string>("base_frame", base_frame, "base_link");
   pn.param<std::string>("odom_frame", odom_frame, "odom");
   pn.param<bool>("publish_tf", publish_tf, true);
 
   pn.param<bool>("out_pid_debug_enable", out_pid_debug_enable, false);
-  ROS_INFO("out_pid_debug_enable:%d", out_pid_debug_enable);
+  ROS_INFO("[NeuronBot2] out_pid_debug_enable: %d", out_pid_debug_enable);
 
   //topic name param
   pn.param<std::string>("cmd_vel_topic", cmd_vel_topic, "cmd_vel");
@@ -75,7 +75,7 @@ void BaseDriverConfig::dynamic_callback(neuronbot2_bringup::neuronbot2_driverCon
     
     return;
   }
-  ROS_INFO("Reconfigure Request: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+  ROS_INFO("[NeuronBot2] Reconfigure Request: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
           config.wheel_diameter, config.wheel_track,  config.encoder_resolution,
           config.do_pid_interval, config.kp, config.ki, config.kd, config.ko, 
           config.cmd_last_time, 

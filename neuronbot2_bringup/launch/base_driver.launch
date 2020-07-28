@@ -1,0 +1,5 @@
+<launch>
+    <node name="neuronbot2_driver" pkg="neuronbot2_bringup" type="neuronbot2_driver" output="screen">
+        <rosparam file="$(find neuronbot2_bringup)/params/base_params.yaml" command="load"/>
+    </node>
+</launch>

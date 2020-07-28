@@ -14,7 +14,7 @@ Serial_transport::Serial_transport(std::string port, int32_t buadrate) :
 
 void Serial_transport::mainRun()
 {
-    std::cout << "Transport main read/write started" <<std::endl;
+    // std::cout << "Transport main read/write started" <<std::endl;
     start_a_read();
     ios_->run();
 }

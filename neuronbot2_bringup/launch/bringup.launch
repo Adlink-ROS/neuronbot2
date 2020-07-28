@@ -1,5 +1,5 @@
 <launch>
-    <node name="neuronbot2_driver" pkg="neuronbot2_bringup" type="neuronbot2_driver" output="screen">
-        <rosparam file="$(find neuronbot2_bringup)/params/base_params.yaml" command="load"/>
-    </node>
+  <include file="$(find neuronbot2_bringup)/launch/base_driver.launch"/>
+  <include file="$(find neuronbot2_bringup)/launch/model.launch"/>
+  <include file="$(find neuronbot2_bringup)/launch/rplidar.launch"/>
 </launch>

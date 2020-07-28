@@ -16,26 +16,23 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
     trans = boost::make_shared<Serial_transport>(bdg.port, bdg.buadrate);
     frame = boost::make_shared<Simple_dataframe>(trans.get());
 
-
-    ROS_INFO("BaseDriver startup");
+    ROS_INFO("[NeuronBot2] BaseDriver startup");
     if (trans->init())
     {
-        ROS_INFO("connected to main board");
+        ROS_INFO("[NeuronBot2] Connected to main board");
     } else
     {
-        ROS_ERROR("oops!!! can't connect to main board");
+        ROS_ERROR("[NeuronBot2] Oops!!! can't connect to main board");
         return;
     }
 
     ros::Duration(2).sleep(); //wait for device
-    ROS_INFO("end sleep");
-    
+
     frame->init();
 
     frame->interact(ID_GET_VERSION);
 
-    ROS_INFO("robot version:%s build time:%s", Data_holder::get()->firmware_info.version,
-                                        Data_holder::get()->firmware_info.time);
+    ROS_INFO("[NeuronBot2] Firmware version: %s build time: %s", Data_holder::get()->firmware_info.version, Data_holder::get()->firmware_info.time);
     
     init_cmd_odom();
 
@@ -56,10 +53,10 @@ void BaseDriver::init_cmd_odom()
 {
     frame->interact(ID_INIT_ODOM);
 
-    ROS_INFO_STREAM("subscribe cmd topic on [" << bdg.cmd_vel_topic << "]");
+    // ROS_INFO_STREAM("subscribe cmd topic on [" << bdg.cmd_vel_topic << "]");
     cmd_vel_sub = nh.subscribe(bdg.cmd_vel_topic, 1000, &BaseDriver::cmd_vel_callback, this);
 
-    ROS_INFO_STREAM("advertise odom topic on [" << bdg.odom_topic << "]");
+    // ROS_INFO_STREAM("advertise odom topic on [" << bdg.odom_topic << "]");
     odom_pub = nh.advertise<nav_msgs::Odometry>(bdg.odom_topic, 50);
 
     //init odom_trans
@@ -126,7 +123,7 @@ void BaseDriver::read_param()
 
     frame->interact(ID_GET_ROBOT_PARAMTER);
 
-    ROS_INFO("RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+    ROS_INFO("[NeuronBot2] RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
         param->wheel_diameter, param->wheel_track,  param->encoder_resolution, 
         param->do_pid_interval, param->kp, param->ki, param->kd, param->ko, 
         param->cmd_last_time, param->max_v_liner_x, param->max_v_liner_y, param->max_v_angular_z,
