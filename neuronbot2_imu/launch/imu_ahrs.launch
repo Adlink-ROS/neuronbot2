@@ -1,6 +1,0 @@
-<launch>
-  <node pkg="neuronbot2_imu" type="neuronbot2_imu" name="neuronbot2_imu" output="screen" respawn="false" />
-
-  <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_madgwick" output="screen" respawn="false" />
-
-</launch>
