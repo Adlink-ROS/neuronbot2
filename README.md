@@ -23,8 +23,9 @@ Now we support the following version, you can checkout to these branch.
 - ROS 2 eloquent
 
 # ROS1
-## Simulation quick-start guide
-![](readme_resource/NueronBot2_sim.jpg)
+
+## NeuronBot2 Setup
+
 ### Git Clone & Dependencies Installation
 1. [Install ROS](http://wiki.ros.org/melodic/Installation/Ubuntu)
 2. Create workspace
@@ -42,13 +43,25 @@ Now we support the following version, you can checkout to these branch.
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro melodic
    ```
-5. catkin_make 
+5. Initialze NeuronBot2 ttyUSB nodes
+   `neuronbot_init.sh` is needed to be run only once for the first setup.
+   ```
+   cd ~/neuronbot2_ros1_ws/src/neuronbot2/neuronbot2_tools/neuronbot2_init/   
+   sudo ./neuronbot2_init.sh
+   ```
+
+6. catkin_make 
    ```
    cd ~/neuronbot2_ros1_ws/
    source /opt/ros/melodic/setup.bash
    catkin_make
    source devel/setup.bash
    ```
+## Simulation
+![](readme_resource/NueronBot2_sim.jpg)
+
+Below document is the quick-start guide for simulation if you don't realy have a NeuronBot.
+
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
