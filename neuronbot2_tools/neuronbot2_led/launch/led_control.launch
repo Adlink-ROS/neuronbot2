@@ -4,7 +4,7 @@
 		<param name="baud" type="int"    value="57600"/>
 	</node>
 
-	<arg name="led_color" default="7"/>
+	<arg name="led_color" default="3"/>
 	<node name="led_control_node" pkg="neuronbot2_led" type="led_node.py">		
 		<param name="led_color" type="string" value="$(arg led_color)"/>
 	</node>
