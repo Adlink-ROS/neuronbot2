@@ -21,7 +21,6 @@ class led_ctrl_node:
 		rospy.init_node('led_node')
 		self.rate = rospy.Rate(30)
 		self.pub = rospy.Publisher('table_command', Byte, queue_size = 10)
-		rospy.on_shutdown(self.onclosing)
 
 	def led_loop(self, led_color):
 		if len(led_color) > 0:		
@@ -32,11 +31,6 @@ class led_ctrl_node:
 		while not rospy.is_shutdown():
 			self.pub.publish(command)
 			self.rate.sleep()
-
-	def onclosing(self):
-		print >> sys.stderr, "shutdown time!"
-		self.pub.publish(self.LED_AMBER)
-
 
 #------------------------------Main-------------------------------#
 if __name__ == '__main__':
