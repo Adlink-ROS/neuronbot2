@@ -3,7 +3,8 @@
 
 #include <ros/ros.h>
 
-#define USE_DYNAMIC_RECONFIG
+#define WRITE_ROBOT_PARAM
+//#define USE_DYNAMIC_RECONFIG
 #ifdef USE_DYNAMIC_RECONFIG
 #include <dynamic_reconfigure/server.h>
 #include "neuronbot2_bringup/neuronbot2_driverConfig.h"
@@ -38,8 +39,6 @@ public:
   std::string odom_frame;
 
   bool publish_tf;
-
-  //double ticks_per_meter;
 
   std::string cmd_vel_topic;
   std::string odom_topic;
