@@ -30,14 +30,13 @@ public:
   void work_loop();
 private:
   void cmd_vel_callback(const geometry_msgs::Twist& vel_cmd);
-  //void correct_pos_callback(const std_msgs::Float32MultiArray& pos);
   void init_cmd_odom();
   void init_pid_debug();
   void init_imu();
+  void init_param();
   void read_param();
 
   void update_param();
-  //void update_encoder();
   void update_odom();
   void update_speed();
   void update_pid_debug();
@@ -67,9 +66,7 @@ private:
   ros::Subscriber cmd_vel_sub;
 
   ros::Publisher odom_pub;
-  //ros::Publisher left_encoder_pub;
-  //ros::Publisher right_encoder_pub;
-  
+
   nav_msgs::Odometry odom;
   geometry_msgs::TransformStamped odom_trans;
   tf::TransformBroadcaster odom_broadcaster;
@@ -85,7 +82,6 @@ private:
   std_msgs::Int32 pid_debug_msg_output[MAX_MOTOR_COUNT];
 
   bool need_update_speed;
-  //ros::Time last_update_odom_time; 
 
   neuronbot2_msgs::RawImu raw_imu_msgs;
 

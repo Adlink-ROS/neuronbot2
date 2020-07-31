@@ -3,8 +3,6 @@
 
 #include "simple_dataframe.h"
 #include <string.h>
-//#include <boost/thread.hpp>
-//#include <boost/thread/lock_factories.hpp>
 
 class Transport;
 class Simple_dataframe : public Dataframe{
@@ -29,11 +27,5 @@ class Simple_dataframe : public Dataframe{
 
         RECEIVE_STATE recv_state;
 		Transport* trans; 
-
-       /* boost::thread* recv_thread;
-        boost::condition cond_start_recv;
-        boost::condition cond_end_recv;
-        boost::mutex _lock;
-        bool is_run;*/
 };
 #endif

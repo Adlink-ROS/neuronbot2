@@ -9,9 +9,9 @@ static const unsigned short MESSAGE_BUFFER_SIZE = 255;
 #define FIX_HEAD 0x5A
 
 struct Head{
-    unsigned char flag;// 头部标记,固定值:0X5A
-    unsigned char msg_id;// 消息ID,表示消息具体作用,决定消息体具体格式
-    unsigned char length;// 消息体长度
+    unsigned char flag;
+    unsigned char msg_id;
+    unsigned char length;
 };
 
 
@@ -19,7 +19,7 @@ struct Message{
     struct Head head;
     unsigned char data[MESSAGE_BUFFER_SIZE];
     unsigned char check;
-    unsigned char recv_count;//已经接收的字节数
+    unsigned char recv_count;
 
     Message(){}
     Message(unsigned char msg_id, unsigned char* data=0,unsigned char len=0){
