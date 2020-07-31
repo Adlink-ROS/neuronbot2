@@ -118,13 +118,13 @@ void BaseDriver::init_imu()
 
 void BaseDriver::init_param()
 {
-#ifdef WRITE_ROBOT_PARAM
+#if 0//def WRITE_ROBOT_PARAM
     Robot_parameter param;
     memset(&param, 0, sizeof(Robot_parameter));
 
 //Data_holder::get()->firmware_info.version;
-  pn.param<std::string>("port", wheel_diameter, "/dev/ttyACM0");
-  pn.param<int32_t>("buadrate", wheel_track, 115200);
+    pn.param<std::string>("port", wheel_diameter, "/dev/ttyACM0");
+    pn.param<int32_t>("buadrate", wheel_track, 115200);
 
     param.wheel_diameter = 84;
     param.wheel_track = 225;
@@ -156,8 +156,6 @@ void BaseDriver::read_param()
         param_ptr->do_pid_interval, param_ptr->kp, param_ptr->ki, param_ptr->kd, param_ptr->ko, 
         param_ptr->cmd_last_time, param_ptr->max_v_liner_x, param_ptr->max_v_liner_y, param_ptr->max_v_angular_z,
         param_ptr->imu_type);
-
-    bdg.SetRobotParameters();
 }
 
 void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)
