@@ -1,2 +1,43 @@
-{base_frame: base_footprint, buadrate: 115200, cmd_vel_topic: cmd_vel, odom_frame: odom,
-  odom_topic: odom, out_pid_debug_enable: true, port: /dev/neuronbot2, publish_tf: true}
+# Serial config
+port: /dev/neuronbot2
+buadrate: 115200
+
+# ROS config
+base_frame: base_footprint
+cmd_vel_topic: cmd_vel
+odom_frame: odom
+odom_topic: odom
+publish_tf: true
+
+# Motor controller config
+v1_0_1:
+  out_pid_debug_enable: true
+  wheel_diameter: 84
+  wheel_track: 225
+  encoder_resolution: 1428
+  do_pid_interval: 10
+  kp: 75
+  ki: 2500
+  kd: 0
+  ko: 10
+  cmd_last_time: 250
+  max_v_liner_x: 40
+  max_v_liner_y: 0
+  max_v_angular_z: 150
+  imu_type: 69    # 'E'(69) for enable
+
+v1_nb2_1:
+  out_pid_debug_enable: true
+  wheel_diameter: 83
+  wheel_track: 225
+  encoder_resolution: 1428
+  do_pid_interval: 10
+  kp: 75
+  ki: 2500
+  kd: 0
+  ko: 10
+  cmd_last_time: 250
+  max_v_liner_x: 30
+  max_v_liner_y: 0
+  max_v_angular_z: 100
+  imu_type: 69    # 'E'(69) for enable

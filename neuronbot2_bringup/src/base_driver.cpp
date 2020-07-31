@@ -29,15 +29,14 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
     ros::Duration(2).sleep(); //wait for device
 
     frame->init();
-
     frame->interact(ID_GET_VERSION);
 
     ROS_INFO("[NeuronBot2] Motor controller version: %s build time: %s", Data_holder::get()->firmware_info.version, Data_holder::get()->firmware_info.time);
     
     init_cmd_odom();
-
     init_pid_debug();
 
+    init_param();
     read_param();
 
     init_imu();
@@ -117,18 +116,46 @@ void BaseDriver::init_imu()
     raw_imu_msgs.magnetometer = true;
 }
 
+void BaseDriver::init_param()
+{
+#ifdef WRITE_ROBOT_PARAM
+    Robot_parameter param;
+    memset(&param, 0, sizeof(Robot_parameter));
+
+//Data_holder::get()->firmware_info.version;
+  pn.param<std::string>("port", wheel_diameter, "/dev/ttyACM0");
+  pn.param<int32_t>("buadrate", wheel_track, 115200);
+
+    param.wheel_diameter = 84;
+    param.wheel_track = 225;
+    param.encoder_resolution = 1428;
+    param.do_pid_interval = 10; 
+    param.kp = 75;
+    param.ki = 2500;
+    param.kd = 0;
+    param.ko = 10;
+    param.cmd_last_time = 250;
+    param.max_v_liner_x = 40;
+    param.max_v_liner_y = 0;
+    param.max_v_angular_z = 150;
+    param.imu_type = 69; // 'E'(69) for enable
+
+    frame->interact(ID_SET_ROBOT_PARAMTER);
+#endif
+}
+
 void BaseDriver::read_param()
 {
-    Robot_parameter* param = &Data_holder::get()->parameter;
-    memset(param,0, sizeof(Robot_parameter));
+    Robot_parameter* param_ptr = &Data_holder::get()->parameter;
+    memset(param_ptr, 0, sizeof(Robot_parameter));
 
     frame->interact(ID_GET_ROBOT_PARAMTER);
 
     ROS_INFO("[NeuronBot2] RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
-        param->wheel_diameter, param->wheel_track,  param->encoder_resolution, 
-        param->do_pid_interval, param->kp, param->ki, param->kd, param->ko, 
-        param->cmd_last_time, param->max_v_liner_x, param->max_v_liner_y, param->max_v_angular_z,
-        param->imu_type);
+        param_ptr->wheel_diameter, param_ptr->wheel_track,  param_ptr->encoder_resolution, 
+        param_ptr->do_pid_interval, param_ptr->kp, param_ptr->ki, param_ptr->kd, param_ptr->ko, 
+        param_ptr->cmd_last_time, param_ptr->max_v_liner_x, param_ptr->max_v_liner_y, param_ptr->max_v_angular_z,
+        param_ptr->imu_type);
 
     bdg.SetRobotParameters();
 }
