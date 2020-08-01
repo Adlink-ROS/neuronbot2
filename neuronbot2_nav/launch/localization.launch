@@ -10,12 +10,18 @@
   <arg name="yaw" default="0.0"/>
 
 	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map)">
-		<param name="frame_id" value="$(arg namespace)/map"/>
+		<param if="$(eval namespace == '')" name="frame_id" value="map"/>
+    <param if="$(eval namespace != '')" name="frame_id" value="$(arg namespace)/map"/>
+    <!--
+    <param name="frame_id" value="$(arg namespace)/map"/>
+    -->
 	</node>
 
-  <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
+  <node pkg="amcl" type="amcl" name="amcl" output="screen" clear_params="true">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
-    <!-- Publish scans from best pose at a max of 10 Hz -->
+    <param name="first_map_only" value="true"/>
+    <param name="tf_broadcast" value="true"/>
+
     <param name="odom_model_type" value="diff-corrected"/>
     <param name="odom_alpha5" value="0.08"/>
     <param name="gui_publish_rate" value="5.0"/>
