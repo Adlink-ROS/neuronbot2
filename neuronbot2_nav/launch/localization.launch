@@ -2,11 +2,16 @@
 
   <arg name="namespace" default=""/>
   <arg name="use_map_topic" default="true"/>
+  <arg name="map" default="$(find neuronbot2_nav)/maps/mememan.yaml" />
   <arg name="scan_topic" default="scan"/>
 
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="yaw" default="0.0"/>
+
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map)">
+		<param name="frame_id" value="$(arg namespace)/map"/>
+	</node>
 
   <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
