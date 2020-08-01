@@ -441,6 +441,10 @@
         <plugin name="neuronbot2_imu" filename="libgazebo_ros_imu_sensor.so">
           <topicName>imu/data</topicName>
           <frameName>imu_link</frameName>
+          <updateRateHZ>10.0</updateRateHZ>
+          <gaussianNoise>0.0</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 0 0</rpyOffset>
           <ros>
             <argument>~/out:=imu</argument>
           </ros>
@@ -800,8 +804,10 @@
       <publishWheelTF>0</publishWheelTF>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
+      <odometrySource>world</odometrySource>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishTf>1</publishTf>
+      <rosDebugLevel>na</rosDebugLevel>
     </plugin>
 
     <!--┐(´～｀)┌ Joint state publisher ┐(´～｀)┌-->
