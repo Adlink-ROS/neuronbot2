@@ -7,17 +7,17 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
   <arg name="yaw" default="0.0"/>
-  <arg name="ekf" default="true"/>
+  <arg name="use_ekf" default="false"/>
 
   <group ns="$(arg namespace)">
     <node name="gazebo_robot" pkg="gazebo_ros" type="spawn_model" output="screen"
-    args="-file $(arg model_file) -$(arg file_type) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg yaw) -model $(arg model_name)">
-      <remap unless="$(arg ekf)" from="raw_odom" to="odom"/>
+      args="-file $(arg model_file) -$(arg file_type) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg yaw) -model $(arg model_name)">
+      <remap if="$(arg use_ekf)" from="odom" to="raw_odom"/>
     </node>
     <include file="$(find neuronbot2_gazebo)/launch/robot_state_publisher.launch">
       <arg name="prefix" value="$(arg namespace)"/>
     </include>
-    <node if="$(arg ekf)" name="ekf" pkg="robot_localization" type="ekf_localization_node" output="screen">
+    <node if="$(arg use_ekf)" name="ekf" pkg="robot_localization" type="ekf_localization_node" output="screen">
       <rosparam command="load" file="$(find neuronbot2_gazebo)/params/ekf_params.yaml"/>
       <param if="$(eval namespace != '/')" name="map_frame" value="$(arg namespace)/map"/>
       <param if="$(eval namespace != '/')" name="odom_frame" value="$(arg namespace)/odom"/>

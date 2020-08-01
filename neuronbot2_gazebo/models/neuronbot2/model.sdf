@@ -362,7 +362,7 @@
       <sensor name="rp_lidar" type="ray">
         <always_on>true</always_on>
         <visualize>true</visualize>
-        <pose>0.0 0 0.02 0 0 3.14</pose>
+        <pose>0.0 0 0.02 0 0 0</pose>
         <update_rate>5.5</update_rate> <!-- RPLidar A1 is 5.5 Hz -->
         <ray>
           <scan>
@@ -795,10 +795,10 @@
       <wheelAcceleration>1.0</wheelAcceleration>
       <commandTopic>cmd_vel</commandTopic>
       <publishOdom>1</publishOdom>
-      <publishOdomTF>0</publishOdomTF>
+      <publishOdomTF>1</publishOdomTF>
       <publishWheelJointState>0</publishWheelJointState>
       <publishWheelTF>0</publishWheelTF>
-      <odometryTopic>raw_odom</odometryTopic>
+      <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishTf>1</publishTf>
