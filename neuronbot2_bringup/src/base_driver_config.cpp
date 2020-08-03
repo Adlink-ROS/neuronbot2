@@ -25,9 +25,9 @@ void BaseDriverConfig::init(Robot_parameter* r)
 
   //comm param
   pn.param<std::string>("port", port, "/dev/ttyACM0");
-  pn.param<int32_t>("buadrate", buadrate, 115200);
+  pn.param<int32_t>("baudrate", baudrate, 115200);
   
-  ROS_INFO("[NeuronBot2] port: %s buadrate: %d", port.c_str(), buadrate);
+  ROS_INFO("[NeuronBot2] port: %s baudrate: %d", port.c_str(), baudrate);
 
   pn.param<std::string>("base_frame", base_frame, "base_link");
   pn.param<std::string>("odom_frame", odom_frame, "odom");

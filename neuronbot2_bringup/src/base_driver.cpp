@@ -13,7 +13,7 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
     //init config
     bdg.init(&Data_holder::get()->parameter);
 
-    trans = boost::make_shared<Serial_transport>(bdg.port, bdg.buadrate);
+    trans = boost::make_shared<Serial_transport>(bdg.port, bdg.baudrate);
     frame = boost::make_shared<Simple_dataframe>(trans.get());
 
     ROS_INFO("[NeuronBot2] BaseDriver startup");
@@ -124,7 +124,7 @@ void BaseDriver::init_param()
 
 //Data_holder::get()->firmware_info.version;
     pn.param<std::string>("port", wheel_diameter, "/dev/ttyACM0");
-    pn.param<int32_t>("buadrate", wheel_track, 115200);
+    pn.param<int32_t>("baudrate", wheel_track, 115200);
 
     param.wheel_diameter = 84;
     param.wheel_track = 225;

@@ -1,6 +1,6 @@
 # Serial config
 port: /dev/neuronbot2
-buadrate: 115200
+baudrate: 115200
 
 # ROS config
 base_frame: base_footprint
@@ -11,7 +11,6 @@ publish_tf: true
 out_pid_debug_enable: true
 
 # Motor controller config
-
 v1_0_1:
     wheel_diameter: 84
     wheel_track: 225

@@ -33,7 +33,7 @@ public:
 class Serial_transport : public Transport {
 
 public:
-	Serial_transport (std::string url, int32_t buadrate);
+	Serial_transport (std::string url, int32_t baudrate);
 
 	bool init();
     void set_timeout(int t);

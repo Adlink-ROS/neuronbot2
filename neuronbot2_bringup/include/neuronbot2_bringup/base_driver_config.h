@@ -33,7 +33,7 @@ public:
   Robot_parameter* rp;
   
   std::string port;
-  int32_t buadrate;
+  int32_t baudrate;
 
   std::string base_frame;
   std::string odom_frame;

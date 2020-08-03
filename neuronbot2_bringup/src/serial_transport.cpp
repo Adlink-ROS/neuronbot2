@@ -2,12 +2,12 @@
 
 
 
-Serial_transport::Serial_transport(std::string port, int32_t buadrate) :
+Serial_transport::Serial_transport(std::string port, int32_t baudrate) :
     write_buffer_(),
     read_buffer_()
 {
     params_.serialPort = port;
-    params_.baudRate = buadrate;
+    params_.baudRate = baudrate;
 
 	ios_ = boost::make_shared<boost::asio::io_service>();
 }
