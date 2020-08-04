@@ -29,16 +29,11 @@ BaseDriver::BaseDriver() : pn("~"), bdg(pn)
     ros::Duration(2).sleep(); //wait for device
 
     frame->init();
-    frame->interact(ID_GET_VERSION);
-
-    ROS_INFO("[NeuronBot2] Motor controller version: %s build time: %s", Data_holder::get()->firmware_info.version, Data_holder::get()->firmware_info.time);
-    
-    init_cmd_odom();
-    init_pid_debug();
-
     init_param();
     read_param();
 
+    init_cmd_odom();
+    init_pid_debug();
     init_imu();
 }
 
@@ -118,30 +113,89 @@ void BaseDriver::init_imu()
 
 void BaseDriver::init_param()
 {
-#if 0//def WRITE_ROBOT_PARAM
-    Robot_parameter param;
-    memset(&param, 0, sizeof(Robot_parameter));
+    frame->interact(ID_GET_VERSION);
+    std::string build_version(Data_holder::get()->firmware_info.version);
+    std::string build_time(Data_holder::get()->firmware_info.time);    
+    ROS_INFO("[NeuronBot2] Motor controller version: %s build time: %s", build_version.c_str(), build_time.c_str());
 
-//Data_holder::get()->firmware_info.version;
-    pn.param<std::string>("port", wheel_diameter, "/dev/ttyACM0");
-    pn.param<int32_t>("baudrate", wheel_track, 115200);
+#ifdef WRITE_ROBOT_PARAM
+    // replace all '.' to '_' for namespace comparison
+    std::replace(build_version.begin(), build_version.end(), '.', '_');
+    
+    Robot_parameter* param_ptr = &Data_holder::get()->parameter;
+    //memset(param_ptr, 0, sizeof(Robot_parameter));
+    std::string key;
+    int value;
 
-    param.wheel_diameter = 84;
-    param.wheel_track = 225;
-    param.encoder_resolution = 1428;
-    param.do_pid_interval = 10; 
-    param.kp = 75;
-    param.ki = 2500;
-    param.kd = 0;
-    param.ko = 10;
-    param.cmd_last_time = 250;
-    param.max_v_liner_x = 40;
-    param.max_v_liner_y = 0;
-    param.max_v_angular_z = 150;
-    param.imu_type = 69; // 'E'(69) for enable
+    key = build_version + "/" + "wheel_diameter";
+    pn.param<int>(key, value, 84);
+    param_ptr->wheel_diameter = (unsigned short)value;
+    
+    key = build_version + "/" + "wheel_track";
+    pn.param<int>(key, value, 225);
+    param_ptr->wheel_track = (unsigned short)value;
 
-    frame->interact(ID_SET_ROBOT_PARAMTER);
-#endif
+    key = build_version + "/" + "encoder_resolution";
+    pn.param<int>(key, value, 1428);
+    param_ptr->wheel_track = (unsigned short)value;
+
+    key = build_version + "/" + "do_pid_interval";
+    pn.param<int>(key, value, 10);
+    param_ptr->do_pid_interval = (unsigned char)value;
+
+    key = build_version + "/" + "kp";
+    pn.param<int>(key, value, 75);
+    param_ptr->kp = (unsigned short)value;
+        
+    key = build_version + "/" + "ki";
+    pn.param<int>(key, value, 2500);
+    param_ptr->ki = (unsigned short)value;
+
+    key = build_version + "/" + "kd";
+    pn.param<int>(key, value, 0);
+    param_ptr->kd = (unsigned short)value;
+
+    key = build_version + "/" + "ko";
+    pn.param<int>(key, value, 10);
+    param_ptr->ko = (unsigned short)value;        
+
+    key = build_version + "/" + "cmd_last_time";
+    pn.param<int>(key, value, 10);
+    param_ptr->cmd_last_time = (unsigned short)value;   
+
+    key = build_version + "/" + "max_v_liner_x";
+    pn.param<int>(key, value, 40);
+    param_ptr->max_v_liner_x = (unsigned short)value;   
+
+    key = build_version + "/" + "max_v_liner_y";
+    pn.param<int>(key, value, 0);
+    param_ptr->max_v_liner_y = (unsigned short)value;   
+
+    key = build_version + "/" + "max_v_angular_z";
+    pn.param<int>(key, value, 150);
+    param_ptr->max_v_angular_z = (unsigned short)value;    
+
+    key = build_version + "/" + "imu_type";
+    pn.param<int>(key, value, 69);
+    param_ptr->imu_type = (unsigned char)value;        
+    
+    bool ret = frame->interact(ID_SET_ROBOT_PARAMTER);     
+    if (!ret) 
+    {
+        ROS_ERROR("[NeuronBot2] Failed to set RobotParameters!");
+    }
+    else 
+    {
+        ROS_INFO("[NeuronBot2] Set RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+            param_ptr->wheel_diameter, param_ptr->wheel_track,  param_ptr->encoder_resolution, 
+            param_ptr->do_pid_interval, param_ptr->kp, param_ptr->ki, param_ptr->kd, param_ptr->ko, 
+            param_ptr->cmd_last_time, param_ptr->max_v_liner_x, param_ptr->max_v_liner_y, param_ptr->max_v_angular_z,
+            param_ptr->imu_type);    
+    }
+
+    ros::Rate loop(5);
+    loop.sleep();
+#endif    
 }
 
 void BaseDriver::read_param()
@@ -149,13 +203,20 @@ void BaseDriver::read_param()
     Robot_parameter* param_ptr = &Data_holder::get()->parameter;
     memset(param_ptr, 0, sizeof(Robot_parameter));
 
-    frame->interact(ID_GET_ROBOT_PARAMTER);
-
-    ROS_INFO("[NeuronBot2] RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
-        param_ptr->wheel_diameter, param_ptr->wheel_track,  param_ptr->encoder_resolution, 
-        param_ptr->do_pid_interval, param_ptr->kp, param_ptr->ki, param_ptr->kd, param_ptr->ko, 
-        param_ptr->cmd_last_time, param_ptr->max_v_liner_x, param_ptr->max_v_liner_y, param_ptr->max_v_angular_z,
-        param_ptr->imu_type);
+    bool ret = frame->interact(ID_GET_ROBOT_PARAMTER);
+    if (!ret) 
+    {
+        ROS_ERROR("[NeuronBot2] Failed to get RobotParameters!");
+    }
+    else
+    {
+        ROS_INFO("[NeuronBot2] RobotParameters: %d %d %d %d %d %d %d %d %d %d %d %d %d", 
+            param_ptr->wheel_diameter, param_ptr->wheel_track,  param_ptr->encoder_resolution, 
+            param_ptr->do_pid_interval, param_ptr->kp, param_ptr->ki, param_ptr->kd, param_ptr->ko, 
+            param_ptr->cmd_last_time, param_ptr->max_v_liner_x, param_ptr->max_v_liner_y, param_ptr->max_v_angular_z,
+            param_ptr->imu_type);
+    }
+    bdg.SetRobotParameters();      
 }
 
 void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)

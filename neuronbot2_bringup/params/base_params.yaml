@@ -26,7 +26,7 @@ v1_0_1:
     max_v_angular_z: 150
     imu_type: 69    # 'E'(69) for enable
 
-v1_nb2_1:
+v1_NB2_1:
     wheel_diameter: 83
     wheel_track: 225
     encoder_resolution: 1428

@@ -44,7 +44,7 @@ void BaseDriverConfig::init(Robot_parameter* r)
 void BaseDriverConfig::SetRobotParameters() 
 {
 #ifdef USE_DYNAMIC_RECONFIG
-  static bool flag=true;
+  static bool flag = true;
   if (flag)
   {
     flag = false;
@@ -101,7 +101,7 @@ void BaseDriverConfig::dynamic_callback(neuronbot2_bringup::neuronbot2_driverCon
 
 bool BaseDriverConfig::get_param_update_flag()
 {
-  bool tmp=param_update_flag;
+  bool tmp = param_update_flag;
   param_update_flag = false;
   
   return tmp;

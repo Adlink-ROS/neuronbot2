@@ -3,8 +3,8 @@
 
 #include <ros/ros.h>
 
-#define WRITE_ROBOT_PARAM
-//#define USE_DYNAMIC_RECONFIG
+//#define WRITE_ROBOT_PARAM
+#define USE_DYNAMIC_RECONFIG
 #ifdef USE_DYNAMIC_RECONFIG
 #include <dynamic_reconfigure/server.h>
 #include "neuronbot2_bringup/neuronbot2_driverConfig.h"
