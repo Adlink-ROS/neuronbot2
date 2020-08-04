@@ -3,9 +3,10 @@ Panels:
     Help Height: 81
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 481
+    Tree Height: 433
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -69,9 +70,9 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-        wheel_right_link:
+        wheel_left_link:
           Value: false
-        world:
+        wheel_right_link:
           Value: false
       Marker Scale: 1
       Name: TF
@@ -79,19 +80,20 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        world:
-          map:
-            odom:
-              base_footprint:
-                base_link:
-                  camera_link:
-                    {}
-                  imu_link:
-                    {}
-                  laser_frame:
-                    {}
-                  wheel_right_link:
-                    {}
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                camera_link:
+                  {}
+                imu_link:
+                  {}
+                laser_frame:
+                  {}
+                wheel_left_link:
+                  {}
+                wheel_right_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -291,18 +293,50 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        laser_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -384,10 +418,10 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 713
+  Height: 665
   Hide Left Dock: false
   Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd0000000400000000000001570000026ffc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000026f000000c900ffffff00000001000001000000026ffc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d0000026f000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003c60000026f00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001570000023ffc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000023f000000c900ffffff00000001000001000000026ffc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d0000026f000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003720000023f00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -396,6 +430,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1315
-  X: 51
+  Width: 1231
+  X: 49
   Y: 27

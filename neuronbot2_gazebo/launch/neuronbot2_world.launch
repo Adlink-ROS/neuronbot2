@@ -21,6 +21,7 @@
   <arg name="pub_clock_frequency" default="100"/>
   <arg name="enable_ros_network" default="true" />
   <arg name="world_name" value="$(find neuronbot2_gazebo)/worlds/$(arg world_model)"/>
+  <arg name="use_camera" default="false"/>
 
   <!-- set use_sim_time flag -->
   <param name="/use_sim_time" value="$(arg use_sim_time)"/>
@@ -52,5 +53,6 @@
   <include file="$(find neuronbot2_gazebo)/launch/robot.launch">
     <arg name="namespace" value="/"/>
     <arg name="model_name" value="neuronbot2"/>
+    <arg name="use_camera" value="$(arg use_camera)"/>
   </include>
 </launch>

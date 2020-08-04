@@ -103,7 +103,7 @@ Below document is the quick-start guide for simulation if you don't realy have a
    ![](readme_resource/slam_teleop_8x.gif)
 3. Explore the world with move_base while SLAM with gmapping
    ```
-   roslaunch neuronbot2_nav move_base.launch
+   roslaunch neuronbot2_nav navigation.launch
    ```
    ![](readme_resource/slam_move_base_8x.gif)
 4. Save the map
@@ -117,12 +117,19 @@ Below document is the quick-start guide for simulation if you don't realy have a
 ### Navigate to the desired location
 Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running.
-    ```
-    roslaunch neuronbot2_nav neuronbot2_nav.launch map_name:=mememan.yaml open_rviz:=true local_planner:=dwa
-    # map_name: sholud be assigned to the absolute path if you are not in neuronbot2_nav/maps [default: mememan.yaml]
-    # open_rviz: whether open RViz or not [default: false]
-    # local_planner: can be either dwa or teb [default: dwa]
-    ```
+   ```
+   roscd neuronbot2_nav/maps/
+   roslaunch neuronbot2_nav bringup.launch open_rviz:=true local_planner:=dwa map:=map_name.yaml
+   ```
+   
+   open_rviz: whether open RViz or not [default: false]
+   
+   local_planner: can be either dwa or teb [default: dwa]
+   
+   map: sholud be assigned to the absolute path if you are not in neuronbot2_nav/maps/ [default: mememan.yaml]
+   
+   You can also change the default map file in neuronbot2_nav/launch/bringup.launch
+
     ![](readme_resource/mememan_launch_nav.png)
 2. Set Estimation
    

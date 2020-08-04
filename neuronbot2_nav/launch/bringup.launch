@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+	<arg name="namespace" default="" />
+	<arg name="open_rviz" default="false" />
+    <arg name="local_planner" default="dwa" doc="Local planner can be either dwa or teb"/>
+	<arg name="map" default="$(find neuronbot2_nav)/maps/mememan.yaml" />
+
+	<arg name="x_pos" default="0.0"/>
+	<arg name="y_pos" default="0.0"/>
+	<arg name="yaw" default="0.0"/>
+
+	<group ns="/$(arg namespace)">
+		<!--<node pkg="tf2_ros" type="static_transform_publisher" name="map_tf_publisher" args="0 0 0 0 0 0 world $(arg namespace)/map" />-->
+
+		<include file="$(find neuronbot2_nav)/launch/navigation.launch">
+			<arg name="namespace" value="$(arg namespace)"/>
+            <arg name="local_planner" value="$(arg local_planner)"/>
+		</include>
+
+		<include file="$(find neuronbot2_nav)/launch/localization.launch">
+			<arg name="namespace" value="$(arg namespace)"/>
+			<arg name="map" value="$(arg map)"/>
+			<arg name="x_pos" value="$(arg x_pos)"/>
+			<arg name="y_pos" value="$(arg y_pos)"/>
+			<arg name="yaw" value="$(arg yaw)"/>
+		</include>
+	</group>
+
+	<group if="$(arg open_rviz)">
+		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find neuronbot2_nav)/rviz/view_navigation.rviz" />
+	</group>
+</launch>
