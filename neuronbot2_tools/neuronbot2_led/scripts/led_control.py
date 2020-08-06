@@ -160,13 +160,15 @@ class Strip:
         for i in range(num):
             self.setPixelColor(i,128,128,128)                
         self.show()
+        self.delay(100)  
 
     def mode_amber(self, num):
         self.clear()      
         self.delay(100)  
         for i in range(num):
-            self.setPixelColor(i,0,0,128)                
+            self.setPixelColor(i,255,60,0)                
         self.show()
+        self.delay(100)  
 
     def mode_red(self, num):
         self.clear()        
@@ -174,6 +176,7 @@ class Strip:
         for i in range(num):
             self.setPixelColor(i,128,0,0)        
         self.show()
+        self.delay(100)  
         
     def mode_green(self, num):
         self.clear()        
@@ -181,6 +184,7 @@ class Strip:
         for i in range(num):
             self.setPixelColor(i,0,128,0)
         self.show()
+        self.delay(100)  
 
     def mode_blue(self, num):
         self.clear()      
@@ -188,6 +192,7 @@ class Strip:
         for i in range(num):
             self.setPixelColor(i,0,0,128)                
         self.show()
+        self.delay(100)  
 
     def mode_rainbow(self, num):
         for j in range(256):
@@ -243,7 +248,7 @@ class Strip:
 def main(argv):
     port = '/dev/neuronbotLED'
     num = 10
-    mode = 2
+    mode = 5
     try:
         opts, args = getopt.getopt(argv,"hp:n:m:",["port=", "num=", "mode="])
     except getopt.GetoptError:
