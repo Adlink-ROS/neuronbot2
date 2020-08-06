@@ -23,6 +23,17 @@ else
     exit 1
 fi
 
+# LED program depends on python-serial
+sudo apt install -y python python-serial
+status=$?
+if [ $status -eq 0 ]
+then
+    echo "Dependent packages for NeuronBot LED have been installed successfully"
+else
+    echo "Failed to download and install NeuronBot LED dependent packages!"
+    exit 1
+fi
+
 # udev for RPLidar
 echo  'KERNEL=="ttyUSB*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE:="0777", SYMLINK+="rplidar"' > /etc/udev/rules.d/rplidar.rules
 status=$?
@@ -40,7 +51,7 @@ sudo udevadm trigger
 status=$?
 if [ $status -eq 0 ]
 then
-    echo "Udev restarted successfully."
+    echo "Udev restarted successfully"
 else
     echo "Failed to restart udev!"
     exit 1
