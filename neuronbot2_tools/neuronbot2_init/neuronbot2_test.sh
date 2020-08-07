@@ -17,6 +17,21 @@ function print_test_banner()
 	echo "*****************************************"
 }
 
+if [ "$1" = "0" ]
+then
+    print_test_banner 1 "Test All"
+    trap "exit" INT TERM ERR
+    trap "kill 0" EXIT    
+    roscore > /dev/null &
+    echo "Initializing..."
+    sleep 3
+    #gnome-terminal -e "rosrun teleop_twist_keyboard teleop_twist_keyboard.py _speed:=0.1 _turn:=0.3"
+    $PWD/scripts/spin_test.sh > /dev/null &
+    rviz -d $PWD/../../neuronbot2_nav/rviz/view_lidar.rviz > /dev/null &
+    roslaunch neuronbot2_bringup bringup.launch
+    wait
+fi
+
 
 if [ "$1" = "1" ]
 then
@@ -40,7 +55,7 @@ fi
 if [ "$1" = "3" ]
 then
     print_test_banner 3 "LED"
-    roslaunch neuronbot2_led led_control.launch led_color:=9
+    $PWD/../neuronbot2_led/scripts/led_control.py -p /dev/neuronbotLED -m 8
 fi
 
 if [ "$1" = "4" ]
@@ -51,13 +66,10 @@ fi
 
 if [ "$1" = "demo_move" ]
 then
-    print_test_banner 1 "Demo-Move"
+    print_test_banner 1 "Demo Move"
     trap "exit" INT TERM ERR
     trap "kill 0" EXIT
-    #roscore &
-    #sleep 5
-    #gnome-terminal -e "rosrun teleop_twist_keyboard teleop_twist_keyboard.py _speed:=0.1 _turn:=0.3"
-    $PWD/scripts/spin_test.sh > /dev/null &
+    $PWD/scripts/move_example.sh > /dev/null &
     roslaunch neuronbot2_bringup base_driver.launch
     wait
 fi
