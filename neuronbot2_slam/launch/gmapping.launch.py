@@ -18,6 +18,7 @@ def generate_launch_description():
         'slam.rviz')
 
     param_substitutions = {
+        'scan_topic': 'scan',
         'base_frame': 'base_footprint',
         'odom_frame': 'odom',
         'map_frame': 'map',
