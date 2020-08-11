@@ -34,8 +34,8 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 3. Git clone this package
     ```
     cd ~/neuronbot2_ros2_ws/
-    wget https://gist.githubusercontent.com/airuchen/dd5e7962706b32ffaa8d46ba905fea91/raw/d21c4fe2ca0d494202cf84c734c9e8cbca769ff1/NeuronBot2_ros2.repos
-    vcs import src < NeuronBot2_ros2.repos
+    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/dashing-devel/neuronbot2_ros2.repos
+    vcs import src < neuronbot2_ros2.repos
 
     ```
 4. Install dependencies
