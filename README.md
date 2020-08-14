@@ -55,7 +55,14 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy
    ```
-5. Colcon build the package 
+5. Initialze NeuronBot2 ttyUSB nodes,
+   `neuronbot_init.sh` is needed to be run only once for the first setup.
+   ```
+   cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_tools/neuronbot2_init/   
+   sudo ./neuronbot2_init.sh
+   ```      
+   
+6. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
    source /opt/ros/foxy/setup.bash
