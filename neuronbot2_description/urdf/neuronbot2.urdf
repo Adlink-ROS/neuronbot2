@@ -169,6 +169,7 @@
   </joint>
 
   <!-- RealSense camera -->
+  <!--
   <joint name="camera_joint" type="fixed">
     <origin xyz="0.175 0.0 0.175" rpy="0 0.10 0"/>
     <parent link="base_link"/>
@@ -188,5 +189,5 @@
       </geometry>
     </collision>
   </link>
-
+  -->
 </robot>
