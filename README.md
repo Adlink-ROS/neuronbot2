@@ -241,9 +241,8 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Run Behavior Tree
-   ```
-   ros2 launch neuronbot2_bt neuronbot2_bt.launch.py bt_xml:=neuronbt.xml
-   ```
-   ![](readme_resource/nav2_bt.gif)
 
-## Trouble Shooting
+   Please go to check this repos:
+   https://github.com/Adlink-ROS/BT_ros2
+
+   ![](readme_resource/nav2_bt.gif)
