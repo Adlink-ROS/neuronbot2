@@ -10,16 +10,19 @@ from launch.conditions import IfCondition
 def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    open_rviz = LaunchConfiguration('open_rviz', default='false')
 
     rviz_config_dir = os.path.join(
         get_package_share_directory('neuronbot2_slam'),
         'rviz',
         'slam.rviz')
 
+    remappings = [('/tf', 'tf'),
+                  ('/tf_static', 'tf_static')]
+
     param_substitutions = {
+        'use_sim_time': use_sim_time,
         'scan_topic': 'scan',
-        'base_frame': 'base_footprint',
+        'base_frame': 'base_link',
         'odom_frame': 'odom',
         'map_frame': 'map',
         'map_update_interval': 3.0,
@@ -69,7 +72,7 @@ def generate_launch_description():
             name='rviz2',
             arguments=['-d', rviz_config_dir],
             parameters=[{'use_sim_time': use_sim_time}],
-            condition=IfCondition(LaunchConfiguration("open_rviz"))
-            # output='log'
+            condition=IfCondition(LaunchConfiguration("open_rviz")),
+            remappings=remappings
             ),
     ])
