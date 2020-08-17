@@ -10,7 +10,6 @@ from launch.conditions import IfCondition
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
-    open_rviz = LaunchConfiguration('open_rviz', default='false')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir', 
         default=os.path.join(get_package_share_directory('neuronbot2_slam') , 'config'))
     configuration_basename = LaunchConfiguration('configuration_basename', default='cartographer.lua')
