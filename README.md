@@ -179,15 +179,15 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping
    ```
-   ros2 launch neuronbot2_slam gmapping_launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam gmapping_launch.py open_rviz:=true use_sim_time:=true
    ```
    * Slam_toolbox
    ``` 
-   ros2 launch neuronbot2_slam slam_toolbox_launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam slam_toolbox_launch.py open_rviz:=true use_sim_time:=true
    ```
    * Cartographer
    ```
-   ros2 launch neuronbot2_slam cartographer_launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam cartographer_launch.py open_rviz:=true use_sim_time:=true
    ```
     ![](readme_resource/slam_rviz.png)
 2. Teleop NeuronBot2 to explore the world
