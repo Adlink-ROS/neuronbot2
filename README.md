@@ -1,5 +1,6 @@
 # NeuronBot 2 in ROS2
 ![](readme_resource/nb2_robot.png) 
+
 ## Introduction
 NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
 
@@ -16,17 +17,12 @@ NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully suppor
 * Superb
   
 
-This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
-
-Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
-```
-# For ROS2 Dashing
-git clone https://github.com/Adlink-ROS/neuronbot2.git -b dashing-devel
-``` 
+This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before.
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/ "ros-dashing-desktop installation"). For the sake of convenience, you might want to download ros-dashing-desktop version to make sure all the dependencies are installed.
-1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/)
+
+1. Install ROS2 dashing if you don't have.
+   - Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/).
 2. Create workspace
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
@@ -36,7 +32,6 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
     cd ~/neuronbot2_ros2_ws/
     wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/dashing-devel/neuronbot2_ros2.repos
     vcs import src < neuronbot2_ros2.repos
-
     ```
 4. Install dependencies
    ```
@@ -51,6 +46,9 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
+6. There are two operations tutorials:
+   - If you have NeuronBot2, please follow the tutorial: [Bring up your NeuronBot2](#bring-up-your-neuronbot2)
+   - If you don't have NeuronBot2, but want to run simulation, please follow the tutorial: [Bring up in Simulation](#bring-up-in-simulation)
 
 ---
 
@@ -103,6 +101,7 @@ Open a new terminal (Ctrl + Alt + t).
    ```
 
    The map is ready and SLAM can be turned off.
+
 ### Navigation
 
    * Try navigation on your own map. 
@@ -120,11 +119,12 @@ Open a new terminal (Ctrl + Alt + t).
    ![](readme_resource/2d_nav_goal.png)
 
    Click "2D Nav Goal", and set goal to any free space on the map.
-   
 
 --- 
+
 ## Bring up in Simulation
 ![](readme_resource/NueronBot2_sim.jpg)
+
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
@@ -154,6 +154,7 @@ Open a new terminal (Ctrl + Alt + t).
    ![](readme_resource/teleop.png)
 
    ***p.s. To alleviate CPU consumption, close GAZEBO GUI by clicking x. This will not end the simulation server, which is running backend***
+
 ### SLAM the world
 1. Launch SLAM as well as Rviz while the Gazebo simulation is running.
    
@@ -185,38 +186,40 @@ Open a new terminal (Ctrl + Alt + t).
    ros2 run nav2_map_server map_saver -f <map_dir>/<map_name>
    ```
 
-
    Then, you shall turn off SLAM.
+
 ### Navigate to the desired location
 Once users obtain the map, the pgm file & yaml file, navigation is good to go.
-   * Try navigation on your own map. 
-      ```
-      ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
-      ```
+
 1. Launch Navigation as well as Rviz while the Gazebo simulation is running. Default map is set to mememan.yaml.
 
    * Navigate in mememan map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
-
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
    ```
    * Navigate in phenix map
    ```
-   ros2 launch  neuronbot2_nav neuronbot2_nav.launch.py map_dir:=/home/<user_name>/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
    ``` 
+   * Try navigation on your own map. There are two ways
+     - The first one: Put the <map_name>.yaml and <map_name>.pgm into `~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/`
+       ```
+       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
+       ```
+     - The seconde one: Assign your map directly
+       ```
+       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
+       ```
 
-   * Try navigation on your own map. ***Put the <map_name>.yaml and <map_name>.pgm into " ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/ "***
-
-    ```
-   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
-    ```
     ![](readme_resource/mememan_launch_nav.png)
-1. Set Estimation
+
+2. Set Estimation
    
    Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
    ![](readme_resource/nav_estimate.gif)
-2. Set Goal
+
+3. Set Goal
 
    Click "2D Nav Goal", and set goal to any free space on the map.
    
