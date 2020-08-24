@@ -162,15 +162,15 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping
    ```
-   ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ros2 launch  neuronbot2_slam gmapping.launch.py open_rviz:=true use_sim_time:=true
    ```
    * Slam_toolbox
    ``` 
-   ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ros2 launch  neuronbot2_slam slam_toolbox.launch.py open_rviz:=true use_sim_time:=true
    ```
    * Cartographer
    ```
-   ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true
+   ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true use_sim_time:=true
    ```
     ![](readme_resource/slam_rviz.png)
 2. Teleop NeuronBot2 to explore the world
@@ -195,20 +195,23 @@ Once users obtain the map, the pgm file & yaml file, navigation is good to go.
 
    * Navigate in mememan map
    ```
-   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/mememan.yaml open_rviz:=true use_sim_time:=true
    ```
    * Navigate in phenix map
    ```
-   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true
+   ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=$HOME/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/phenix.yaml open_rviz:=true use_sim_time:=true
    ``` 
-   * Try navigation on your own map. There are two ways
-     - The first one: Put the <map_name>.yaml and <map_name>.pgm into `~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/`
+   * Try navigation on your own map. There are two ways:
+     - The first one: Assign your map path directly
        ```
-       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_name:=<map_name>.yaml open_rviz:=true
+       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true use_sim_time:=true
        ```
-     - The seconde one: Assign your map directly
+     - The second one: Put the <map_name>.yaml and <map_name>.pgm into `~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/`
        ```
-       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<full_path_to_your_map_name.yaml> open_rviz:=true
+       mv <map_name>.yaml <map_name>.pgm ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_nav/map/
+       # You need to rebuild the neuronbot2
+       colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+       ros2 launch neuronbot2_nav neuronbot2_nav.launch.py map_dir:=<map_name>.yaml open_rviz:=true use_sim_time:=true
        ```
 
     ![](readme_resource/mememan_launch_nav.png)
