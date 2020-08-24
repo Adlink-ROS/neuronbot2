@@ -18,6 +18,7 @@ def generate_launch_description():
         'slam.rviz')
 
     param_substitutions = {
+        'use_sim_time': use_sim_time,
         'base_frame': 'base_footprint',
         'odom_frame': 'odom',
         'map_frame': 'map',
