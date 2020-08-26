@@ -171,6 +171,12 @@ Open a new terminal (Ctrl + Alt + t).
    ```
    ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true
    ```
+   For Eloquent, neronbot2_slam is set colcon ignore as default. You should un-ignore it if you want to use neuronbot2_slam package. 
+   In Eloquent, you can also use: 
+   *slam_gmapping
+   ```
+   ros2 launch slam_gmapping slam_gmapping.launch.py
+   ```
     ![](readme_resource/slam_rviz.png)
 2. Teleop NeuronBot2 to explore the world
    ```
