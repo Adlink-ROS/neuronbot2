@@ -5,6 +5,8 @@
 
 
 #include <geometry_msgs/Twist.h>
+#include <sensor_msgs/Imu.h>
+#include <sensor_msgs/MagneticField.h>
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 #include <std_msgs/Int16.h>
@@ -58,13 +60,11 @@ public:
 private:
   static BaseDriver* instance;
 
-  //ros::NodeHandle n;
   BaseDriverConfig bdg;
   boost::shared_ptr<Transport> trans;
   boost::shared_ptr<Dataframe> frame;
 
   ros::Subscriber cmd_vel_sub;
-
   ros::Publisher odom_pub;
 
   nav_msgs::Odometry odom;
@@ -83,7 +83,9 @@ private:
 
   bool need_update_speed;
 
-  neuronbot2_msgs::RawImu raw_imu_msgs;
-
+  //neuronbot2_msgs::RawImu raw_imu_msgs;
+  sensor_msgs::Imu raw_imu_msgs;
+  sensor_msgs::MagneticField raw_mag_msgs;
   ros::Publisher raw_imu_pub;
+  ros::Publisher raw_mag_pub;
 };
