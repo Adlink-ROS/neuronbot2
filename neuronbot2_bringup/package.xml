@@ -7,8 +7,7 @@
     ROS2 package for bringing up NeuronBot2
   </description>
   <license>Apache 2.0</license>
-  <!--<author email="xxxx@xxx.xx.x">SYY</author>-->
-  <maintainer email="real.yuwen@gmail.com">airuchen</maintainer>
+  <maintainer email="ting.chang@adlinktech.com">Ting Chang</maintainer>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
