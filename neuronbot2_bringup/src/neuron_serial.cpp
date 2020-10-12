@@ -141,9 +141,7 @@ void NeuronSerial::read_firmware_info()
 {
     // Read in information from firmware
     frame->interact(ID_GET_VERSION);
-    std::string version(dh->firmware_info.version);
-    std::string time(dh->firmware_info.time);
-    RCLCPP_INFO(get_logger(), "Robot firmware version:%s || build time:%s", version.c_str(), time.c_str());
+    RCLCPP_INFO(get_logger(), "NeuronBot2 firmware version: %s_build_%s", dh->firmware_info.version, dh->firmware_info.time);
 }
 
 void NeuronSerial::on_motor_move(geometry_msgs::msg::Twist::SharedPtr msg)

@@ -15,7 +15,7 @@ def generate_launch_description():
     open_rviz = LaunchConfiguration('open_rviz', default='False')
 
     map_dir = LaunchConfiguration(
-            'map_dir',
+            'map',
             default=os.path.join(
                 get_package_share_directory('neuronbot2_nav'),
                 'map',
@@ -48,7 +48,7 @@ def generate_launch_description():
     return LaunchDescription([
 
         DeclareLaunchArgument(
-            'map_dir',
+            'map',
             default_value=map_dir,
             description='Full path to map directory'),
 
