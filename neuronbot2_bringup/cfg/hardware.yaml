@@ -1,4 +1,4 @@
-rplidar_node:
+rplidar:
   ros__parameters:
     serial_port: /dev/rplidar
     serial_baudrate: 115200
@@ -14,5 +14,3 @@ robot_state_publisher:
 joint_state_publisher:
   ros__parameters:
     publish_default_positions: True
-    rate: 30
-

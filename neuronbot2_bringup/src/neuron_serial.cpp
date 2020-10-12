@@ -43,6 +43,7 @@ NeuronSerial::NeuronSerial()
     RCLCPP_INFO(get_logger(), "Connecting to serial: '%s', with baudrate '%d'", port.c_str(), baudrate);
     try {
         serial_ = std::make_unique<serial::Serial>(port, baudrate);
+        serial_->setTimeout(0, 1000, 0, 1000, 0);
     } catch (const std::exception & e) {
         RCLCPP_ERROR(get_logger(), "Beep-bee-bee-boop-bee-doo-weep Can't connect to serial.");
         RCLCPP_ERROR(get_logger(), e.what());

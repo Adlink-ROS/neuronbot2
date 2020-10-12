@@ -12,7 +12,6 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
 
-    ekf_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'ekf.yaml')
     urdf_path = Path(get_package_share_directory('neuronbot2_description'), 'urdf', 'neuronbot2.urdf')
     hardware_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'hardware.yaml')
 
@@ -27,34 +26,25 @@ def generate_launch_description():
 
         Node(
             package='rplidar_ros',
-            node_executable='rplidar_composition',
+            node_executable='rplidar_node',
             node_name='rplidar',
             output='screen',
             parameters=[hardware_config],
         ),
 
-        Node(
-            package='joint_state_publisher', 
-            node_executable='joint_state_publisher', 
-            node_name='joint_state_publisher',
-            output='screen',
-            arguments=[str(urdf_path)],
-            parameters=[hardware_config]
-        ),
-
+#        Node(
+#            package='joint_state_publisher', 
+#            node_executable='joint_state_publisher', 
+#            node_name='joint_state_publisher',
+#            output='screen',
+#            arguments=[str(urdf_path)],
+#            parameters=[hardware_config]
+#        ),
 
         Node(
             package='neuronbot2_bringup',
             node_executable='neuronbot2_driver',
             output='screen',
-            # parameters=[{'publish_tf': 'true'}],
-        ),
-
-        Node(
-            package='robot_localization',
-            node_executable='se_node',
-            output='screen',
-            parameters=[ekf_config],
-            remappings=[("odometry/filtered", "odom")]
+            parameters=[{'publish_tf': 'true'}],
         ),
     ])
