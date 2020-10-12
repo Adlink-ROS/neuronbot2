@@ -80,15 +80,15 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping
    ```
-   ros2 launch neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam gmapping_launch.py open_rviz:=true
    ```
    * Slam_toolbox
    ``` 
-   ros2 launch neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam slam_toolbox_launch.py open_rviz:=true
    ```
    * Cartographer
    ```
-   ros2 launch neuronbot2_slam cartographer.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam cartographer_launch.py open_rviz:=true
    ```
 2. Teleop NeuronBot2 to explore the world
    ```
@@ -161,15 +161,15 @@ Open a new terminal (Ctrl + Alt + t).
 
    * Gmapping (Not support on Eloquent now)
    ```
-   ros2 launch neuronbot2_slam gmapping.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam gmapping_launch.py open_rviz:=true
    ```
    * Slam_toolbox (Not support on Eloquent now)
    ``` 
-   ros2 launch neuronbot2_slam slam_toolbox.launch.py open_rviz:=true
+   ros2 launch neuronbot2_slam slam_toolbox_launch.py open_rviz:=true
    ```
    * Cartographer
    ```
-   ros2 launch  neuronbot2_slam cartographer.launch.py open_rviz:=true
+   ros2 launch  neuronbot2_slam cartographer_launch.py open_rviz:=true
    ```
     ![](readme_resource/slam_rviz.png)
 2. Teleop NeuronBot2 to explore the world
