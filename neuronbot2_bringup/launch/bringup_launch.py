@@ -29,6 +29,7 @@ def generate_launch_description():
             package='robot_state_publisher',
             node_executable='robot_state_publisher',
             node_name='robot_state_publisher',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             output='screen',
             arguments=[str(urdf_path)],
         ),
@@ -45,6 +46,7 @@ def generate_launch_description():
             package='rplidar_ros',
             node_executable='rplidar_node',
             node_name='rplidar',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             output='screen',
             parameters=[hardware_config],
         ),
@@ -54,6 +56,7 @@ def generate_launch_description():
             condition=IfCondition(use_ekf),
             package='neuronbot2_bringup',
             node_executable='neuronbot2_driver',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             output='screen',
             parameters=[{
                 'publish_tf': False,
@@ -69,6 +72,7 @@ def generate_launch_description():
             condition=IfCondition(use_ekf),
             package='robot_localization',
             node_executable='ekf_node',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             output='screen',
             parameters=[ekf_config],
             remappings=[("odometry/filtered", "odom")]
@@ -80,6 +84,7 @@ def generate_launch_description():
             package='neuronbot2_bringup',
             node_executable='neuronbot2_driver',
             output='screen',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             parameters=[{
                 'publish_tf': True,
                 'calibrate_imu' : False,
@@ -97,6 +102,7 @@ def generate_launch_description():
             package='realsense_node',
             node_executable='realsense_node',
             node_namespace='',
+            emulate_tty=True, # Fix Eloquent bug which displays no msgs on console
             output='screen'
         ),
 
