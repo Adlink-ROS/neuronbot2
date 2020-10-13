@@ -18,5 +18,5 @@ local_costmap:
        
 
    inflation:
-       inflation_radius: 0.75
-       cost_scaling_factor: 4 # larger number = lower cost elevation
+       inflation_radius: 0.5
+       cost_scaling_factor: 5.0 # larger number = lower cost elevation

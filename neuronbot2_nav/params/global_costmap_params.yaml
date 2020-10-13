@@ -22,6 +22,6 @@ global_costmap:
                 laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 10.0, raytrace_range: 10.0, inf_is_valid: true}
 
         inflation_layer:
-                inflation_radius: 1
-                cost_scaling_factor: 8
+                inflation_radius: 0.5
+                cost_scaling_factor: 5.0
 
