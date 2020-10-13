@@ -39,6 +39,7 @@ public:
   std::string odom_frame;
 
   bool publish_tf;
+  double cmd_vel_timeout;
 
   std::string cmd_vel_topic;
   std::string odom_topic;

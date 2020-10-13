@@ -82,6 +82,7 @@ private:
   std_msgs::Int32 pid_debug_msg_output[MAX_MOTOR_COUNT];
 
   bool need_update_speed;
+  double last_cmd_vel_time;
 
   //neuronbot2_msgs::RawImu raw_imu_msgs;
   sensor_msgs::Imu raw_imu_msgs;

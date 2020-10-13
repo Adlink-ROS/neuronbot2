@@ -82,9 +82,7 @@ void BaseDriver::init_cmd_odom()
     }
 
     need_update_speed = false;
-
-    //ROS_INFO_STREAM("subscribe cmd topic on [correct_pos]");
-    //correct_pos_sub = nh.subscribe("correct_pos", 1000, &BaseDriver::correct_pos_callback, this);
+    last_cmd_vel_time = 0.0;
 }
 
 void BaseDriver::init_pid_debug()
@@ -266,6 +264,7 @@ void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)
     Data_holder::get()->velocity.v_angular_z = vel_cmd.angular.z*100;
 
     need_update_speed = true;
+    last_cmd_vel_time = ros::Time::now().toSec();
 }
 
 void BaseDriver::work_loop()
@@ -273,7 +272,6 @@ void BaseDriver::work_loop()
     ros::Rate loop(1000);
     while (ros::ok())
     {
-        //boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
         update_param();
 
         update_odom();
@@ -342,11 +340,29 @@ void BaseDriver::update_odom()
 
 void BaseDriver::update_speed()
 {
-    if (need_update_speed)
+    static bool cmd_vel_timer = false;
+    
+    // check cmd_vel_timeout
+    double current_time = ros::Time::now().toSec();
+    if (cmd_vel_timer && ((current_time - last_cmd_vel_time) >= bdg.cmd_vel_timeout))
     {
-	// ROS_INFO_STREAM("update_speed");
-        // need_update_speed = !(frame->interact(ID_SET_VELOCITY));
+        // timeout, set speed to zero
+        Data_holder::get()->velocity.v_liner_x = 0;
+        Data_holder::get()->velocity.v_liner_y = 0;
+        Data_holder::get()->velocity.v_angular_z = 0;        
+
+        ROS_WARN("Stopped due to /cmd_vel idle timeout=%.1lf", bdg.cmd_vel_timeout);
         frame->interact(ID_SET_VELOCITY);
+        last_cmd_vel_time = current_time;
+        cmd_vel_timer = false;
+        need_update_speed = false;
+        return;
+    }
+
+    if (need_update_speed)
+    {    
+        frame->interact(ID_SET_VELOCITY);
+        cmd_vel_timer = true; 
     }
 }
 
