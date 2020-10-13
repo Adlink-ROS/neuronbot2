@@ -96,7 +96,7 @@ void Serial_transport::write(Buffer &data)
 
 bool Serial_transport::init()
 {
-    system("stty -F /dev/neuronbot2 raw");
+    int ignored_ret = system("stty -F /dev/neuronbot2 raw");
     
     try
     {
