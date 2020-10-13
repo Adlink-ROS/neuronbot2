@@ -8,8 +8,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>neuronbot2_msgs</buildtool_depend>
-  <build_depend>rplidar_ros</build_depend>
-  <exec_depend>rplidar_ros</exec_depend>
   <exec_depend>teleop_twist_keyboard</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
