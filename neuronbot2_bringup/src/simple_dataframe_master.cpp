@@ -172,7 +172,7 @@ bool Simple_dataframe::recv_proc(){
             auto n = trans->read(inbuf, 1);
             if (n == 0) {
                 // time out
-                printf("timeout \n");
+                // printf("timeout \n");
                 return false;
             }
         }
