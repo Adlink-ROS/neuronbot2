@@ -49,7 +49,14 @@ fi
 if [ "$1" = "2" ]
 then
 	print_test_banner 2 "RPLidar"
-	roslaunch rplidar_ros view_rplidar.launch
+    trap "exit" INT TERM ERR
+    trap "kill 0" EXIT
+    roscore > /dev/null &
+    echo "Initializing..."
+    sleep 3
+    rviz -d $PWD/../../neuronbot2_nav/rviz/view_lidar.rviz > /dev/null &
+	roslaunch neuronbot2_bringup rplidar.launch
+    wait
 fi
 
 if [ "$1" = "3" ]

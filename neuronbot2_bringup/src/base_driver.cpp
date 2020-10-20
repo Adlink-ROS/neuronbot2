@@ -82,9 +82,7 @@ void BaseDriver::init_cmd_odom()
     }
 
     need_update_speed = false;
-
-    //ROS_INFO_STREAM("subscribe cmd topic on [correct_pos]");
-    //correct_pos_sub = nh.subscribe("correct_pos", 1000, &BaseDriver::correct_pos_callback, this);
+    last_cmd_vel_time = 0.0;
 }
 
 void BaseDriver::init_pid_debug()
@@ -103,12 +101,50 @@ void BaseDriver::init_pid_debug()
 
 void BaseDriver::init_imu()
 {
-    ROS_INFO_STREAM("[NeuronBot2] Advertise imu topic on [raw_imu]");
+    ROS_INFO_STREAM("[NeuronBot2] Advertise imu topic on [raw_imu] and [raw_mag]");
+#if 0
     raw_imu_pub = nh.advertise<neuronbot2_msgs::RawImu>("raw_imu", 50);
     raw_imu_msgs.header.frame_id = "imu_link";
     raw_imu_msgs.accelerometer = true;
     raw_imu_msgs.gyroscope = true;
     raw_imu_msgs.magnetometer = true;
+#else
+    raw_imu_pub = nh.advertise<sensor_msgs::Imu>("raw_imu", 50);
+    raw_imu_msgs.header.seq = 0;    
+    raw_imu_msgs.header.stamp = ros::Time::now();
+    raw_imu_msgs.header.frame_id = "imu_link";
+    raw_imu_msgs.orientation.x = 0;
+    raw_imu_msgs.orientation.y = 0;
+    raw_imu_msgs.orientation.z = 0;
+    raw_imu_msgs.orientation.w = 0;
+
+    raw_imu_msgs.angular_velocity.x = 0;
+    raw_imu_msgs.angular_velocity.y = 0;
+    raw_imu_msgs.angular_velocity.z = 0;
+
+    raw_imu_msgs.linear_acceleration.x = 0;
+    raw_imu_msgs.linear_acceleration.y = 0;
+    raw_imu_msgs.linear_acceleration.z = 0;
+
+    raw_imu_msgs.orientation_covariance.fill(0.0);
+    raw_imu_msgs.orientation_covariance[0] = -1; // we don't have estimation for orientation
+    raw_imu_msgs.angular_velocity_covariance.fill(0.0);
+    //raw_imu_msgs.angular_velocity_covariance[0] = 0.01;
+    //raw_imu_msgs.angular_velocity_covariance[4] = 0.01;
+    //raw_imu_msgs.angular_velocity_covariance[8] = 0.01;
+    raw_imu_msgs.linear_acceleration_covariance.fill(0.0);
+    //raw_imu_msgs.linear_acceleration_covariance[0] = 0.01;
+    //raw_imu_msgs.linear_acceleration_covariance[4] = 0.01;
+    //raw_imu_msgs.linear_acceleration_covariance[8] = 0.01;
+    
+    raw_mag_pub = nh.advertise<sensor_msgs::MagneticField>("raw_mag", 50);
+    raw_mag_msgs.header.seq = 0;    
+    raw_mag_msgs.header.stamp = raw_imu_msgs.header.stamp;
+    raw_mag_msgs.magnetic_field.x = 0;
+    raw_mag_msgs.magnetic_field.y = 0;
+    raw_mag_msgs.magnetic_field.z = 0;
+    raw_mag_msgs.magnetic_field_covariance.fill(0.0);
+#endif    
 }
 
 void BaseDriver::init_param()
@@ -228,6 +264,7 @@ void BaseDriver::cmd_vel_callback(const geometry_msgs::Twist& vel_cmd)
     Data_holder::get()->velocity.v_angular_z = vel_cmd.angular.z*100;
 
     need_update_speed = true;
+    last_cmd_vel_time = ros::Time::now().toSec();
 }
 
 void BaseDriver::work_loop()
@@ -235,7 +272,6 @@ void BaseDriver::work_loop()
     ros::Rate loop(1000);
     while (ros::ok())
     {
-        //boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
         update_param();
 
         update_odom();
@@ -304,11 +340,29 @@ void BaseDriver::update_odom()
 
 void BaseDriver::update_speed()
 {
-    if (need_update_speed)
+    static bool cmd_vel_timer = false;
+    
+    // check cmd_vel_timeout
+    double current_time = ros::Time::now().toSec();
+    if (cmd_vel_timer && ((current_time - last_cmd_vel_time) >= bdg.cmd_vel_timeout))
     {
-	// ROS_INFO_STREAM("update_speed");
-        // need_update_speed = !(frame->interact(ID_SET_VELOCITY));
+        // timeout, set speed to zero
+        Data_holder::get()->velocity.v_liner_x = 0;
+        Data_holder::get()->velocity.v_liner_y = 0;
+        Data_holder::get()->velocity.v_angular_z = 0;        
+
+        ROS_WARN("Stopped due to /cmd_vel idle timeout=%.1lf", bdg.cmd_vel_timeout);
         frame->interact(ID_SET_VELOCITY);
+        last_cmd_vel_time = current_time;
+        cmd_vel_timer = false;
+        need_update_speed = false;
+        return;
+    }
+
+    if (need_update_speed)
+    {    
+        frame->interact(ID_SET_VELOCITY);
+        cmd_vel_timer = true; 
     }
 }
 
@@ -333,10 +387,7 @@ void BaseDriver::update_imu()
 {
     frame->interact(ID_GET_IMU_DATA);
     raw_imu_msgs.header.stamp = ros::Time::now();
-    raw_imu_msgs.raw_linear_acceleration.x = Data_holder::get()->imu_data[0];
-    raw_imu_msgs.raw_linear_acceleration.y = Data_holder::get()->imu_data[1];
-    raw_imu_msgs.raw_linear_acceleration.z= Data_holder::get()->imu_data[2];
-    raw_imu_msgs.raw_angular_velocity.x = Data_holder::get()->imu_data[3];
+#if 0    
     raw_imu_msgs.raw_angular_velocity.y = Data_holder::get()->imu_data[4];
     raw_imu_msgs.raw_angular_velocity.z = Data_holder::get()->imu_data[5];
     raw_imu_msgs.raw_magnetic_field.x = Data_holder::get()->imu_data[6];
@@ -344,8 +395,21 @@ void BaseDriver::update_imu()
     raw_imu_msgs.raw_magnetic_field.z = Data_holder::get()->imu_data[8];
 
     // ROS_INFO("%.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f ", raw_imu_msgs.raw_linear_acceleration.x, raw_imu_msgs.raw_linear_acceleration.y, raw_imu_msgs.raw_linear_acceleration.z,
-    // raw_imu_msgs.raw_angular_velocity.x, raw_imu_msgs.raw_angular_velocity.y ,raw_imu_msgs.raw_angular_velocity.z,
-    // raw_imu_msgs.raw_magnetic_field.x, raw_imu_msgs.raw_magnetic_field.y, raw_imu_msgs.raw_magnetic_field.z);
+    raw_imu_msgs.raw_angular_velocity.x, raw_imu_msgs.raw_angular_velocity.y ,raw_imu_msgs.raw_angular_velocity.z,
+    raw_imu_msgs.raw_magnetic_field.x, raw_imu_msgs.raw_magnetic_field.y, raw_imu_msgs.raw_magnetic_field.z);
+#else
+    raw_imu_msgs.linear_acceleration.x = Data_holder::get()->imu_data[0];
+    raw_imu_msgs.linear_acceleration.y = Data_holder::get()->imu_data[1];
+    raw_imu_msgs.linear_acceleration.z = Data_holder::get()->imu_data[2];
+    raw_imu_msgs.angular_velocity.x = Data_holder::get()->imu_data[3];
+    raw_imu_msgs.angular_velocity.y = Data_holder::get()->imu_data[4];
+    raw_imu_msgs.angular_velocity.z = Data_holder::get()->imu_data[5];
 
+    raw_mag_msgs.header.stamp = raw_imu_msgs.header.stamp;
+    raw_mag_msgs.magnetic_field.x = Data_holder::get()->imu_data[6];
+    raw_mag_msgs.magnetic_field.y = Data_holder::get()->imu_data[7];
+    raw_mag_msgs.magnetic_field.z = Data_holder::get()->imu_data[8];
+#endif
     raw_imu_pub.publish(raw_imu_msgs);
+    raw_mag_pub.publish(raw_mag_msgs);
 }

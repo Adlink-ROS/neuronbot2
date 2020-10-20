@@ -3,33 +3,25 @@ global_costmap:
         robot_base_frame: base_footprint
         update_frequency: 1.0
         publish_frequency: 1.0
-        static_map: false
         transform_tolerance: 0.5
-
-        width: 50
-        height: 50
         resolution: 0.075
-
         rolling_window: false
         track_unknown_space: true
-        # plugins:
-        #         - {name: static_layer,            type: "costmap_2d::StaticLayer"}
-        #         - {name: obstacle_layer,          type: "costmap_2d::VoxelLayer"}
-        #         - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
-        plugins: 
-                - {name: static,           type: "costmap_2d::StaticLayer"}            
-                - {name: sensor,           type: "costmap_2d::ObstacleLayer"}
-                - {name: inflation,        type: "costmap_2d::InflationLayer"}
 
-        static:        
+        plugins:
+                 - {name: static_layer,            type: "costmap_2d::StaticLayer"}
+                 - {name: obstacle_layer,          type: "costmap_2d::ObstacleLayer"}
+                 - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
+
+        static_layer:        
                 map_topic: /map
                 subscribe_to_updates: true
 
-        sensor:
+        obstacle_layer:
                 observation_sources: laser
-                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 2.0, raytrace_range: 5.0, inf_is_valid: true}
+                laser: {sensor_frame: laser_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, obstacle_range: 10.0, raytrace_range: 10.0, inf_is_valid: true}
 
-        inflation:
-                inflation_radius: 1
-                cost_scaling_factor: 8
+        inflation_layer:
+                inflation_radius: 0.5
+                cost_scaling_factor: 5.0
 

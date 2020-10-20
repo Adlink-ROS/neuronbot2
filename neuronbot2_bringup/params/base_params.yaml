@@ -5,6 +5,7 @@ baudrate: 115200
 # ROS config
 base_frame: base_footprint
 cmd_vel_topic: cmd_vel
+cmd_vel_timeout: 1.0
 odom_frame: odom
 odom_topic: odom
 publish_tf: true
