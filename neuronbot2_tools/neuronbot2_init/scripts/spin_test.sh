@@ -20,7 +20,7 @@ done
 # loop for movement control
 for i in {1..4};
 do
-timeout 2 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
+timeout 1 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
   x: 0.0
   y: 0.0
   z: 0.0
@@ -28,7 +28,7 @@ angular:
   x: 0.0
   y: 0.0
   z: 0.4" 
-timeout 2 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
+timeout 1 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
   x: 0.0
   y: 0.0
   z: 0.0
@@ -39,7 +39,7 @@ angular:
 done
 
 # stop
-timeout 2 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
+timeout 1 rostopic pub -1 /cmd_vel geometry_msgs/Twist "linear:
   x: 0.0
   y: 0.0
   z: 0.0
