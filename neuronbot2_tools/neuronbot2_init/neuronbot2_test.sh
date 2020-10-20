@@ -24,7 +24,7 @@ then
     trap "kill 0" EXIT    
     roscore > /dev/null &
     echo "Initializing..."
-    sleep 3
+    sleep 5
     #gnome-terminal -e "rosrun teleop_twist_keyboard teleop_twist_keyboard.py _speed:=0.1 _turn:=0.3"
     $PWD/scripts/spin_test.sh > /dev/null &
     rviz -d $PWD/../../neuronbot2_nav/rviz/view_lidar.rviz > /dev/null &
