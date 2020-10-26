@@ -342,16 +342,16 @@ void BaseDriver::update_speed()
 {
     static bool cmd_vel_timer = false;
     
-    // check cmd_vel_timeout
+    // check cmd_vel_idle_time
     double current_time = ros::Time::now().toSec();
-    if (cmd_vel_timer && ((current_time - last_cmd_vel_time) >= bdg.cmd_vel_timeout))
+    if (cmd_vel_timer && ((current_time - last_cmd_vel_time) >= bdg.cmd_vel_idle_time))
     {
         // timeout, set speed to zero
         Data_holder::get()->velocity.v_liner_x = 0;
         Data_holder::get()->velocity.v_liner_y = 0;
         Data_holder::get()->velocity.v_angular_z = 0;        
 
-        ROS_WARN("Stopped due to /cmd_vel idle timeout=%.1lf", bdg.cmd_vel_timeout);
+        ROS_DEBUG("No more topic '/%s' received in %.1lf sec, robot stopped", bdg.cmd_vel_topic.c_str(), bdg.cmd_vel_idle_time);
         frame->interact(ID_SET_VELOCITY);
         last_cmd_vel_time = current_time;
         cmd_vel_timer = false;

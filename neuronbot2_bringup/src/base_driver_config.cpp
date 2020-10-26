@@ -36,7 +36,7 @@ void BaseDriverConfig::init(Robot_parameter* r)
   pn.param<bool>("out_pid_debug_enable", out_pid_debug_enable, false);
   ROS_INFO("[NeuronBot2] out_pid_debug_enable: %d", out_pid_debug_enable);
 
-  pn.param<double>("cmd_vel_timeout", cmd_vel_timeout, 1.0);
+  pn.param<double>("cmd_vel_idle_time", cmd_vel_idle_time, 1.0);
 
   //topic name param
   pn.param<std::string>("cmd_vel_topic", cmd_vel_topic, "cmd_vel");
