@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<robot
+  name="neuronbot2_description">
+
+  <!-- Color definition -->
+  <material name="white">
+    <color rgba="1 1 1 0.6"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 0.7"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <link name="base_footprint" />
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="8.3" />
+      <inertia
+        ixx="5.249466E+13"
+        ixy="-1.398065E+12"
+        ixz="-3.158592E+12"
+        iyy="5.786727E+13"
+        iyz="-5.159120E+11"
+        izz="3.114993E+13" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.1415 3.1415" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.125"
+        rpy="0 0 0" />
+      <geometry>
+          <box size="0.25 0.25 0.25" />
+      </geometry>
+      <material name="black"/>
+    </collision>
+  </link>
+
+  <link
+    name="laser_frame">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.362" />
+      <inertia
+        ixx="2.634758E+07"
+        ixy="1.854066E+05"
+        ixz="-2.027321E+07"
+        iyy="6.138498E+07"
+        iyz="-8.570560E+04"
+        izz="5.234910E+07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/laser_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/laser_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+
+  <link name="imu_link"/>
+
+  <link name="wheel_right_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/wheel_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/wheel_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </collision>
+  </link>
+
+  <link name="wheel_left_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/wheel_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://neuronbot2_description/meshes/neuronbot2/wheel_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </collision>  
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="laser_frame_joint" type="fixed">
+    <origin
+      xyz="0 0 0.205"
+      rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="laser_frame" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.05"/>
+    <axis xyz="0 0 0" />
+  </joint>
+  
+  <joint name="r_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right_link"/>
+    <origin xyz="0.0 -0.09 0.0415" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="l_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left_link"/>
+    <origin xyz="0.0 0.109 0.0415" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- camera -->
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="-0.085 0.0 0.48" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0.003 0.065 0.007" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.012 0.132 0.020"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rgb_camera_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="camera_link"/>
+    <child link="rgb_camera_frame"/>
+  </joint>  
+  <link name="rgb_camera_frame">
+  </link>
+  <joint name="depth_camera_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_link"/>
+    <child link="depth_camera_frame"/>
+  </joint>      
+  <link name="depth_camera_frame">
+  </link>  
+    
+  
+</robot>

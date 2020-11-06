@@ -48,11 +48,10 @@
       <include>
         <uri>model://mememan</uri>
       </include>
+      <plugin name='actor_poses' filename='libgazebo_ros_actor_poses.so'>
+        <!-- Actor_pose plugin is used by people tracking demo -->
+      </plugin>
     </model>
-
-    <include>
-      <uri>model://neuronbot2</uri>
-    </include>
 
   </world>
 </sdf>
