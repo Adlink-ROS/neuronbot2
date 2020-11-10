@@ -120,7 +120,7 @@ controller_server:
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
-      sim_time: 1.7
+      sim_time: 1.0
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -245,7 +245,8 @@ global_costmap:
       use_sim_time: False      
       robot_radius: 0.20
       #plugins: ["static_layer", "obstacle_layer", "stvl_layer", "inflation_layer"]
-      plugins: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
+      #plugins: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
+      plugins: ["static_layer", "inflation_layer"]
       resolution: 0.05
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
