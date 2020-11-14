@@ -1,7 +1,7 @@
-# NeuronBot 2 in ROS2
+# NeuronBot2 in ROS2
 ![](readme_resource/nb2_robot.png) 
 ## Introduction
-NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully supports ROS1 and ROS2. 
+NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully supports ROS1 and ROS2. 
 
 ### Features
 * Nice
@@ -16,9 +16,9 @@ NeuronBot2 is the newest version of NeuronBot make by Adlink, which fully suppor
 * Superb
   
 
-This package includes the functions to bring up the robot, to make it SLAM, to navigation, and to simulate it with your own computer, testing the same functions mentioned before. 
+This package includes the functions to bring up the robot, to make it SLAM, to navigate, and to simulate it with your own computer, testing the same functions mentioned before. 
 
-Users are able to checkout to different branch of this package to run on ROS1 and ROS2, please check different branches.
+Users are able to checkout to different branches of this package to run on ROS1 and ROS2, please check different branches.
 
 ## Installation
 Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-foxy-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
