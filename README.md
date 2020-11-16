@@ -1,5 +1,6 @@
 # NeuronBot2 in ROS2
-![](readme_resource/nb2.png) 
+<img src="https://github.com/Adlink-ROS/neuronbot2/blob/foxy-devel/readme_resource/nb2.png" width="500">
+
 ## Introduction
 NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully supports ROS1 and ROS2. 
 
