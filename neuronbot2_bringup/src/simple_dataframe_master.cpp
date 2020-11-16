@@ -18,10 +18,9 @@ bool Simple_dataframe::data_recv(unsigned char c){
     switch (recv_state){
     case STATE_RECV_FIX:
         if (c == FIX_HEAD){
-            memset(&active_rx_msg,0, sizeof(active_rx_msg));
+            memset(static_cast<void*>(&active_rx_msg), 0, sizeof(active_rx_msg));
             active_rx_msg.head.flag = c;
             active_rx_msg.check += c;
-
             recv_state = STATE_RECV_ID;
         }
         else
