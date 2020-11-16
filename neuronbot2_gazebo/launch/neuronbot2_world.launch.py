@@ -12,6 +12,8 @@ from launch.actions import SetEnvironmentVariable
 from launch.substitutions import EnvironmentVariable
 from launch.conditions import IfCondition
 
+from osrf_pycommon.terminal_color import ansi
+
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     world = [get_package_share_directory('neuronbot2_gazebo'), '/worlds/']
@@ -25,7 +27,7 @@ def generate_launch_description():
     else :
         os.environ['GAZEBO_MODEL_PATH'] = gazebo_model_path
 
-    print(os.environ['GAZEBO_MODEL_PATH'])
+    print(ansi("yellow"), "If it's your 1st time to download Gazebo model on your computer, it may take few minutes to finish.", ansi("reset"))
 
     return LaunchDescription([
 
@@ -37,7 +39,9 @@ def generate_launch_description():
         ExecuteProcess(
             cmd=['gzserver', world , 
                 '-s', 'libgazebo_ros_init.so',
-                '-s', 'libgazebo_ros_factory.so'],
+                '-s', 'libgazebo_ros_factory.so',
+                '--verbose'
+                ],
             # additional_env=EnvironmentVariable('GAZEBO_MODEL_PATH'),
             output='screen'),
 
@@ -47,19 +51,19 @@ def generate_launch_description():
 
         ExecuteProcess(
             cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2/' + 'model.sdf',
-                '-entity', 'nb2'],
+                '-entity', 'nb2', '-spawn_service_timeout', '300'],
             condition=IfCondition(PythonExpression(['"', use_camera, '" == "none"'])),
             output='screen'),
 
         ExecuteProcess(
             cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_front_camera/' + 'model.sdf',
-                '-entity', 'nb2'],
+                '-entity', 'nb2', '-spawn_service_timeout', '300'],
             condition=IfCondition(PythonExpression(['"', use_camera, '" == "front"'])),
             output='screen'),
 
         ExecuteProcess(
             cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_top_camera/' + 'model.sdf',
-                '-entity', 'nb2'],
+                '-entity', 'nb2', '-spawn_service_timeout', '300'],
             condition=IfCondition(PythonExpression(['"', use_camera, '" == "top"'])),
             output='screen'),
 
