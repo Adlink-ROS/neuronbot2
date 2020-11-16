@@ -118,7 +118,7 @@ Open a new terminal (Ctrl + Alt + t).
 3. Save the map
    ```
    source /opt/ros/foxy/setup.bash    
-   ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name>
+   ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name> --ros-args -p save_map_timeout:=10000
    ```
 
    The map is ready and SLAM can be turned off.
@@ -201,7 +201,7 @@ Open a new terminal (Ctrl + Alt + t).
 3. Save the map
    ```
    source /opt/ros/foxy/setup.bash 
-   ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name>
+   ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name> --ros-args -p save_map_timeout:=10000
    ```
 
    Then, you shall turn off SLAM.
