@@ -9,29 +9,78 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import ThisLaunchFileDir
 from launch.actions import ExecuteProcess
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    urdf_path = Path(get_package_share_directory('neuronbot2_description'), 'urdf', 'neuronbot2.urdf')
+
+    # Whether to open RealSense D435
+    use_camera = LaunchConfiguration('use_camera', default='none')
+    camera_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'camera.yaml')
+
+    # Whether to use front or top camera
+    urdf_file_name = 'neuronbot2.urdf'
+    nb2_urdf = os.path.join(
+        get_package_share_directory('neuronbot2_description'),
+        'urdf',
+        urdf_file_name)
+
+    urdf_file_name = 'neuronbot2_w_front_camera.urdf'
+    nb2_w_front_camera_urdf = os.path.join(
+        get_package_share_directory('neuronbot2_description'),
+        'urdf',
+        urdf_file_name)
+
+    urdf_file_name = 'neuronbot2_w_top_camera.urdf'
+    nb2_w_top_camera_urdf = os.path.join(
+        get_package_share_directory('neuronbot2_description'),
+        'urdf',
+        urdf_file_name)
+    
     hardware_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'hardware.yaml')
 
     # Whether to use EKF for multi-sensor fusion
     use_ekf =  LaunchConfiguration('use_ekf', default='false')
     ekf_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'ekf.yaml')
 
-    # Whether to open RealSense D435
-    use_camera = LaunchConfiguration('use_camera', default='false')
-    camera_config = Path(get_package_share_directory('neuronbot2_bringup'), 'cfg', 'camera.yaml')
-
     return LaunchDescription([
 
+        # if we don't use camera:
         Node(
+            condition=IfCondition(PythonExpression(['"', use_camera, '" == "none"'])),
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            arguments=[str(urdf_path)],
+            arguments=[nb2_urdf],
+        ),
+        # else if we use front camera:
+        Node(
+            condition=IfCondition(PythonExpression(['"', use_camera, '" == "front"'])),
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            arguments=[nb2_w_front_camera_urdf],
+        ),
+        # else if we use top camera:
+        Node(
+            condition=IfCondition(PythonExpression(['"', use_camera, '" == "top"'])),
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            arguments=[nb2_w_top_camera_urdf],
+        ),
+
+        # open realsense D435 if use_camera != none
+        Node(
+            condition=IfCondition(PythonExpression(['"', use_camera, '" != "none"'])),
+            package='realsense2_camera',
+            executable='realsense2_camera_node',
+            namespace='',
+            output='screen',
+            parameters=[camera_config],
         ),
         
         #Node(
@@ -75,8 +124,7 @@ def generate_launch_description():
             parameters=[ekf_config],
             remappings=[("odometry/filtered", "odom")]
         ),
-
-        # If we don't use EKF:
+        # else if we don't use EKF:
         Node(
             condition=UnlessCondition(use_ekf),
             package='neuronbot2_bringup',
@@ -91,16 +139,6 @@ def generate_launch_description():
                 'imu_freq' : 100.0,
                 'cmd_vel_timeout' : 1.0
                 }],
-        ),
-
-        # RealSense node
-        Node(
-            condition=IfCondition(use_camera),
-            package='realsense_node',
-            executable='realsense_node',
-            namespace='',
-            output='screen',
-            parameters=[camera_config]
         ),
 
     ])
