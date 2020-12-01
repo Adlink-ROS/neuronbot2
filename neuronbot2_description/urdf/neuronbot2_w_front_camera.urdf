@@ -182,19 +182,33 @@
       </geometry>
     </collision>
   </link>
-  <joint name="rgb_camera_joint" type="fixed">
+  <joint name="camera_color_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="camera_link"/>
-    <child link="rgb_camera_frame"/>
-  </joint>  
-  <link name="rgb_camera_frame">
+    <child link="camera_color_frame"/>
+  </joint>
+  <link name="camera_color_frame">
   </link>
-  <joint name="depth_camera_joint" type="fixed">
+  <joint name="camera_color_optical_joint" type="fixed">
     <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_color_frame"/>
+    <child link="camera_color_optical_frame"/>
+  </joint>
+  <link name="camera_color_optical_frame">
+  </link>
+  <joint name="camera_depth_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="camera_link"/>
-    <child link="depth_camera_frame"/>
+    <child link="camera_depth_frame"/>
+  </joint>
+  <link name="camera_depth_frame">
+  </link>
+    <joint name="camera_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_depth_optical_frame"/>
   </joint>      
-  <link name="depth_camera_frame">
-  </link>  
+  <link name="camera_depth_optical_frame">
+  </link>
   
 </robot>
