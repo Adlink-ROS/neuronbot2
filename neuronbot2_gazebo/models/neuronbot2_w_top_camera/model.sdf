@@ -7,10 +7,10 @@
         <mass>0.5</mass>
         <inertia>
           <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
+          <ixy>0.01</ixy>
+          <ixz>0.01</ixz>
           <iyy>0.001</iyy>
-          <iyz>0</iyz>
+          <iyz>0.01</iyz>
           <izz>0.001</izz>
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
@@ -873,8 +873,8 @@
         <camera name="rgb_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
-            <width>640</width>
-            <height>480</height>
+            <width>1280</width>
+            <height>720</height>
             <format>RGB_INT8</format>
           </image>
           <clip>
@@ -884,7 +884,7 @@
           <noise>
             <type>gaussian</type>
             <mean>0.0</mean>
-            <stddev>0.007</stddev>
+            <stddev>0.001</stddev>
           </noise>
         </camera>
         <always_on>1</always_on>
