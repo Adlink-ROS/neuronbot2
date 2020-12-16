@@ -24,7 +24,7 @@ else
 fi
 
 # LED program depends on python-serial
-sudo apt install -y python python-serial
+sudo apt install -y python3 python3-serial
 status=$?
 if [ $status -eq 0 ]
 then
