@@ -2,7 +2,5 @@
   <include file="$(find neuronbot2_bringup)/launch/base_driver.launch"/>
   <include file="$(find neuronbot2_bringup)/launch/model.launch"/>
   <include file="$(find neuronbot2_bringup)/launch/rplidar.launch"/>
-  <!--
   <include file="$(find neuronbot2_led)/launch/led_control.launch"/>  
-  -->
 </launch>
