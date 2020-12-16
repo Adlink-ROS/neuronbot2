@@ -35,14 +35,14 @@ Now we support the following version, you can checkout to these branch.
     ```
 3. Git clone NeuronBot and RPLIDAR packages with melodic-devel branches
     ```
-    git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
+    git clone https://github.com/Adlink-ROS/neuronbot2.git -b noetic-devel
     git clone https://github.com/Adlink-ROS/rplidar_ros.git -b melodic-devel
     ```
 4. Install dependencies
    ```
    cd ~/neuronbot2_ros1_ws/
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y --rosdistro melodic
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro noetic
    ```
 5. Initialze NeuronBot2 ttyUSB nodes
    `neuronbot_init.sh` is needed to be run only once for the first setup.
@@ -66,7 +66,7 @@ Below document is the quick-start guide for simulation if you don't realy have a
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/melodic/setup.bash
+   source /opt/ros/noetic/setup.bash
    source ~/neuronbot2_ros1_ws/devel/setup.bash
    export GAZEBO_MODEL_PATH=~/neuronbot2_ros1_ws/src/neuronbot2/neuronbot2_gazebo/models
    ```
