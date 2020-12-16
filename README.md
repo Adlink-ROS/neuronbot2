@@ -19,21 +19,23 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 Now we support the following version, you can checkout to these branch.
 
 - ROS 1 melodic
+- ROS 1 noetic
 - ROS 2 dashing
 - ROS 2 eloquent
+- ROS 2 foxy
 
 # ROS1
 
 ## NeuronBot2 Setup
 
 ### Git Clone & Dependencies Installation
-1. [Install ROS](http://wiki.ros.org/melodic/Installation/Ubuntu)
+1. [Install ROS](http://wiki.ros.org/noetic/Installation/Ubuntu)
 2. Create workspace
     ```
     mkdir -p ~/neuronbot2_ros1_ws/src
     cd ~/neuronbot2_ros1_ws/src
     ```
-3. Git clone NeuronBot and RPLIDAR packages with melodic-devel branches
+3. Git clone NeuronBot and RPLIDAR packages with noetic-devel branches
     ```
     git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
     git clone https://github.com/Adlink-ROS/rplidar_ros.git -b melodic-devel
@@ -42,7 +44,7 @@ Now we support the following version, you can checkout to these branch.
    ```
    cd ~/neuronbot2_ros1_ws/
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y --rosdistro melodic
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro noetic
    ```
 5. Initialze NeuronBot2 ttyUSB nodes
    `neuronbot_init.sh` is needed to be run only once for the first setup.
@@ -54,7 +56,7 @@ Now we support the following version, you can checkout to these branch.
 6. catkin_make 
    ```
    cd ~/neuronbot2_ros1_ws/
-   source /opt/ros/melodic/setup.bash
+   source /opt/ros/noetic/setup.bash
    catkin_make
    source devel/setup.bash
    ```
@@ -66,7 +68,7 @@ Below document is the quick-start guide for simulation if you don't realy have a
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/melodic/setup.bash
+   source /opt/ros/noetic/setup.bash
    source ~/neuronbot2_ros1_ws/devel/setup.bash
    export GAZEBO_MODEL_PATH=~/neuronbot2_ros1_ws/src/neuronbot2/neuronbot2_gazebo/models
    ```
@@ -87,7 +89,7 @@ Below document is the quick-start guide for simulation if you don't realy have a
 
     Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
-   source /opt/ros/melodic/setup.bash
+   source /opt/ros/noetic/setup.bash
    rosrun teleop_twist_keyboard teleop_twist_keyboard.py
    ```
    ![](readme_resource/teleop.png)
