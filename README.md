@@ -37,7 +37,7 @@ Now we support the following version, you can checkout to these branch.
     ```
 3. Git clone NeuronBot and RPLIDAR packages with noetic-devel branches
     ```
-    git clone https://github.com/Adlink-ROS/neuronbot2.git -b melodic-devel
+    git clone https://github.com/Adlink-ROS/neuronbot2.git -b noetic-devel
     git clone https://github.com/Adlink-ROS/rplidar_ros.git -b melodic-devel
     ```
 4. Install dependencies

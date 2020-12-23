@@ -108,7 +108,8 @@ catkin_package(
  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 )
-
+catkin_install_python(PROGRAMS scripts/led_control.py
+	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 ###########
 ## Build ##
 ###########

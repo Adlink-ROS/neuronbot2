@@ -99,8 +99,9 @@ bool Serial_transport::init()
     int ignored_ret = system("stty -F /dev/neuronbot2 raw");
     
     try
-    {
-        port_ = boost::make_shared<boost::asio::serial_port>(boost::ref(*ios_), params_.serialPort);
+    {   
+        port_ = boost::make_shared<boost::asio::serial_port>(*ios_, params_.serialPort);
+        //port_.reset(new boost::asio::serial_port(*ios_, params_.serialPort));
         port_->set_option(boost::asio::serial_port::baud_rate(params_.baudRate));
         port_->set_option(boost::asio::serial_port::flow_control((boost::asio::serial_port::flow_control::type)params_.flowControl));
         port_->set_option(boost::asio::serial_port::parity((boost::asio::serial_port::parity::type)params_.parity));
@@ -125,7 +126,8 @@ bool Serial_transport::init()
         std::cerr << "Error Info: " << e.what() <<std::endl;
         return false;
     }
-	timer_ = boost::make_shared<boost::asio::deadline_timer>(boost::ref(*ios_), boost::posix_time::seconds(10));
+	timer_ = boost::make_shared<boost::asio::deadline_timer>(*ios_, boost::posix_time::seconds(10));
+    //timer_.reset(new boost::asio::deadline_timer(*ios_, boost::posix_time::seconds(10)));
     
     return true;
 }

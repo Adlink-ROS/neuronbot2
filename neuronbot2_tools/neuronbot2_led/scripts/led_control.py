@@ -25,13 +25,13 @@ class Strip:
         ## g : the intensity of green light
         ## b : the intensity of blue light
 
-        i_bytes = bytes(str(i)).encode('utf-8')
+        i_bytes = bytes(str(i), encoding='utf8')
         self.serial.write(b'i'+i_bytes)
-        r_bytes = bytes(str(r)).encode('utf-8') 
+        r_bytes = bytes(str(r), encoding='utf8')
         self.serial.write(b'r'+r_bytes)
-        g_bytes = bytes(str(g)).encode('utf-8') 
+        g_bytes = bytes(str(g), encoding='utf8')
         self.serial.write(b'g'+g_bytes)
-        b_bytes = bytes(str(b)).encode('utf-8') 
+        b_bytes = bytes(str(b), encoding='utf8')
         self.serial.write(b'b'+b_bytes+b'\n')
         return 0
 
@@ -41,7 +41,7 @@ class Strip:
         return 0
 
     def show(self):
-        show_bytes = bytes(str("show")).encode('utf-8') 
+        show_bytes = bytes(str("show"), encoding='utf8') 
         self.serial.write(b'show\n')
         return 0
 
