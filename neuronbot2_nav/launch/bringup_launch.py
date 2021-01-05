@@ -31,8 +31,9 @@ def generate_launch_description():
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_launch_dir = os.path.join(my_nav_dir, 'launch')
     my_param_dir = os.path.join(my_nav_dir, 'param')
-    my_param_file = 'neuronbot_params.yaml'
-    my_bt_file = 'navigate_w_replanning_time.xml'
+    #my_param_file = 'keepout_params.yaml'
+    my_param_file = 'speedfilter_params.yaml'
+    my_bt_file = 'navigate_w_replanning_and_recovery.xml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
 
@@ -40,6 +41,7 @@ def generate_launch_description():
     namespace = LaunchConfiguration('namespace')
     use_namespace = LaunchConfiguration('use_namespace')
     map_yaml_file = LaunchConfiguration('map')
+    filter_yaml_file = LaunchConfiguration('filter_map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_slam = LaunchConfiguration('use_slam', default='false')
     params_file = LaunchConfiguration('params_file')
@@ -64,6 +66,11 @@ def generate_launch_description():
         'map',
         default_value=os.path.join(my_map_dir, my_map_file),
         description='Full path to map yaml file to load')
+
+    declare_filter_yaml_cmd = DeclareLaunchArgument(
+        'filter_map',
+        default_value='none',
+        description=' Full path to filter map yaml file to load')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
@@ -115,6 +122,7 @@ def generate_launch_description():
             condition=UnlessCondition(use_slam),
             launch_arguments={'namespace': namespace,
                               'map': map_yaml_file,
+                              'filter_map': filter_yaml_file,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'params_file': params_file,
@@ -148,6 +156,7 @@ def generate_launch_description():
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_map_yaml_cmd)
+    ld.add_action(declare_filter_yaml_cmd)
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_slam_cmd)
     ld.add_action(declare_params_file_cmd)
