@@ -18,9 +18,10 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -33,10 +34,12 @@ def generate_launch_description():
 
     namespace = LaunchConfiguration('namespace')
     map_yaml_file = LaunchConfiguration('map')
+    filter_yaml_file = LaunchConfiguration('filter_map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
     lifecycle_nodes = ['map_server', 'amcl']
+    lifecycle_nodes_filter = ['map_server', 'amcl', 'costmap_filter_info_server', 'filter_mask_server']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -52,11 +55,17 @@ def generate_launch_description():
         'use_sim_time': use_sim_time,
         'yaml_filename': map_yaml_file}
 
+    filter_param = {
+        'use_sim_time': use_sim_time,
+        'frame_id': "map",
+        'topic_name': "/filter_mask",
+        'yaml_filename': filter_yaml_file}
+
     configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key=namespace,
-        param_rewrites=param_substitutions,
-        convert_types=True)
+            source_file=params_file,
+            root_key=namespace,
+            param_rewrites=param_substitutions,
+            convert_types=True)
 
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
@@ -70,6 +79,11 @@ def generate_launch_description():
             'map',
             default_value=os.path.join(my_map_dir, my_map_file),
             description='[localize] Full path to map yaml file to load'),
+
+        DeclareLaunchArgument(
+            'filter_map',
+            default_value='none',
+            description=' Full path to filter map yaml file to load'),
 
         DeclareLaunchArgument(
             'use_sim_time', default_value='false',
@@ -91,7 +105,23 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
+        
+        Node(
+            condition=IfCondition(PythonExpression(['"', filter_yaml_file, '" != "none"'])),
+            package='nav2_map_server',
+            executable='map_server',
+            name='filter_mask_server',
+            output='screen',
+            parameters=[filter_param]),
 
+        Node(
+            condition=IfCondition(PythonExpression(['"', filter_yaml_file, '" != "none"'])),
+            package='nav2_map_server',
+            executable='costmap_filter_info_server',
+            name='costmap_filter_info_server',
+            output='screen',
+            parameters=[configured_params]),
+       
         Node(
             package='nav2_amcl',
             executable='amcl',
@@ -101,11 +131,22 @@ def generate_launch_description():
             remappings=remappings),
 
         Node(
+            condition=IfCondition(PythonExpression(['"', filter_yaml_file, '" == "none"'])),
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
-                        {'node_names': lifecycle_nodes}])
+                        {'node_names': lifecycle_nodes}]),
+
+        Node(
+            condition=IfCondition(PythonExpression(['"', filter_yaml_file, '" != "none"'])),
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_localization',
+            output='screen',
+            parameters=[{'use_sim_time': use_sim_time},
+                        {'autostart': autostart},
+                        {'node_names': lifecycle_nodes_filter}]),
     ])

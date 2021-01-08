@@ -264,4 +264,12 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
    Please go to check this repos: https://github.com/Adlink-ROS/BT_ros2
    ![](readme_resource/nav2_bt.gif)
 
+### Navigation with keepout zone
+   ```
+   ros2 launch neuronbot2_nav bringup_launch.py open_rviz:=true use_sim_time:=true filter_map:=<path/to/filter/map> params_file:=</path/to/keepout_params.yaml>
+   ```
+### Navigation with slow down zone
+   ```
+   ros2 launch neuronbot2_nav bringup_launch.py open_rviz:=true use_sim_time:=true filter_map:=<path/to/filter/map> params_file:=</path/to/speedfilter_params.yaml>
+   ```
 ## Trouble Shooting
