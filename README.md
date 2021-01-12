@@ -46,7 +46,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
     cd ~/neuronbot2_ros2_ws/
-    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/foxy-devel/neuronbot2_ros2.repos
+    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/adlink-nav2-foxy/neuronbot2_ros2.repos
     vcs import src < neuronbot2_ros2.repos
     ```
 4. Install other dependencies
@@ -264,12 +264,42 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
    Please go to check this repos: https://github.com/Adlink-ROS/BT_ros2
    ![](readme_resource/nav2_bt.gif)
 
+
+## Costmap Filters
+
+To use costmap filters to implement navigation features (e.g. keepout zone and slow down zone), please follow below instructions.
+1. Download NAV2 with adlink-foxy-devel branch:
+  ```
+   mkdir -p ~/nav2_adlink_foxy_ws/src 
+   cd ~/nav2_adlink_foxy_ws/src
+   git clone https://github.com/Adlink-ROS/navigation2.git -b adlink-foxy-devel
+   git clone https://github.com/ros/bond_core.git -b dashing-devel
+   cd ..   
+  ```
+2. Build NAV2, it may take more than 15 minutes depends on the computing power of your PC.
+  ```
+  cd ~/nav2_adlink_foxy_ws
+  source /opt/ros/foxy/setup.bash
+  colcon build --symlink-install --cmake-args '-DCMAKE_BUILD_TYPE=Release'
+  ```
+3. Re-build NeuronBot source with our NAV2
+  ```
+  cd ~/neuronbot2_ros2_ws
+  rm -rf build install log
+  source /opt/ros/foxy/setup.bash
+  source ~/nav2_adlink_foxy_ws/install/local_setup.bash
+  colcon build --symlink-install --cmake-args '-DCMAKE_BUILD_TYPE=Release'
+  ```
+
 ### Navigation with keepout zone
    ```
+   source ~/nav2_adlink_foxy_ws/install/local_setup.bash
+   source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ros2 launch neuronbot2_nav bringup_launch.py open_rviz:=true use_sim_time:=true filter_map:=<path/to/filter/map> params_file:=</path/to/keepout_params.yaml>
    ```
 ### Navigation with slow down zone
    ```
+   source ~/nav2_adlink_foxy_ws/install/local_setup.bash
+   source ~/neuronbot2_ros2_ws/install/local_setup.bash   
    ros2 launch neuronbot2_nav bringup_launch.py open_rviz:=true use_sim_time:=true filter_map:=<path/to/filter/map> params_file:=</path/to/speedfilter_params.yaml>
    ```
-## Trouble Shooting
