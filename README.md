@@ -82,7 +82,7 @@ Open a new terminal (Ctrl + Alt + t).
    ```
    source /opt/ros/foxy/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
-   ros2 launch neuronbot2_bringup bringup.launch.py
+   ros2 launch neuronbot2_bringup bringup_launch.py
    ```
 ###  Teleop NeuronBot2
    ```
