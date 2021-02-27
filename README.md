@@ -22,7 +22,7 @@ This package includes the functions to bring up the robot, to make it SLAM, to n
 Users are able to checkout to different branches of this package to run on ROS1 and ROS2, please check different branches.
 
 ## Installation
-Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/ "ros-foxy-desktop installation"). For the sake of convenience, you might want to download ros-foxy-desktop version to make sure all the dependencies are installed.
+
 1. [Install ROS2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
 2. Install ROS 2 development tools
     ```
