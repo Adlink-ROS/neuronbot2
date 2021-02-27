@@ -57,7 +57,7 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
    rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy
    ```
 5. Initialze NeuronBot2 ttyUSB nodes,
-   `neuronbot_init.sh` is needed to be run only once for the first setup.
+   `neuronbot_init.sh` is needed to be run only once for the first setup. If you use NeuronBot2 for simulation only, not for the real robot, then you can skip this step.
    ```
    cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_tools/neuronbot2_init/   
    sudo ./neuronbot2_init.sh
@@ -77,6 +77,9 @@ Follow [this official installing tutorial](https://index.ros.org/doc/ros2/Instal
 ![](readme_resource/nb2_opening_re.gif)
 
 Now, it's time to launch your NeuronBot2 and do a Robotic-Hello-World thing -- teleop it.
+
+If you are looking for the NeuronBot2 simulation, please jump to [Bring up in Simulation](https://github.com/Adlink-ROS/neuronbot2#bring-up-in-simulation).
+
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
