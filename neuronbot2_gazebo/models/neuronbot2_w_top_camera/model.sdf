@@ -873,8 +873,8 @@
         <camera name="rgb_camera">
           <horizontal_fov>1.047</horizontal_fov>
           <image>
-            <width>640</width>
-            <height>480</height>
+            <width>1280</width>
+            <height>720</height>
             <format>RGB_INT8</format>
           </image>
           <clip>
