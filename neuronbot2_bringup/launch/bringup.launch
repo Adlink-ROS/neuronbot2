@@ -1,6 +1,20 @@
 <launch>
-  <include file="$(find neuronbot2_bringup)/launch/base_driver.launch"/>
-  <include file="$(find neuronbot2_bringup)/launch/model.launch"/>
-  <include file="$(find neuronbot2_bringup)/launch/rplidar.launch"/>
-  <include file="$(find neuronbot2_led)/launch/led_control.launch"/>
+	<arg name="namespace" default="" />
+
+	<group ns="/$(arg namespace)">
+    <include file="$(find neuronbot2_bringup)/launch/base_driver.launch">
+        <arg name="namespace" value="$(arg namespace)"/>
+    </include>
+
+    <include file="$(find neuronbot2_bringup)/launch/model.launch">
+        <arg name="namespace" value="$(arg namespace)"/>
+    </include>
+
+    <include file="$(find neuronbot2_bringup)/launch/rplidar.launch">
+        <arg name="namespace" value="$(arg namespace)"/>
+    </include>
+
+    <include file="$(find neuronbot2_led)/launch/led_control.launch"/>
+  </group>
+  
 </launch>

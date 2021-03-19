@@ -12,14 +12,14 @@
     <rosparam file="$(find neuronbot2_nav)/params/move_base_params.yaml" command="load" />
     <rosparam file="$(find neuronbot2_nav)/params/global_planner_params.yaml" command="load" />
 
-    <param name="global_costmap/obstacle_layer/laser/topic" value="scan" />
-    <param name="global_costmap/obstacle_layer/scan_filtered/topic" value="scan_filtered" />  
-    <param name="global_costmap/sensor/laser/map_topic" value="map" />
-    <param name="global_costmap/sensor/laser/topic" value="scan" />
-    <param name="global_costmap/static/map_topic" value="map" />
-    <param name="local_costmap/obstacle_layer/laser/topic" value="scan" />
-    <param name="local_costmap/obstacle_layer/scan_filtered/topic" value="scan_filtered" />
-    <param name="local_costmap/sensor/laser/topic" value="scan" />
+    <param if="$(eval namespace != '')" name="global_costmap/obstacle_layer/laser/topic" value="/$(arg namespace)/scan" />
+    <param if="$(eval namespace != '')" name="global_costmap/obstacle_layer/scan_filtered/topic" value="/$(arg namespace)/scan_filtered" />  
+    <param if="$(eval namespace != '')" name="global_costmap/sensor/laser/map_topic" value="/$(arg namespace)/map" />
+    <param if="$(eval namespace != '')" name="global_costmap/sensor/laser/topic" value="/$(arg namespace)/scan" />
+    <param if="$(eval namespace != '')" name="global_costmap/static/map_topic" value="/$(arg namespace)/map" />
+    <param if="$(eval namespace != '')" name="local_costmap/obstacle_layer/laser/topic" value="/$(arg namespace)/scan" />
+    <param if="$(eval namespace != '')" name="local_costmap/obstacle_layer/scan_filtered/topic" value="/$(arg namespace)/scan_filtered" />
+    <param if="$(eval namespace != '')" name="local_costmap/sensor/laser/topic" value="/$(arg namespace)/scan" />
     <!-- Frame prefixing -->
     <param if="$(eval namespace != '')" name="global_costmap/global_frame" value="$(arg namespace)/map" />
     <param if="$(eval namespace != '')" name="global_costmap/robot_base_frame" value="$(arg namespace)/base_footprint" />

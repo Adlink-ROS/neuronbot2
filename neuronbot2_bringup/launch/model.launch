@@ -1,14 +1,17 @@
 <launch>
+	<arg name="namespace" default="" />
   <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find neuronbot2_description)/urdf/neuronbot2.urdf'" />
 
   <param name="robot_description" command="$(arg urdf_file)" />
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
     	<param name="rate" value="20.0"/>
+      <param name="tf_prefix" value="$(arg namespace)"/>
   </node>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
     	<param name="rate" value="20.0"/>
+      <param name="tf_prefix" value="$(arg namespace)"/>
   </node>
-  
+
 </launch>

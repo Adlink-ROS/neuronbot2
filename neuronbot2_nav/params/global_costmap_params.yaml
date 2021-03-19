@@ -14,7 +14,7 @@ global_costmap:
                  - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
 
         static_layer:        
-                map_topic: /map
+                map_topic: map
                 subscribe_to_updates: true
 
         obstacle_layer:

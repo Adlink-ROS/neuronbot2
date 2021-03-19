@@ -1,5 +1,8 @@
 <launch>
+	<arg name="namespace" default="" />
     <node name="neuronbot2_driver" pkg="neuronbot2_bringup" type="neuronbot2_driver" output="screen">
         <rosparam file="$(find neuronbot2_bringup)/params/base_params.yaml" command="load"/>
+		<param name="base_frame" type="string" value="$(arg namespace)/base_footprint"/>
+        <param name="odom_frame" type="string" value="$(arg namespace)/odom"/>
     </node>
 </launch>

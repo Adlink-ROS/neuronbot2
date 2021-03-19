@@ -1,11 +1,13 @@
 <launch>
-  <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-	<param name="serial_port"         type="string" value="/dev/rplidar"/>  
-	<param name="serial_baudrate"     type="int"    value="115200"/>
-	<param name="frame_id"            type="string" value="laser_frame"/>
-	<param name="inverted"            type="bool"   value="false"/>
-	<param name="scan_mode"           type="string" value="Boost"/>
-	<param name="min_distance"    	  type="double" value="0.20"/>
-	<param name="angle_compensate"    type="bool"   value="true"/>
-  </node>
+	<arg name="namespace" default="" />
+	<node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+		<param name="serial_port"         type="string" value="/dev/rplidar"/>  
+		<param name="serial_baudrate"     type="int"    value="115200"/>
+		<param name="inverted"            type="bool"   value="false"/>
+		<param name="scan_mode"           type="string" value="Boost"/>
+		<param name="min_distance"    	  type="double" value="0.20"/>
+		<param name="angle_compensate"    type="bool"   value="true"/>
+		<param if="$(eval namespace == '')"  name="frame_id"  type="string" value="laser_frame"/>
+		<param if="$(eval namespace != '')"  name="frame_id"  type="string" value="$(arg namespace)/laser_frame"/>
+	</node>
 </launch>
