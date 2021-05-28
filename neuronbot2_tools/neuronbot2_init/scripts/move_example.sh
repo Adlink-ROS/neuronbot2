@@ -5,8 +5,8 @@ echo "" > $LOG_FILE
 
 echo "source ROS env" >> $LOG_FILE
 # source 
-if [ -f "/opt/ros/melodic/setup.bash" ]; then
-  source /opt/ros/melodic/setup.bash
+if [ -f "/opt/ros/noetic/setup.bash" ]; then
+  source /opt/ros/noetic/setup.bash
   echo "found opt" >> $LOG_FILE
 fi
 

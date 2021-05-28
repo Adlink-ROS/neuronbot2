@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# source melodic env
-if [ -f "/opt/ros/melodic/setup.bash" ]; then
-    source /opt/ros/melodic/setup.bash
+# source noetic env
+if [ -f "/opt/ros/noetic/setup.bash" ]; then
+    source /opt/ros/noetic/setup.bash
 fi
 
 # source NB2 env
