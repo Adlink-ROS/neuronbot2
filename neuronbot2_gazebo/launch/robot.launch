@@ -12,6 +12,7 @@
   <arg name="use_ekf" default="false"/>
 
   <group ns="$(arg namespace)">
+    <param name="tf_prefix" value="$(arg namespace)"/>
     <node name="gazebo_robot" pkg="gazebo_ros" type="spawn_model" output="screen"
       args="-file $(arg model_file) -$(arg file_type) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg yaw) -model $(arg model_name)">
       <remap if="$(arg use_ekf)" from="odom" to="raw_odom"/>
@@ -29,5 +30,5 @@
       <param name="imu0" value="imu/data"/>
       <remap from="odometry/filtered" to="odom"/>
     </node>
-  </group>  
+  </group>
 </launch>

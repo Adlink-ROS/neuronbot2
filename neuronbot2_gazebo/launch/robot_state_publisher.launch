@@ -2,6 +2,6 @@
   <arg name="prefix" default=""/>
   <param name="robot_description" textfile="$(find neuronbot2_description)/urdf/neuronbot2.urdf"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
-    <param name="tf_prefix" value="$(arg prefix)" />
+    <param name="prefix_tf_with" value="$(arg prefix)/" />
   </node>
 </launch>
