@@ -11,6 +11,7 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import SetEnvironmentVariable
 from launch.substitutions import EnvironmentVariable
 from launch.conditions import IfCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from osrf_pycommon.terminal_color import ansi
 
@@ -21,6 +22,7 @@ def generate_launch_description():
     use_camera = LaunchConfiguration('use_camera', default='none')
     launch_file_dir = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'launch')
     gazebo_model_path = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models')
+    pkg_neuronbot2_description = get_package_share_directory('neuronbot2_description')
 
     if 'GAZEBO_MODEL_PATH' in os.environ:
         os.environ['GAZEBO_MODEL_PATH'] += ":" + gazebo_model_path
@@ -49,31 +51,37 @@ def generate_launch_description():
             cmd=['gzclient'],
             output='screen'),
 
-        ExecuteProcess(
-            cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2/' + 'model.sdf',
-                '-entity', 'nb2', '-spawn_service_timeout', '300'],
-            condition=IfCondition(PythonExpression(['"', use_camera, '" == "none"'])),
-            output='screen'),
+        # ExecuteProcess(
+        #     cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2/' + 'model.sdf',
+        #         '-entity', 'nb2', '-spawn_service_timeout', '300'],
+        #     condition=IfCondition(PythonExpression(['"', use_camera, '" == "none"'])),
+        #     output='screen'),
 
-        ExecuteProcess(
-            cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_front_camera/' + 'model.sdf',
-                '-entity', 'nb2', '-spawn_service_timeout', '300'],
-            condition=IfCondition(PythonExpression(['"', use_camera, '" == "front"'])),
-            output='screen'),
+        # ExecuteProcess(
+        #     cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_front_camera/' + 'model.sdf',
+        #         '-entity', 'nb2', '-spawn_service_timeout', '300'],
+        #     condition=IfCondition(PythonExpression(['"', use_camera, '" == "front"'])),
+        #     output='screen'),
 
-        ExecuteProcess(
-            cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_top_camera/' + 'model.sdf',
-                '-entity', 'nb2', '-spawn_service_timeout', '300'],
-            condition=IfCondition(PythonExpression(['"', use_camera, '" == "top"'])),
-            output='screen'),
+        # ExecuteProcess(
+        #     cmd=['ros2', 'run', 'gazebo_ros', 'spawn_entity.py', '-file' , gazebo_model_path + '/neuronbot2_w_top_camera/' + 'model.sdf',
+        #         '-entity', 'nb2', '-spawn_service_timeout', '300'],
+        #     condition=IfCondition(PythonExpression(['"', use_camera, '" == "top"'])),
+        #     output='screen'),
 
         ExecuteProcess(
             cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
             output='screen'),
 
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource([launch_file_dir, '/robot_state_publisher.launch.py']),
+        #     launch_arguments={'use_sim_time': use_sim_time,
+        #                       'use_camera': use_camera}.items(),
+        # ),
+
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([launch_file_dir, '/robot_state_publisher.launch.py']),
-            launch_arguments={'use_sim_time': use_sim_time,
-                              'use_camera': use_camera}.items(),
+            PythonLaunchDescriptionSource(
+                os.path.join(pkg_neuronbot2_description, 'launch', 'spawn_neuronbot2.launch.py'),
+            )
         ),
     ])
