@@ -8,6 +8,7 @@ import rclpy
 from ament_index_python.packages import get_package_share_directory
 from gazebo_msgs.srv import SpawnEntity
 from osrf_pycommon.terminal_color import ansi
+from xacro4sdf.xacro4sdf import XMLMacro
 
 def to_quaternion(
         roll: float,
@@ -28,6 +29,17 @@ def to_quaternion(
 
     return (x, y, z, w)
 
+def gen_sdf_from_xmacro(sdf_path):
+    pkg_neuronbot2_gazebo = get_package_share_directory('neuronbot2_gazebo')
+    sdf_target_path = os.path.join(pkg_neuronbot2_gazebo, 'models', 'neuronbot2', f"model{sys.argv[2]}_temp.sdf")
+
+    xmacro=XMLMacro()
+    xmacro.set_xml_file(sdf_path)
+    custom_property={"robot_namespace":sys.argv[2]}
+    xmacro.generate(custom_property)
+    xmacro.to_file(sdf_target_path,banner_info="spawn_nb2.py")
+    return sdf_target_path
+
 
 def main(args=None):
     print(ansi("yellow"), sys.argv, ansi("reset"))
@@ -38,9 +50,9 @@ def main(args=None):
 
     # pkg_neuronbot2_description = get_package_share_directory('neuronbot2_description')
     # urdf = os.path.join(pkg_neuronbot2_description, 'urdf/', 'neuronbot2.urdf')
-    pkg_neuronbot2_gazebo = get_package_share_directory('neuronbot2_gazebo')
-    sdf = os.path.join(pkg_neuronbot2_gazebo, 'models', 'neuronbot2', 'model.sdf')
-    
+    sdf_xmacro = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models', 'neuronbot2', 'model.sdf')
+    sdf = gen_sdf_from_xmacro(sdf_xmacro)
+
     content = ""
     if sdf is not None:
         with open(sdf, 'r') as content_file:
