@@ -11,7 +11,7 @@ amcl:
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
     do_beamskip: false
-    global_frame_id: "map"
+    global_frame_id: "robot0/map"
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
     laser_max_range: 100.0
@@ -180,7 +180,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /robot0/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -265,7 +265,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /robot0/scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -343,6 +343,7 @@ map_server:
   ros__parameters:
     use_sim_time: False
     yaml_filename: "turtlebot3_world.yaml"
+    frame_id: "robot0/map"
     
 map_saver:
   ros__parameters:

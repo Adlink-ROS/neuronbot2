@@ -52,12 +52,12 @@ def generate_launch_description():
 
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
-        default_value='',
+        default_value='robot0',
         description='Top-level namespace')
 
     declare_use_namespace_cmd = DeclareLaunchArgument(
         'use_namespace',
-        default_value='false',
+        default_value='true',
         description='Whether to apply a namespace to the navigation stack')
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
