@@ -1,6 +1,7 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
   <model name='neuronbot2'>
+    <xacro_define_property name="robot_namespace" value="robot/" />
     <link name='base_footprint'/>
     <link name='base_link'>
       <inertial>
@@ -387,7 +388,7 @@
             <remapping>~/out:=scan</remapping>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
-          <frame_name>laser_frame</frame_name>
+          <frame_name>${robot_namespace}laser_frame</frame_name>
         </plugin>
       </sensor>
     </link>
@@ -797,8 +798,8 @@
       <publish_odom_tf>1</publish_odom_tf>
       <publish_wheel_tf>0</publish_wheel_tf>
       <odometry_topic>odom</odometry_topic>
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_footprint</robot_base_frame>
+      <odometry_frame>${robot_namespace}odom</odometry_frame>
+      <robot_base_frame>${robot_namespace}base_footprint</robot_base_frame>
     </plugin>
 
     <!--┐(´～｀)┌ Joint state publisher ┐(´～｀)┌-->

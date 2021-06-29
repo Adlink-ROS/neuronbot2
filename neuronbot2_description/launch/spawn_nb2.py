@@ -29,13 +29,13 @@ def to_quaternion(
 
     return (x, y, z, w)
 
-def gen_sdf_from_xmacro(sdf_path):
+def gen_sdf_from_xmacro(sdf_path, namespace):
     pkg_neuronbot2_gazebo = get_package_share_directory('neuronbot2_gazebo')
-    sdf_target_path = os.path.join(pkg_neuronbot2_gazebo, 'models', 'neuronbot2', f"model{sys.argv[2]}_temp.sdf")
+    sdf_target_path = os.path.join(pkg_neuronbot2_gazebo, 'models', 'neuronbot2', f"model_{namespace}.sdf")
 
     xmacro=XMLMacro()
     xmacro.set_xml_file(sdf_path)
-    custom_property={"robot_namespace":sys.argv[2]}
+    custom_property={"robot_namespace":namespace+"/"}
     xmacro.generate(custom_property)
     xmacro.to_file(sdf_target_path,banner_info="spawn_nb2.py")
     return sdf_target_path
@@ -50,8 +50,8 @@ def main(args=None):
 
     # pkg_neuronbot2_description = get_package_share_directory('neuronbot2_description')
     # urdf = os.path.join(pkg_neuronbot2_description, 'urdf/', 'neuronbot2.urdf')
-    sdf_xmacro = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models', 'neuronbot2', 'model.sdf')
-    sdf = gen_sdf_from_xmacro(sdf_xmacro)
+    sdf_xmacro = os.path.join(get_package_share_directory('neuronbot2_gazebo'), 'models', 'neuronbot2', 'model.sdf.xmacro')
+    sdf = gen_sdf_from_xmacro(sdf_xmacro, sys.argv[2])
 
     content = ""
     if sdf is not None:
