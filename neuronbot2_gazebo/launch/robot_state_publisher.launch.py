@@ -50,7 +50,7 @@ def generate_launch_description():
             name='robot_state_publisher',
             namespace=robot_namespace,
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': robot_namespace, 'use_sim_time': use_sim_time}],
             arguments=[nb2_urdf]),
 
         # else if we use front camera:
@@ -60,7 +60,7 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': robot_namespace, 'use_sim_time': use_sim_time}],
             arguments=[nb2_w_front_camera_urdf]),
 
         # else if we use top camera:
@@ -70,6 +70,6 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': robot_namespace, 'use_sim_time': use_sim_time}],
             arguments=[nb2_w_top_camera_urdf]),                        
     ])
