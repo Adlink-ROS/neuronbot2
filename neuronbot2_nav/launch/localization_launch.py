@@ -55,10 +55,10 @@ def generate_launch_description():
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'yaml_filename': map_yaml_file,
-        # 'odom_frame_id': 'robot0/odom',
+        'odom_frame_id': 'robot0/odom',
+        'base_frame_id': 'robot0/base_footprint',
+        'global_frame_id': 'robot0/map',
         # 'robot_base_frame': 'robot0/base_footprint',
-        # 'base_frame_id': 'robot0/base_footprint',
-        # 'global_frame_id': 'robot0/map',
         'initial_pose.x': '0.0',
         'initial_pose.y': '1.45',
         'initial_pose.z': '0.91',
@@ -77,7 +77,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'namespace', 
-            default_value='/robot0',
+            default_value='robot0',
             description='Top-level namespace'),
 
         DeclareLaunchArgument(

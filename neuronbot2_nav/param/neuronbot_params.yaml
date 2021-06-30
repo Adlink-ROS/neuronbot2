@@ -30,7 +30,7 @@ amcl:
     save_pose_rate: 0.5
     sigma_hit: 0.02
     tf_broadcast: true
-    transform_tolerance: 0.5
+    transform_tolerance: 1.0
     update_min_a: 0.06
     update_min_d: 0.025
     z_hit: 0.7
@@ -162,7 +162,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: odom
+      global_frame: robot0/odom
       robot_base_frame: base_footprint
       use_sim_time: False
       rolling_window: true
@@ -253,7 +253,7 @@ global_costmap:
     ros__parameters:
       update_frequency: 2.0
       publish_frequency: 1.0
-      global_frame: map
+      global_frame: robot0/map
       robot_base_frame: base_footprint
       use_sim_time: False      
       robot_radius: 0.20
