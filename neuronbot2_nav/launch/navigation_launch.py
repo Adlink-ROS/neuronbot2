@@ -20,14 +20,14 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from nav2_common.launch import RewrittenYaml
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')
-    my_param_file = 'neuronbot_params.yaml'
+    my_param_file = 'neuronbot_namespaced_params.yaml'
     my_bt_file ='navigate_w_replanning_time.xml'
 
     namespace = LaunchConfiguration('namespace')
@@ -60,12 +60,16 @@ def generate_launch_description():
         'default_bt_xml_filename': default_bt_xml_filename,
         'autostart': autostart,
         'map_subscribe_transient_local': map_subscribe_transient_local,
-        'robot_base_frame': 'robot0/base_footprint',
+        # 'robot_base_frame': 'robot0/base_footprint',
         }
 
+    namespaced_params = ReplaceString(
+        source_file=params_file,
+        replacements={'<robot_namespace>': namespace})
+
     configured_params = RewrittenYaml(
-            source_file=params_file,
-            root_key=namespace,
+            source_file=namespaced_params,
+            # root_key=namespace,
             param_rewrites=param_substitutions,
             convert_types=True)
 

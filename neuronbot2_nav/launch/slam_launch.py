@@ -52,7 +52,7 @@ def generate_launch_description():
     # Declare the launch arguments
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
-        default_value='',
+        default_value='robot0',
         description='Top-level namespace')
 
     declare_params_file_cmd = DeclareLaunchArgument(
@@ -77,6 +77,8 @@ def generate_launch_description():
     start_map_saver_server_cmd = Node(
             package='nav2_map_server',
             executable='map_saver_server',
+            name='map_saver_server',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params])
 
@@ -84,6 +86,7 @@ def generate_launch_description():
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_slam',
+            namespace=namespace,
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},

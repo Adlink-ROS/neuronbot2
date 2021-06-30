@@ -31,14 +31,13 @@ def generate_launch_description():
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_launch_dir = os.path.join(my_nav_dir, 'launch')
     my_param_dir = os.path.join(my_nav_dir, 'param')
-    my_param_file = 'neuronbot_params.yaml'
+    my_param_file = 'neuronbot_namespaced_params.yaml'
     my_bt_file = 'navigate_w_replanning_time.xml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
-    use_namespace = LaunchConfiguration('use_namespace')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_slam = LaunchConfiguration('use_slam', default='false')
@@ -54,11 +53,6 @@ def generate_launch_description():
         'namespace',
         default_value='robot0',
         description='Top-level namespace')
-
-    declare_use_namespace_cmd = DeclareLaunchArgument(
-        'use_namespace',
-        default_value='true',
-        description='Whether to apply a namespace to the navigation stack')
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
@@ -97,10 +91,6 @@ def generate_launch_description():
 
     # Specify the actions
     bringup_cmd_group = GroupAction([
-        PushRosNamespace(
-            condition=IfCondition(use_namespace),
-            namespace=namespace),
-
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(my_launch_dir, 'slam_launch.py')),
             condition=IfCondition(use_slam),
@@ -132,7 +122,8 @@ def generate_launch_description():
                               
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(my_launch_dir, 'rviz_view_launch.py')),
-            launch_arguments={'use_sim_time': use_sim_time,
+            launch_arguments={'namespace': namespace,
+                              'use_sim_time': use_sim_time,
                               'open_rviz': open_rviz,
                               'map_subscribe_transient_local': 'true'}.items()),
                              
@@ -146,7 +137,6 @@ def generate_launch_description():
 
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)
-    ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_map_yaml_cmd)
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_slam_cmd)

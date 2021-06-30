@@ -21,15 +21,14 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
-from nav2_common.launch import RewrittenYaml
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')    
-    # my_param_file = 'nav2_multirobot_params_1.yaml'
-    my_param_file = 'neuronbot_params.yaml'
+    my_param_file = 'neuronbot_namespaced_params.yaml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
 
@@ -55,19 +54,22 @@ def generate_launch_description():
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'yaml_filename': map_yaml_file,
-        'odom_frame_id': 'robot0/odom',
-        'base_frame_id': 'robot0/base_footprint',
-        'global_frame_id': 'robot0/map',
-        # 'robot_base_frame': 'robot0/base_footprint',
+        # 'odom_frame_id': 'robot0/odom',
+        # 'base_frame_id': 'robot0/base_footprint',
+        # 'global_frame_id': 'robot0/map',
         'initial_pose.x': '0.0',
         'initial_pose.y': '1.45',
         'initial_pose.z': '0.91',
         'initial_pose.yaw':'-1.57',
         }
 
-    configured_params = RewrittenYaml(
+    namespaced_params = ReplaceString(
         source_file=params_file,
-        root_key=namespace,
+        replacements={'<robot_namespace>': namespace})
+
+    configured_params = RewrittenYaml(
+        source_file=namespaced_params,
+        # root_key=namespace,
         param_rewrites=param_substitutions,
         convert_types=True)
 
