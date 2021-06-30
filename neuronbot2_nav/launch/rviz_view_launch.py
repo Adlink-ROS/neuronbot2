@@ -40,7 +40,7 @@ def generate_launch_description():
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            # namespace='robot0',
+            namespace='robot0',
             arguments=['-d', namespaced_rviz_config_file],
             parameters=[{'use_sim_time': use_sim_time}],
             condition=IfCondition(LaunchConfiguration("open_rviz"))
