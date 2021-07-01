@@ -20,21 +20,20 @@ def generate_launch_description():
     urdf = os.path.join(pkg_neuronbot2_description, 'urdf/', 'neuronbot2.urdf')
     assert os.path.exists(urdf), "neuronbot2.urdf doesnt exist in "+str(urdf)
 
-    ld = LaunchDescription([
-        #Node(package='robot_state_publisher', executable='robot_state_publisher', output='screen', arguments=[urdf]),
-    ])
+    ld = LaunchDescription()
 
-    NUM_OF_ROBOTS = 1
+    NUM_OF_ROBOTS = 2
     for i in range(NUM_OF_ROBOTS):
+        robot_name = f'robot{i}'
+
         ld.add_entity(
             Node(
                 package='neuronbot2_description', 
                 executable='spawn_nb2.py',
                 name=f'spawn_{i}',
-                namespace='',
                 arguments=[
-                    f'robot{i}',
-                    f'robot{i}',
+                    robot_name,
+                    robot_name,
                     str(0.3 * i),'1.45','0.91','0','0','-1.57'
                 ],
                 output='screen'
@@ -44,11 +43,10 @@ def generate_launch_description():
         ld.add_action(
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([launch_file_dir, '/robot_state_publisher.launch.py']),
-                launch_arguments={'robot_namespace': f'robot{i}/',
+                launch_arguments={'robot_namespace': robot_name,
                                   'use_sim_time': use_sim_time,
                                   'use_camera': use_camera}.items(),
             ),
         )
-            
 
     return ld

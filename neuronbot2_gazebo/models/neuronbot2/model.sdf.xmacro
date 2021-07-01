@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
   <model name='neuronbot2'>
-    <xacro_define_property name="robot_namespace" value="robot/" />
+    <xacro_define_property name="robot_namespace" value="robot0/" />
     <link name='base_footprint'/>
     <link name='base_link'>
       <inertial>
