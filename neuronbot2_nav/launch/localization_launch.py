@@ -33,6 +33,7 @@ def generate_launch_description():
     my_map_file = 'mememan.yaml'
 
     namespace = LaunchConfiguration('namespace')
+    initialpose_x = LaunchConfiguration('initialpose_x')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -47,17 +48,14 @@ def generate_launch_description():
     #              https://github.com/ros2/launch_ros/issues/56
     remappings = [#('/tf', 'tf'),
                   #('/tf_static', 'tf_static'),
-                  ('/robot0/tf', 'tf'),
-                  ('/robot0/tf_static', 'tf_static')]
+                  ((namespace, '/tf'), 'tf'),
+                  ((namespace, '/tf_static'), 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'yaml_filename': map_yaml_file,
-        # 'odom_frame_id': 'robot0/odom',
-        # 'base_frame_id': 'robot0/base_footprint',
-        # 'global_frame_id': 'robot0/map',
-        'initial_pose.x': '0.0',
+        'initial_pose.x': initialpose_x,
         'initial_pose.y': '1.45',
         'initial_pose.z': '0.91',
         'initial_pose.yaw':'-1.57',
@@ -69,7 +67,6 @@ def generate_launch_description():
 
     configured_params = RewrittenYaml(
         source_file=namespaced_params,
-        # root_key=namespace,
         param_rewrites=param_substitutions,
         convert_types=True)
 
