@@ -32,7 +32,7 @@ def generate_launch_description():
         if -1 == os.environ['GAZEBO_MODEL_PATH'].find(warehouse_model_path):
             os.environ['GAZEBO_MODEL_PATH'] += ":" + warehouse_model_path
     else:
-        os.environ['GAZEBO_MODEL_PATH'] = gazebo_model_path #+ ":" + warehouse_model_path
+        os.environ['GAZEBO_MODEL_PATH'] = gazebo_model_path + ":" + warehouse_model_path
 
     print(ansi("yellow"), "If it's your 1st time to download Gazebo model on your computer, it may take few minutes to finish.", ansi("reset"))
     print(ansi("yellow"), os.environ['GAZEBO_MODEL_PATH'], ansi("reset"))
@@ -50,16 +50,13 @@ def generate_launch_description():
                 '-s', 'libgazebo_ros_factory.so',
                 '--verbose'
                 ],
-            # additional_env=EnvironmentVariable('GAZEBO_MODEL_PATH'),
+            # cwd=[warehouse_pkg_dir],
             output='screen'),
 
         ExecuteProcess(
             cmd=['gzclient'],
+            # cwd=[warehouse_pkg_dir],
             output='screen'),
-
-        # ExecuteProcess(
-        #     cmd=['ros2', 'param', 'set', '/gazebo', 'use_sim_time', use_sim_time],
-        #     output='screen'),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(

@@ -22,7 +22,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    NUM_OF_ROBOTS = 2
+    NUM_OF_ROBOTS = 1
     for i in range(NUM_OF_ROBOTS):
         robot_name = f'robot{i}'
 

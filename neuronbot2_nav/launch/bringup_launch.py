@@ -35,6 +35,9 @@ def generate_launch_description():
     my_bt_file = 'navigate_w_replanning_time.xml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
+    # warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    # my_map_dir = os.path.join(warehouse_pkg_dir, 'maps', '005')
+    # my_map_file = 'map.yaml'
 
     # Create the launch configuration variables
     map_yaml_file = LaunchConfiguration('map')
@@ -48,11 +51,6 @@ def generate_launch_description():
     ld = LaunchDescription([
         SetEnvironmentVariable(
             'RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
-
-        DeclareLaunchArgument(
-            'map',
-            default_value=os.path.join(my_map_dir, my_map_file),
-            description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
             'map',
@@ -91,18 +89,23 @@ def generate_launch_description():
     ])
 
     # SLAM does not work for now
-    # ld.add_action(
-    #     IncludeLaunchDescription(
-    #         PythonLaunchDescriptionSource(os.path.join(my_launch_dir, 'slam_launch.py')),
-    #         condition=IfCondition(use_slam),
-    #         launch_arguments={'namespace': namespace,
-    #                           'use_sim_time': use_sim_time,
-    #                           'autostart': autostart,
-    #                           'params_file': params_file}.items())
-    # )
+    ld.add_action(
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(
+                    get_package_share_directory('neuronbot2_slam'),
+                    'launch',
+                    'gmapping_launch.py')),
+            condition=IfCondition(use_slam),
+            launch_arguments={'namespace': 'robot0',
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                            #   'params_file': params_file
+                              }.items())
+    )
 
     # Specify the actions
-    NUM_OF_ROBOTS = 2
+    NUM_OF_ROBOTS = 1
     for i in range(NUM_OF_ROBOTS):
         robot_name = f'robot{i}'
 
