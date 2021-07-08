@@ -29,8 +29,8 @@ def generate_launch_description():
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')    
     my_param_file = 'neuronbot_namespaced_params.yaml'
-    my_map_dir = os.path.join(my_nav_dir, 'map')
-    my_map_file = 'mememan.yaml'
+    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    map_file_path = os.path.join(warehouse_pkg_dir, 'maps', '005', 'map.yaml')
 
     namespace = LaunchConfiguration('namespace')
     initialpose_x = LaunchConfiguration('initialpose_x')
@@ -46,9 +46,7 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [#('/tf', 'tf'),
-                  #('/tf_static', 'tf_static'),
-                  ((namespace, '/tf'), 'tf'),
+    remappings = [((namespace, '/tf'), 'tf'),
                   ((namespace, '/tf_static'), 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
@@ -81,7 +79,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(my_map_dir, my_map_file),
+            default_value=map_file_path,
             description='[localize] Full path to map yaml file to load'),
 
         DeclareLaunchArgument(

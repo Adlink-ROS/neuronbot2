@@ -33,11 +33,8 @@ def generate_launch_description():
     my_param_dir = os.path.join(my_nav_dir, 'param')
     my_param_file = 'neuronbot_namespaced_params.yaml'
     my_bt_file = 'navigate_w_replanning_time.xml'
-    my_map_dir = os.path.join(my_nav_dir, 'map')
-    my_map_file = 'mememan.yaml'
-    # warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
-    # my_map_dir = os.path.join(warehouse_pkg_dir, 'maps', '005')
-    # my_map_file = 'map.yaml'
+    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    map_file_path = os.path.join(warehouse_pkg_dir, 'maps', '005', 'map.yaml')
 
     # Create the launch configuration variables
     map_yaml_file = LaunchConfiguration('map')
@@ -54,7 +51,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(my_map_dir, my_map_file),
+            default_value=map_file_path,
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
