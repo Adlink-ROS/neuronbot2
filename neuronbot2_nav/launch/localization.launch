@@ -9,13 +9,10 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="yaw" default="0.0"/>
 
-	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map)">
-		<param if="$(eval namespace == '')" name="frame_id" value="map"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)">
+    <param if="$(eval namespace == '')" name="frame_id" value="map"/>
     <param if="$(eval namespace != '')" name="frame_id" value="$(arg namespace)/map"/>
-    <!--
-    <param name="frame_id" value="$(arg namespace)/map"/>
-    -->
-	</node>
+  </node>
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen" clear_params="true">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
@@ -43,7 +40,6 @@
     <param name="laser_sigma_hit" value="0.02"/>
     <param name="laser_lambda_short" value="0.01"/>
     <param name="laser_model_type" value="likelihood_field"/>
-    <!-- <param name="laser_model_type" value="beam"/> -->
     <param name="laser_likelihood_max_dist" value="2.0"/>
     <param name="update_min_d" value="0.025"/>
     <param name="update_min_a" value="0.06"/>

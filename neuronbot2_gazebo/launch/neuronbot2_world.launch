@@ -44,7 +44,7 @@
     <param name="gazebo/enable_ros_network" value="$(arg enable_ros_network)" />
   </group>
   <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="screen"
-	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" />
+  args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" />
 
   <!-- start gazebo client -->
   <group if="$(arg gui)">
