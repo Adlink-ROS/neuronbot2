@@ -141,4 +141,10 @@ def generate_launch_description():
                 }],
         ),
 
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('neuronbot2_led'), '/led_control_launch.py'
+            ])
+        ),
+
     ])
