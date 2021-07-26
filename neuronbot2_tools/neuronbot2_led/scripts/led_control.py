@@ -276,13 +276,13 @@ def restore_led():
     mode = 2 # restore to amber
     set_led(port, num, mode)
 
-def main(argv):
+def main():
     port = '/dev/neuronbotLED'
     num = 10
     mode = 5
     loop = False
     try:
-        opts, args = getopt.getopt(argv,"hlp:n:m:",["port=", "num=", "mode=", "loop"])
+        opts, args = getopt.getopt(sys.argv[1:],"hlp:n:m:",["port=", "num=", "mode=", "loop"])
     except getopt.GetoptError:
         print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units> -m <LED mode>")
         sys.exit(2)
@@ -310,5 +310,5 @@ def main(argv):
         time.sleep(2)
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
 
