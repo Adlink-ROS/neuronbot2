@@ -2,6 +2,7 @@
 import serial ## pip install pyserial
 import time
 import sys, getopt
+import atexit
 
 class Strip:
     def __init__(self, led_port, num):
@@ -242,38 +243,12 @@ class Strip:
 
         return 0
 
-
-
-
-def main(argv):
-    port = '/dev/neuronbotLED'
-    num = 10
-    mode = 5
-    try:
-        opts, args = getopt.getopt(argv,"hp:n:m:",["port=", "num=", "mode="])
-    except getopt.GetoptError:
-        print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units> -m <LED mode>")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units>")
-            sys.exit()
-        elif opt in ("-p", "--port"):
-            port = arg
-        elif opt in ("-n", "--num"):
-            num = int(arg)
-        elif opt in ("-m", "--mode"):
-            mode = int(arg)            
-
-    if port=='' or num == '':
-        print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units>")
-        sys.exit()
-
+def set_led(port, num, mode):
     s = Strip(port, num)
     if mode == 0:
         s.mode_clear(num)
     if mode == 1:
-        s.mode_white(num)        
+        s.mode_white(num)
     if mode == 2:
         s.mode_amber(num)
     if mode == 3:
@@ -283,7 +258,7 @@ def main(argv):
     if mode == 5:
         s.mode_blue(num)
     if mode == 6:
-        s.mode_rainbow(num)        
+        s.mode_rainbow(num)
     if mode == 7:
         s.breath()
     if mode == 8:
@@ -291,12 +266,49 @@ def main(argv):
         s.backward(num)
     if mode == 9:
         s.blink_red()
-
     s.close()
 
+# restore_led works only when program exits
+@atexit.register
+def restore_led():
+    port = '/dev/neuronbotLED'
+    num = 10
+    mode = 2 # restore to amber
+    set_led(port, num, mode)
+
+def main(argv):
+    port = '/dev/neuronbotLED'
+    num = 10
+    mode = 5
+    loop = False
+    try:
+        opts, args = getopt.getopt(argv,"hlp:n:m:",["port=", "num=", "mode=", "loop"])
+    except getopt.GetoptError:
+        print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units> -m <LED mode>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units> -m <LED mode>")
+            sys.exit()
+        elif opt in ("-p", "--port"):
+            port = arg
+        elif opt in ("-n", "--num"):
+            num = int(arg)
+        elif opt in ("-m", "--mode"):
+            mode = int(arg)            
+        elif opt in ("-l", "--loop"):
+            loop = True
+
+    if port=='' or num == '':
+        print ("python led_control.py -p <LED ttyUSB> -n <Number of LED units>")
+        sys.exit()
+
+    set_led(port, num, mode)
+
+    while (loop):
+        # loop until receiving signal interrupt
+        time.sleep(2)
+
 if __name__ == "__main__":
-   main(sys.argv[1:])
-
-
-
+    main(sys.argv[1:])
 

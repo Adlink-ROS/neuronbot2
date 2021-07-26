@@ -1,5 +1,5 @@
 <launch>
-	<node name="led_control" pkg="neuronbot2_led" type="led_control.py" args="-p /dev/neuronbotLED -m 5">
+	<node name="led_control" pkg="neuronbot2_led" type="led_control.py" args="--port /dev/neuronbotLED --mode 5 --loop">
 	</node>
 </launch>
 
