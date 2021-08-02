@@ -44,4 +44,4 @@ Currently, we have implemented 10 modes listed as below code snippets:
 
 ### Arduino Sketch
 
-NeuronBot2 LED relies on **Adafruit NeoPixel** library of Arduino. If you are interested in modifying the Arduino sketch, you can get and build LED (Arduino) source code from this GitHb repo: https://github.com/Adlink-ROS/neuronbot2_led
+NeuronBot2 LED relies on **Adafruit NeoPixel** library of Arduino. If you are interested in modifying the Arduino sketch, you can get and build LED (Arduino) source code from this GitHub repo: https://github.com/Adlink-ROS/neuronbot2_led
