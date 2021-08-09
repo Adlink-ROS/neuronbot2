@@ -144,7 +144,7 @@ class Strip:
         self.clear()
         for t in range(times):
             for i in range(num):
-                    self.setPixelColor(i,128,0,0)
+                    self.setPixelColor(i,50,0,0)
             self.show()
             self.delay(wait)
             self.clear()
@@ -159,7 +159,7 @@ class Strip:
         self.clear()      
         self.delay(100)  
         for i in range(num):
-            self.setPixelColor(i,128,128,128)                
+            self.setPixelColor(i,50,50,50)                
         self.show()
         self.delay(100)  
 
@@ -167,7 +167,7 @@ class Strip:
         self.clear()      
         self.delay(100)  
         for i in range(num):
-            self.setPixelColor(i,255,60,0)                
+            self.setPixelColor(i,100,20,0)                
         self.show()
         self.delay(100)  
 
@@ -175,7 +175,7 @@ class Strip:
         self.clear()        
         self.delay(100)
         for i in range(num):
-            self.setPixelColor(i,128,0,0)        
+            self.setPixelColor(i,50,0,0)        
         self.show()
         self.delay(100)  
         
@@ -183,7 +183,7 @@ class Strip:
         self.clear()        
         self.delay(100)
         for i in range(num):
-            self.setPixelColor(i,0,128,0)
+            self.setPixelColor(i,0,50,0)
         self.show()
         self.delay(100)  
 
@@ -191,7 +191,7 @@ class Strip:
         self.clear()      
         self.delay(100)  
         for i in range(num):
-            self.setPixelColor(i,0,0,128)                
+            self.setPixelColor(i,0,0,50)                
         self.show()
         self.delay(100)  
 
@@ -208,19 +208,36 @@ class Strip:
             self.show()
             self.delay(20)
 
+    def locate(self):
+        # locate (led blinking) until receiving an interrupt signal!
+        wait=300
+        num=self.num
+        self.clear()
+        try:
+            while (g_exit_flag is not True):
+                for i in range(num):
+                        self.setPixelColor(i,0,0,50)
+                self.show()
+                self.delay(wait)
+                self.clear()
+                self.delay(wait)
+        except KeyboardInterrupt:
+            pass
+        return 0
+
     def demo(self):
         self.clear()
         print("clear")
         self.delay(1000)
-        self.setPixelColor(1,128,0,0)
+        self.setPixelColor(1,50,0,0)
         print("No.1 unit is red")
         self.show()
         self.delay(1000)
-        self.setPixelColor(2,0,128,0)
+        self.setPixelColor(2,0,50,0)
         print("No.2 unit is green")
         self.show()
         self.delay(1000)
-        self.setPixelColor(3,0,0,128)
+        self.setPixelColor(3,0,0,50)
         print("No.3 unit is blue")
         self.show()
         self.delay(1000)
@@ -266,15 +283,20 @@ def set_led(port, num, mode):
         s.backward(num)
     if mode == 9:
         s.blink_red()
+    if mode == 10:
+        s.locate()
     s.close()
 
 # restore_led works only when program exits
 @atexit.register
 def restore_led():
+    g_exit_flag = True
     port = '/dev/neuronbotLED'
     num = 10
     mode = 2 # restore to amber
     set_led(port, num, mode)
+
+g_exit_flag = False
 
 def main():
     port = '/dev/neuronbotLED'
@@ -305,9 +327,12 @@ def main():
 
     set_led(port, num, mode)
 
-    while (loop):
-        # loop until receiving signal interrupt
-        time.sleep(2)
+    try:
+        while (loop):
+            # loop until receiving signal interrupt
+            time.sleep(2)
+    except KeyboardInterrupt:
+        pass
 
 if __name__ == "__main__":
     main()
