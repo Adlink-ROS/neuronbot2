@@ -2,11 +2,13 @@
   <arg name="scan_topic"  default="scan_filtered" />
   <arg name="base_frame"  default="base_footprint"/>
   <arg name="odom_frame"  default="odom"/>
-  <arg name="open_rviz" default="false"/>
+  <arg name="map_frame"  default="/map"/>    <!-- use /map to workaround gazebo slam mapping issue -->
+  <arg name="open_rviz" default="false"/>  
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <param name="base_frame" value="$(arg base_frame)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="map_frame" value="$(arg map_frame)"/>
     <param name="map_update_interval" value="3.0"/>
     <param name="maxUrange" value="7.0"/>
     <param name="maxRange" value="8.0"/>
