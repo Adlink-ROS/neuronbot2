@@ -25,7 +25,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
 
 1. [Install ROS 2](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/)
 2. Install ROS 2 development tools
-    ```
+    ```bash
     sudo apt update && sudo apt install -y \
       build-essential \
       cmake \
@@ -40,6 +40,8 @@ Users are able to checkout to different branches of this package to run on ROS 1
       python3-vcstool \
       openssh-server \
       wget
+    # Install xacro4sdf for multi-robots
+    python3 -m pip install xacro4sdf
     ```
 
 3. Git clone NeuronBot2 and other related sources
