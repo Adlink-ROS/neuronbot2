@@ -158,6 +158,11 @@ You need to modify the variable: NUM_OF_ROBOTS.
 2. `neuronbot2_nav/launch/bringup_launch.py`
    - `NUM_OF_ROBOTS = <your_number>`
 
+If you want to modify the initial pose of robots, modify the following file:
+
+* `neuronbot2_description/launch/spawn_neuronbot2.launch.py`
+   - Modify line 37: `str(0.3 * i), ...`. (Order: x, y, z, roll, pitch, yaw)
+
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
@@ -277,5 +282,11 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 
    Please go to check this repos: https://github.com/Adlink-ROS/BT_ros2
    ![](readme_resource/nav2_bt.gif)
+
+### Future work
+
+* Run all the robots in one rviz.
+* Run multi-robots in real world.
+* One configuration for all the robots, e.g. the number of robots.
 
 ## Trouble Shooting
