@@ -15,7 +15,7 @@ NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully suppor
 * Stunning
 * Extraordinary
 * Superb
-  
+
 
 This package includes the functions to bring up the robot, to make it SLAM, to navigate, and to simulate it with your own computer, testing the same functions mentioned before. 
 
@@ -46,7 +46,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
     cd ~/neuronbot2_ros2_ws/
-    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/foxy-devel/neuronbot2_ros2.repos
+    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/namespaced_foxy/neuronbot2_ros2.repos
     vcs import src < neuronbot2_ros2.repos
     ```
 4. Install other dependencies
@@ -62,7 +62,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
    cd ~/neuronbot2_ros2_ws/src/neuronbot2/neuronbot2_tools/neuronbot2_init/   
    sudo ./neuronbot2_init.sh
    ```      
-   
+
 6. Colcon build the package 
    ```
    cd ~/neuronbot2_ros2_ws/
@@ -97,7 +97,7 @@ Open a new terminal (Ctrl + Alt + t).
    ![](readme_resource/teleop.png)
 ### SLAM your map
 1. Launch SLAM as well as Rviz.
-   
+
    ***We provide three slam methods.***
 
    * Gmapping
@@ -132,8 +132,8 @@ Open a new terminal (Ctrl + Alt + t).
       ros2 launch neuronbot2_nav bringup_launch.py map:=<full_path_to_your_map_name.yaml> open_rviz:=true
       ```
 1. Set Estimation
-   
-   ![](readme_resource/2d_setestimate.png)   
+
+   ![](readme_resource/2d_setestimate.png)
 
    Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
@@ -142,7 +142,7 @@ Open a new terminal (Ctrl + Alt + t).
    ![](readme_resource/2d_nav_goal.png)
 
    Click "2D Nav Goal", and set goal to any free space on the map.
-   
+
 
 --- 
 ## Bring up in Simulation
@@ -154,7 +154,7 @@ Open a new terminal (Ctrl + Alt + t).
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Launch Gazebo simulation.
-    
+
    ***There are two worlds for users to explore.***
    * Mememan world
    ```
@@ -178,7 +178,7 @@ Open a new terminal (Ctrl + Alt + t).
    ***p.s. To alleviate CPU consumption, close GAZEBO GUI by clicking x. This will not end the simulation server, which is running backend***
 ### SLAM the world
 1. Launch SLAM as well as Rviz while the Gazebo simulation is running.
-   
+
    ***We provide three slam methods.***
 
    * Gmapping
@@ -244,14 +244,14 @@ Once users obtain the map, pgm file, and yaml file, navigation is good to go.
 
     ![](readme_resource/mememan_launch_nav.png)
 2. Set Estimation
-   
+ 
    Click "2D Pose Estimate", and set estimation to the approximate location of robot on the map.
 
    ![](readme_resource/nav_estimate.gif)
 3. Set Goal
 
    Click "2D Nav Goal", and set goal to any free space on the map.
-   
+ 
    ![](readme_resource/nav_set_goal.gif)
 
 ### Control with Behavior Tree
