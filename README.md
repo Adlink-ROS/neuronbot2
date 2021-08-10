@@ -187,12 +187,14 @@ If you want to modify the initial pose of robots, modify the following file:
     Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
    source /opt/ros/foxy/local_setup.bash
-   ros2 run teleop_twist_keyboard teleop_twist_keyboard
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/robot0
    ```
    ![](readme_resource/teleop.png)
 
    ***p.s. To alleviate CPU consumption, close GAZEBO GUI by clicking x. This will not end the simulation server, which is running backend***
 ### SLAM the world
+Note that if you run multi-robots, only robot 0 will do SLAM.
+
 1. Launch SLAM as well as Rviz while the Gazebo simulation is running.
 
    ***We provide three slam methods.***
@@ -214,7 +216,7 @@ If you want to modify the initial pose of robots, modify the following file:
    ```
    # Run on the other terminal
    source /opt/ros/foxy/setup.bash
-   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/ROBOT_NS
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/robot0
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
@@ -289,5 +291,9 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 * Run multi-robots in real world.
 * One configuration for all the robots, e.g. the number of robots.
 * Add camera for multi-robots.
+* Plug and play to run different tasks for multi-robots.
+  - Here are some related papers:
+  - http://robotics.stanford.edu/~gerkey/research/mrta.html
+  - http://robotics.stanford.edu/~gerkey/research/final_papers/icra03-oap.pdf
 
 ## Trouble Shooting
