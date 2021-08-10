@@ -149,6 +149,15 @@ Open a new terminal (Ctrl + Alt + t).
 --- 
 ## Bring up in Simulation
 ![](readme_resource/NueronBot2_sim.jpg)
+### Preconfigure for multi-robots
+If you want to run multi-robots, there are two files which need to be modified.
+You need to modify the variable: NUM_OF_ROBOTS.
+
+1. `neuronbot2_description/launch/spawn_neuronbot2.launch.py`
+   - `NUM_OF_ROBOTS = <your_number>`
+2. `neuronbot2_nav/launch/bringup_launch.py`
+   - `NUM_OF_ROBOTS = <your_number>`
+
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
