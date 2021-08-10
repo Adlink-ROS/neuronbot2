@@ -12,6 +12,7 @@ slam_toolbox:
     # ROS Parameters
     odom_frame: odom
     map_frame: map
+    map_name: /map
     base_frame: base_footprint
     scan_topic: /scan
     mode: mapping # mapping, localization

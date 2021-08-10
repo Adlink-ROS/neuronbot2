@@ -56,7 +56,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: <robot_namespace>/robot_description
+        Value: /<robot_namespace>/robot_description
       Enabled: false
       Links:
         All Links Enabled: true
@@ -112,7 +112,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: <robot_namespace>/scan
+        Value: /<robot_namespace>/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -145,7 +145,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: <robot_namespace>/mobile_base/sensors/bumper_pointcloud
+        Value: /<robot_namespace>/mobile_base/sensors/bumper_pointcloud
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -160,7 +160,7 @@ Visualization Manager:
         Durability Policy: Transient Local
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: <robot_namespace>/map
+        Value: /<robot_namespace>/map
       Use Timestamp: false
       Value: true
     - Alpha: 1
@@ -181,7 +181,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: <robot_namespace>/particlecloud
+        Value: /<robot_namespace>/particlecloud
       Value: true
     - Class: rviz_common/Group
       Displays:
@@ -196,7 +196,7 @@ Visualization Manager:
             Durability Policy: Transient Local
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/global_costmap/costmap
+            Value: /<robot_namespace>/global_costmap/costmap
           Use Timestamp: false
           Value: true
         - Alpha: 1
@@ -224,7 +224,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/plan
+            Value: /<robot_namespace>/plan
           Value: true
         - Alpha: 1
           Class: rviz_default_plugins/Polygon
@@ -236,7 +236,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/global_costmap/published_footprint
+            Value: /<robot_namespace>/global_costmap/published_footprint
           Value: false
       Enabled: true
       Name: Global Planner
@@ -253,7 +253,7 @@ Visualization Manager:
             Durability Policy: Transient Local
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/local_costmap/costmap
+            Value: /<robot_namespace>/local_costmap/costmap
           Use Timestamp: false
           Value: true
         - Alpha: 1
@@ -281,7 +281,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/local_plan
+            Value: /<robot_namespace>/local_plan
           Value: true
         - Class: rviz_default_plugins/MarkerArray
           Enabled: false
@@ -293,7 +293,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/marker
+            Value: /<robot_namespace>/marker
           Value: false
         - Alpha: 1
           Class: rviz_default_plugins/Polygon
@@ -305,14 +305,14 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: <robot_namespace>/local_costmap/published_footprint
+            Value: /<robot_namespace>/local_costmap/published_footprint
           Value: true
       Enabled: true
       Name: Controller
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: /<robot_namespace>/map
     Frame Rate: 30
   Name: root
   Tools:
@@ -327,7 +327,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: <robot_namespace>/initialpose
+        Value: /<robot_namespace>/initialpose
     - Class: nav2_rviz_plugins/GoalTool
   Transformation:
     Current:

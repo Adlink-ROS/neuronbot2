@@ -1,13 +1,15 @@
 include "map_builder.lua"
 include "trajectory_builder.lua"
 
+robot_namespace = os.getenv("ROBOT_NAMESPACE")
+
 options = {
     map_builder = MAP_BUILDER,
     trajectory_builder = TRAJECTORY_BUILDER,
-    map_frame = "map",
-    tracking_frame = "base_link", 	-- "imu_link",
-    published_frame = "odom", 	-- "odom",
-    odom_frame = "odom", 		-- "odom",
+    map_frame = robot_namespace .. "/map",
+    tracking_frame = robot_namespace .. "/base_link", 	-- "imu_link",
+    published_frame = robot_namespace .. "/odom", 	-- "odom",
+    odom_frame = robot_namespace .. "/odom", 		-- "odom",
     provide_odom_frame = false,
     publish_frame_projected_to_2d = true,
     use_odometry = true,

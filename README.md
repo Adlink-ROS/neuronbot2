@@ -198,7 +198,7 @@ Open a new terminal (Ctrl + Alt + t).
    ```
    # Run on the other terminal
    source /opt/ros/foxy/setup.bash
-   ros2 run teleop_twist_keyboard teleop_twist_keyboard
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/ROBOT_NS
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map

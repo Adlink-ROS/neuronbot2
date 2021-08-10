@@ -8,9 +8,11 @@ from launch_ros.actions import Node
 from launch.conditions import IfCondition
 
 def generate_launch_description():
-
+    robot_namespace = LaunchConfiguration('robot_namespace', default='robot0')
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     use_camera = LaunchConfiguration('use_camera', default='none')
+
+    frame_prefix = (robot_namespace, '/')
 
     urdf_file_name = 'neuronbot2.urdf'    
     nb2_urdf = os.path.join(
@@ -48,8 +50,9 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
+            namespace=robot_namespace,
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': frame_prefix, 'use_sim_time': use_sim_time}],
             arguments=[nb2_urdf]),
 
         # else if we use front camera:
@@ -58,8 +61,9 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
+            namespace=robot_namespace,
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': frame_prefix, 'use_sim_time': use_sim_time}],
             arguments=[nb2_w_front_camera_urdf]),
 
         # else if we use top camera:
@@ -68,7 +72,8 @@ def generate_launch_description():
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
+            namespace=robot_namespace,
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
+            parameters=[{'frame_prefix': frame_prefix, 'use_sim_time': use_sim_time}],
             arguments=[nb2_w_top_camera_urdf]),                        
     ])

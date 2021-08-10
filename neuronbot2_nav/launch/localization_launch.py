@@ -13,25 +13,27 @@
 # limitations under the License.
 
 import os
+from typing import Text
 
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
-from nav2_common.launch import RewrittenYaml
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')    
-    my_param_file = 'neuronbot_params.yaml'
-    my_map_dir = os.path.join(my_nav_dir, 'map')
-    my_map_file = 'mememan.yaml'
+    my_param_file = 'neuronbot_namespaced_params.yaml'
+    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    map_file_path = os.path.join(warehouse_pkg_dir, 'maps', '005', 'map.yaml')
 
     namespace = LaunchConfiguration('namespace')
+    initialpose_x = LaunchConfiguration('initialpose_x')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -44,17 +46,25 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+    remappings = [((namespace, '/tf'), 'tf'),
+                  ((namespace, '/tf_static'), 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
         'use_sim_time': use_sim_time,
-        'yaml_filename': map_yaml_file}
+        'yaml_filename': map_yaml_file,
+        'initial_pose.x': initialpose_x,
+        'initial_pose.y': '1.45',
+        'initial_pose.z': '0.91',
+        'initial_pose.yaw':'-1.57',
+        }
+
+    namespaced_params = ReplaceString(
+        source_file=params_file,
+        replacements={'<robot_namespace>': namespace})
 
     configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key=namespace,
+        source_file=namespaced_params,
         param_rewrites=param_substitutions,
         convert_types=True)
 
@@ -63,12 +73,13 @@ def generate_launch_description():
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
 
         DeclareLaunchArgument(
-            'namespace', default_value='',
+            'namespace', 
+            default_value='robot0',
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(my_map_dir, my_map_file),
+            default_value=map_file_path,
             description='[localize] Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
@@ -88,6 +99,7 @@ def generate_launch_description():
             package='nav2_map_server',
             executable='map_server',
             name='map_server',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
@@ -96,6 +108,7 @@ def generate_launch_description():
             package='nav2_amcl',
             executable='amcl',
             name='amcl',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
@@ -104,6 +117,7 @@ def generate_launch_description():
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_localization',
+            namespace=namespace,
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},

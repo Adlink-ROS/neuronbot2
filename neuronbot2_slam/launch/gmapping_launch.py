@@ -6,25 +6,31 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
+from nav2_common.launch import ReplaceString
 
 def generate_launch_description():
-
+    
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    namespace = LaunchConfiguration('namespace')
 
-    rviz_config_dir = os.path.join(
+    rviz_config_file = os.path.join(
         get_package_share_directory('neuronbot2_slam'),
         'rviz',
-        'slam.rviz')
+        'namespaced_slam.rviz')
+    
+    namespaced_rviz_config_file = ReplaceString(
+            source_file=rviz_config_file,
+            replacements={'<robot_namespace>': namespace})
 
-    remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+    remappings = [((namespace, '/tf'), 'tf'),
+                  ((namespace, '/tf_static'), 'tf_static')]
 
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'scan_topic': 'scan',
-        'base_frame': 'base_link',
-        'odom_frame': 'odom',
-        'map_frame': 'map',
+        'base_frame': (namespace, '/base_link'),
+        'odom_frame': (namespace, '/odom'),
+        'map_frame': (namespace, '/map'),
         'map_update_interval': 3.0,
         'maxUrange': 10.0,
         'sigma': 0.05,
@@ -56,13 +62,19 @@ def generate_launch_description():
     }
     return LaunchDescription([
         DeclareLaunchArgument(
+            'namespace',
+            default_value='robot0',
+            description='namespace'),
+
+        DeclareLaunchArgument(
             'open_rviz',
             default_value='false',
             description='open rviz'),
 
-        launch_ros.actions.Node(
+        Node(
             package='slam_gmapping', 
             executable='slam_gmapping', 
+            namespace=namespace,
             parameters=[param_substitutions],
             output='screen'),
 
@@ -70,7 +82,8 @@ def generate_launch_description():
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d', rviz_config_dir],
+            namespace=namespace,
+            arguments=['-d', namespaced_rviz_config_file],
             parameters=[{'use_sim_time': use_sim_time}],
             condition=IfCondition(LaunchConfiguration("open_rviz")),
             remappings=remappings

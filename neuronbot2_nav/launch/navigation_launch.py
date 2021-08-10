@@ -20,14 +20,14 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from nav2_common.launch import RewrittenYaml
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
     my_param_dir = os.path.join(my_nav_dir, 'param')
-    my_param_file = 'neuronbot_params.yaml'
+    my_param_file = 'neuronbot_namespaced_params.yaml'
     my_bt_file ='navigate_w_replanning_time.xml'
 
     namespace = LaunchConfiguration('namespace')
@@ -49,19 +49,25 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+    remappings = [#('/tf', 'tf'),
+                  #('/tf_static', 'tf_static')
+                  ((namespace, '/tf'), 'tf'),
+                  ((namespace, '/tf_static'), 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'default_bt_xml_filename': default_bt_xml_filename,
         'autostart': autostart,
-        'map_subscribe_transient_local': map_subscribe_transient_local}
+        'map_subscribe_transient_local': map_subscribe_transient_local,
+        }
+
+    namespaced_params = ReplaceString(
+        source_file=params_file,
+        replacements={'<robot_namespace>': namespace})
 
     configured_params = RewrittenYaml(
-            source_file=params_file,
-            root_key=namespace,
+            source_file=namespaced_params,
             param_rewrites=param_substitutions,
             convert_types=True)
 
@@ -70,7 +76,7 @@ def generate_launch_description():
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
 
         DeclareLaunchArgument(
-            'namespace', default_value='',
+            'namespace', default_value='robot0',
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
@@ -98,6 +104,8 @@ def generate_launch_description():
         Node(
             package='nav2_controller',
             executable='controller_server',
+            name='controller_server',
+            namespace=namespace,
             output='screen',
             parameters=[{configured_params}],
             remappings=remappings),
@@ -106,6 +114,7 @@ def generate_launch_description():
             package='nav2_planner',
             executable='planner_server',
             name='planner_server',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
@@ -114,6 +123,7 @@ def generate_launch_description():
             package='nav2_recoveries',
             executable='recoveries_server',
             name='recoveries_server',
+            namespace=namespace,
             output='screen',
             parameters=[{'use_sim_time': use_sim_time}],
             remappings=remappings),
@@ -122,6 +132,7 @@ def generate_launch_description():
             package='nav2_bt_navigator',
             executable='bt_navigator',
             name='bt_navigator',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
@@ -130,6 +141,7 @@ def generate_launch_description():
             package='nav2_waypoint_follower',
             executable='waypoint_follower',
             name='waypoint_follower',
+            namespace=namespace,
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
@@ -138,6 +150,7 @@ def generate_launch_description():
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_navigation',
+            namespace=namespace,
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
