@@ -288,5 +288,6 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 * Run all the robots in one rviz.
 * Run multi-robots in real world.
 * One configuration for all the robots, e.g. the number of robots.
+* Add camera for multi-robots.
 
 ## Trouble Shooting
