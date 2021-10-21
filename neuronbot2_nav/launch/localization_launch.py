@@ -26,7 +26,7 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     # Get the launch directory
     my_nav_dir = get_package_share_directory('neuronbot2_nav')
-    my_param_dir = os.path.join(my_nav_dir, 'param')    
+    my_param_dir = os.path.join(my_nav_dir, 'param')
     my_param_file = 'neuronbot_params.yaml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
     my_map_file = 'mememan.yaml'
