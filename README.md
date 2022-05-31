@@ -55,6 +55,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
    source /opt/ros/foxy/setup.bash
    rosdep update
    rosdep install --from-paths src --ignore-src -r -y --rosdistro foxy
+   pip install pyserial
    ```
 5. Initialze NeuronBot2 ttyUSB nodes,
    `neuronbot_init.sh` is needed to be run only once for the first setup. If you use NeuronBot2 for simulation only, not for the real robot, then you can skip this step.
