@@ -1,5 +1,5 @@
 # NeuronBot2 in ROS 2
-<img src="https://github.com/Adlink-ROS/neuronbot2/blob/galactic/readme_resource/nb2.png" width="500">
+<img src="https://github.com/Adlink-ROS/neuronbot2/blob/humble/readme_resource/nb2.png" width="500">
 
 ## Introduction
 NeuronBot2 is the newest version of NeuronBot made by Adlink, which fully supports ROS 1 and ROS 2.
@@ -23,7 +23,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
 
 ## Installation
 
-1. [Install ROS 2](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html)
+1. [Install ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
 2. Install ROS 2 development tools
     ```
     sudo apt update && sudo apt install -y \
@@ -46,15 +46,15 @@ Users are able to checkout to different branches of this package to run on ROS 1
     ```
     mkdir -p ~/neuronbot2_ros2_ws/src
     cd ~/neuronbot2_ros2_ws/
-    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/galactic/neuronbot2_ros2.repos
+    wget https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/humble/neuronbot2_ros2.repos
     vcs import src < neuronbot2_ros2.repos
     ```
 4. Install other dependencies
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    rosdep update
-   rosdep install --from-paths src --ignore-src -r -y --rosdistro galactic
+   rosdep install --from-paths src --ignore-src -r -y --rosdistro humble
    ```
 5. Initialze NeuronBot2 ttyUSB nodes,
    `neuronbot_init.sh` is needed to be run only once for the first setup. If you use NeuronBot2 for simulation only, not for the real robot, then you can skip this step.
@@ -66,7 +66,7 @@ Users are able to checkout to different branches of this package to run on ROS 1
 6. Colcon build the package
    ```
    cd ~/neuronbot2_ros2_ws/
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
@@ -83,13 +83,13 @@ If you are looking for the NeuronBot2 simulation, please jump to [Bring up in Si
 ### Launch NeuronBot2
 Open a new terminal (Ctrl + Alt + t).
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ros2 launch neuronbot2_bringup bringup_launch.py
    ```
 ###  Teleop NeuronBot2
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    Follow the hints and start to cruise your NeuronBot2.
@@ -115,12 +115,12 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
 3. Save the map
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name>
    ```
 
@@ -150,7 +150,7 @@ Open a new terminal (Ctrl + Alt + t).
 ### Summon the NeuronBot2 into Gazebo
 1. Specify the model path for Gazebo
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Launch Gazebo simulation.
@@ -170,7 +170,7 @@ Open a new terminal (Ctrl + Alt + t).
 
     Users are able to control the NeuronBot2 with the following rosnode. Run it with the other terminal.
    ```
-   source /opt/ros/galactic/local_setup.bash
+   source /opt/ros/humble/local_setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/teleop.png)
@@ -197,13 +197,13 @@ Open a new terminal (Ctrl + Alt + t).
 2. Teleop NeuronBot2 to explore the world
    ```
    # Run on the other terminal
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    ros2 run teleop_twist_keyboard teleop_twist_keyboard
    ```
    ![](readme_resource/slam_teleop_8x.gif)
 3. Save the map
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    ros2 run nav2_map_server map_saver_cli -f <map_dir>/<map_name>
    ```
 
@@ -259,7 +259,7 @@ To run this demo, users should execute Gazebo server and Navigation (with Rviz f
 
 1. Open the other terminal and source the environment variables.
    ```
-   source /opt/ros/galactic/setup.bash
+   source /opt/ros/humble/setup.bash
    source ~/neuronbot2_ros2_ws/install/local_setup.bash
    ```
 2. Run Behavior Tree
